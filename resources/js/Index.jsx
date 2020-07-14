@@ -32,7 +32,7 @@ const Index = () => {
 
                     <div className="contents">
                         <Switch>
-                            <Route exact path="/" component={Test}/>
+                            <AuthRoute exact path="/" component={Test}/>
 
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />

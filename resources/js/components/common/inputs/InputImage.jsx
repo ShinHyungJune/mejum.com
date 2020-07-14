@@ -53,6 +53,7 @@ const InputImage = ({form, setForm, el, mergeOnChange}) => {
             {React.cloneElement(el, {
                 onChange: (event) => {el.props.onChange ? mergeOnChange(el, event) : changeForm(event); },
                 type: "file",
+                accept: "image/*",
                 id: el.props.name
             })}
             

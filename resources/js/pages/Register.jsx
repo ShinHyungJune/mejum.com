@@ -222,7 +222,6 @@ const Register = ({user, setFlash, history, login}) => {
                                 <div className="input--text">
                                     <input type="text" name="phone" placeholder="휴대폰 번호(-를 제외한 숫자만 입력해주세요.)"
                                            value={form.phone} disabled/>
-
                                 </div>
                             </div>
 
