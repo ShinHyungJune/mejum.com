@@ -205,7 +205,7 @@ const Register = ({user, setFlash, history, login}) => {
 
                                 <input type="password" name="password_confirmation" placeholder="비밀번호 확인" />
 
-                                <button className="button--middle button--full bg--primary">
+                                <button type={"submit"} className="button--middle button--full bg--primary">
                                     {loading
                                         ? <p className="animated flash infinite white">진행중</p>
                                         : "회원가입"

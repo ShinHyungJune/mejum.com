@@ -74600,6 +74600,7 @@ var Register = function Register(_ref) {
     name: "password_confirmation",
     placeholder: "\uBE44\uBC00\uBC88\uD638 \uD655\uC778"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit",
     className: "button--middle button--full bg--primary"
   }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "animated flash infinite white"
