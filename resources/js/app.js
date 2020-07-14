@@ -1,9 +1,18 @@
 import store from './store';
 import setUpInterceptor from './utilities/interceptors';
+import {setPop, setFlash} from "./actions/commonActions";
 
 setUpInterceptor();
 
 window.store = store;
+
+window.setPop = (name) => {
+    store.dispatch(setPop(name));
+};
+
+window.setFlash = (message) => {
+    store.dispatch(setFlash(message));
+};
 
 /**
  * First we will load all of this project's JavaScript dependencies which

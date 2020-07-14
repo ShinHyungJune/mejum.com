@@ -11,7 +11,7 @@ import Register from './pages/Register';
 import SendResetPassword from './pages/SendResetPassword';
 import ResetPassword from './pages/ResetPassword';
 import Components from './pages/Components';
-import Test from './pages/Test';
+import Groups from './pages/Groups/Groups';
 
 import Flash from './components/common/Flash';
 
@@ -32,7 +32,7 @@ const Index = () => {
 
                     <div className="contents">
                         <Switch>
-                            <AuthRoute exact path="/" component={Test}/>
+                            <AuthRoute exact path="/" component={Groups}/>
 
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />

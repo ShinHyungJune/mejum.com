@@ -66,13 +66,8 @@ class User extends Authenticatable implements HasMedia
         return null;
     }
 
-    public function targets()
+    public function groups()
     {
-        return $this->hasMany(Target::class);
-    }
-
-    public function excelFiles()
-    {
-        return $this->hasMany(ExcelFile::class);
+        return $this->belongsToMany(Group::class);
     }
 }

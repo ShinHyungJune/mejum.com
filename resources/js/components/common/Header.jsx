@@ -12,14 +12,14 @@ const Header = ({setFlash, logout, user}) => {
 
     // let [hide, setHide] = useState(hideUrlList.includes(location.pathname));
 
-    //  let [active, setActive] = useState(false);
+    // let [active, setActive] = useState(false);
 
 
 
     return (
-        <Fragment>
-            <button onClick={logout} style={{color:"black"}}>로그아웃</button>
-        </Fragment>
+        <header className="header bg--primary">
+            <p className="header-title">그룹 목록</p>
+        </header>
     );
 };
 const mapState = (state) => {

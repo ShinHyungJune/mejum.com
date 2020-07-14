@@ -32,10 +32,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(["middleware" => "auth:sanctum"], function() {
-    Route::resource('/targets', 'Api\TargetController');
-    Route::resource('/comments', 'Api\CommentController');
-    Route::get('/excelFiles/download', 'Api\ExcelFileController@download');
-    Route::resource('/excelFiles', 'Api\ExcelFileController');
+    Route::resource("/groups", "Api\GroupController");
 });
 
 Route::post('/passwordReset/send', 'Api\PasswordResetController@sendMail');

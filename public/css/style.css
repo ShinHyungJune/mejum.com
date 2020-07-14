@@ -5,11 +5,18 @@
 #sendResetPasswordMail input {color: #fff !important;}
 #resetPassword input {color: #fff !important;}
 */
-header {padding:26px 48px 23px 48px; background-color:#fff;}
+header {width:100%; padding:15px 20px; position:fixed; top:0; left:0; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.16); z-index:1;}
 header .button--icon {display:none; margin-right:32px;}
 
-.contents {}
+.scroll--smooth {scroll-behavior: smooth; -webkit-overflow-scrolling: touch;}
 
+.header-title {font-weight:500; color:#fff;}
+
+.navs {width:100%; padding:15px 20px; position:fixed; bottom:0; left:0; background-color:rgba(0,0,0,0.4); box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
+.navs--title {font-weight:500; color:#fff;}
+
+.contents {padding:75px 20px 140px 20px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;}
+.contents:after {content:""; width:100%; height:100%; position:fixed; top:0; left:0; background:url("/img/base.jpg") no-repeat; background-size:cover; z-index:-1;}
 
 .sidebar {height:100%; position:fixed; top:0; left:0px; background-color:#fff; transition: box-shadow .3s , left .3s cubic-bezier(0.120, 0.870, 0.295, 0.930); z-index:20; border-right:1px solid #e1e1e1;}
 .sidebar.active {position:fixed; left:-300px; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
@@ -23,4 +30,11 @@ header .button--icon {display:none; margin-right:32px;}
 .sidebar__navigations__navigation.active {opacity:1;}
 .sidebar__navigations__navigation img {margin-right:16px; position:relative; top:4px;}
 
-.index tr {cursor:pointer;}
+.groups {}
+.group {margin-bottom:8px; padding:10px 16px; position:relative; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.16); border-radius:5px;}
+.group__texts {padding-right:40px;}
+.group__title {font-weight:500;}
+.group__date {font-size:12px; color:#999;}
+.group__btn {position:absolute; top:50%; right:16px; transform:translateY(-50%);}
+.group__btn img {position:absolute; top:50%; right:0px; transform:translateY(-50%);}
+

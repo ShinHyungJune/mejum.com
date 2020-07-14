@@ -32,6 +32,7 @@ body {}
 .bg--gray {background-color:#999999;}
 .bg--sub {background-color:#E1ECFD;}
 .bg--red {background-color:red;}
+.bg--lightGray {background-color:#d3d3d3;}
 .border--primary {border-color:#ff9711 !important;}
 .border--accent {border-color:#1B2246 !important;}
 .primary {color:#ff9711 !important;}
@@ -43,12 +44,14 @@ body {}
 .button {min-width:120px; text-align:center;}
 .button--big {width:100%; padding:16px; font-size:18px; font-weight:500; border-radius:5px; border:2px solid white; transition:box-shadow .3s cubic-bezier(0.120, 0.870, 0.295, 0.930), transform .3s cubic-bezier(0.120, 0.870, 0.295, 0.930);}
 .button--big:hover {box-shadow:0px 3px 6px rgba(0,0,0,0.16); transform:scale(1.02);}
-.button--middle {padding:8px 16px; color:#fff; border-radius:5px; transition:box-shadow .3s cubic-bezier(0.120, 0.870, 0.295, 0.930), transform .3s cubic-bezier(0.120, 0.870, 0.295, 0.930);}
+.button--middle {padding:5px 16px; color:#fff; border-radius:5px; transition:box-shadow .3s cubic-bezier(0.120, 0.870, 0.295, 0.930), transform .3s cubic-bezier(0.120, 0.870, 0.295, 0.930);}
 .button--middle:hover {box-shadow:0px 3px 6px rgba(0,0,0,0.16); transform:scale(1.02);}
 .button--withIcon .button--withIcon__img {margin-right:16px; position:relative; top:4px;}
 .button--icon {display:inline-block; position:relative;}
 .button--round {border-radius:100px;}
 .button--full {width:100%;}
+.button--util {width:50px; height:50px; position:fixed; right:20px; bottom:80px; border-radius:100%; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}
+.button--util img {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);}
 
 .text--h1 {font-size:24px; font-weight:500; color:#2E4266;}
 .text--h2 {font-size:20px; font-weight:500; color:#2E4266;}
@@ -108,11 +111,12 @@ body {}
 .box.type01 .box__top__icon {width:20px; height:20px; position:absolute; right:16px; top:50%; transform:translateY(-50%);}
 .box.type01 .box__bottom {padding:16px 24px;}
 
-.pop.type01.activate {position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); }
-.pop.type01 {width:360px; padding:16px; border-radius:15px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff; }
-.pop.type01 .pop__buttons {display:flex; margin-top:16px;}
-.pop.type01 .pop__buttons button {flex:1; margin-left:8px;}
-.pop.type01 .pop__buttons button:first-child {margin-left:0;}
+.pop__wrap {width:100%; padding:0 20px; position:fixed; top:47%; left:50%; transform:translate(-50%, -50%); z-index:2;}
+.pop.type-pop {width:100%; padding:16px; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff; }
+.pop.type-pop .pop__buttons {display:flex; margin-top:16px;}
+.pop.type-pop .pop__buttons button {flex:1; margin-left:8px;}
+.pop.type-pop .pop__buttons button:first-child {margin-left:0;}
+.pop__header {display:none;}
 
 .tabs__buttons {display:flex; margin-bottom:40px;}
 .tabs__buttons__button {flex:1; margin:0 12px; padding:8px 16px; font-size:20px; font-weight:500; color:#fff; background-color:#ff9711; text-align:center;  transition:opacity .3s, box-shadow .3s; border-radius:100px; opacity:.5;}
@@ -134,7 +138,7 @@ body {}
 .align--right {text-align:right;}
 .align--left {text-align:left;}
 
-.black {display:none; width:100%; height:100%; position:fixed; top:0; left:0; background-color:rgba(0,0,0,0.6); z-index:10;}
+.black {width:100%; height:100%; position:fixed; top:0; left:0; background-color:rgba(0,0,0,0.6); z-index:1;}
 .black.active {display:block;}
 
 .comments--comment {padding:8px 0; background-color:#fff; }
@@ -160,7 +164,7 @@ body {}
 .pagination.type01 .pagination__last {width:40px; position:relative; bottom:1px; line-height:30px; font-size:14px; font-weight:500;}
 .pagination.type01 .pagination__first {width:40px; position:relative; bottom:1px; line-height:30px; font-size:14px; font-weight:500;}
 
-.flash-box {padding:10px 15px; position:fixed; bottom:90px; right:15px; font-size:14px; background-color:#fff; color:#ff9711; border:2px solid #ff9711; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); z-index:40;}
+.flash-box {padding:10px 15px; position:fixed; bottom:80px; left:20px; font-size:14px; background-color:#fff; color:#ff9711; border:2px solid #ff9711; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); z-index:40;}
 
 
 .scroll-smooth {scroll-behavior: smooth; -webkit-overflow-scrolling: touch;}

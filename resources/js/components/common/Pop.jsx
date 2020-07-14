@@ -2,8 +2,9 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {setPop} from "../../actions/commonActions";
 import {connect} from 'react-redux';
 
-const Pop = ({className="", type = "page", name = null, children, onClose = () => null, buttons = [], includeCancel = false, pop, setPop}) => {
+const Pop = ({className="", type = "pop", name = null, children, onClose = () => null, buttons = [], includeCancel = false, pop, setPop}) => {
     useEffect(() => {
+        /*
         if(pop === name){
             history.pushState({page: "pop"}, document.title, location.pathname + `#${name}`);
         }
@@ -13,6 +14,7 @@ const Pop = ({className="", type = "page", name = null, children, onClose = () =
 
             onClose();
         });
+        */
 
     }, [pop]);
     const close = () => {
@@ -26,16 +28,16 @@ const Pop = ({className="", type = "page", name = null, children, onClose = () =
     if(pop === name)
         return (
         <Fragment>
-            <div className="pop-wrap">
+            <div className="pop__wrap">
                 <div className={`pop ${type === "page" ? "type-page" : "type-pop"} ${className}`}>
-                    <div className="pop-header">
+                    <div className="pop__header">
                         <p className="pop-header-title">
                             {name}
                         </p>
 
-                        <div className="pop-header-btn">
+                        {/*<div className="pop-header-btn">
                             <img src="/img/icon_thin_x.png" alt="" className="only-page" onClick={close}/>
-                        </div>
+                        </div>*/}
                     </div>
 
                     <div className="pop-contents">
@@ -54,7 +56,7 @@ const Pop = ({className="", type = "page", name = null, children, onClose = () =
                 </div>
             </div>
 
-            <div className="black animated fadeIn"></div>
+            <div className="black"></div>
         </Fragment>
         );
 
