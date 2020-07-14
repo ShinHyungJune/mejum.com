@@ -8,18 +8,22 @@ const Header = ({setFlash, logout, user}) => {
     let location = useLocation();
 
 
-    // let hideUrlList = ["/login", "/sendResetPasswordMail", "/register", "/passwordReset"];
+    let hideUrlList = ["/login", "/sendResetPasswordMail", "/register", "/passwordReset"];
 
-    // let [hide, setHide] = useState(hideUrlList.includes(location.pathname));
+    let [hide, setHide] = useState(hideUrlList.includes(location.pathname));
 
-    // let [active, setActive] = useState(false);
-
-
+    useEffect(() => {
+        setHide(hideUrlList.includes(location.pathname));
+    }, [location]);
 
     return (
-        <header className="header bg--primary">
-            <p className="header-title">그룹 목록</p>
-        </header>
+        hide ? null : (
+            <header className="header bg--primary clearfix">
+                <p className="header-title" style={{float:"left"}}>그룹 목록</p>
+
+                <button onClick={logout} style={{color:"#fff", float:"right", fontSize:"14px", position:"relative", top:"3px"}}>로그아웃</button>
+            </header>
+        )
     );
 };
 const mapState = (state) => {

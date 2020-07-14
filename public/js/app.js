@@ -72724,7 +72724,7 @@ var Form = function Form(_ref) {
   }, [defaultForm]);
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
-       changeForm(event);
+        changeForm(event);
   };*/
 
   return enterSubmitDisabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72852,6 +72852,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_commonActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/commonActions */ "./resources/js/actions/commonActions.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -72861,15 +72873,34 @@ var Header = function Header(_ref) {
   var setFlash = _ref.setFlash,
       logout = _ref.logout,
       user = _ref.user;
-  var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])(); // let hideUrlList = ["/login", "/sendResetPasswordMail", "/register", "/passwordReset"];
-  // let [hide, setHide] = useState(hideUrlList.includes(location.pathname));
-  // let [active, setActive] = useState(false);
+  var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])();
+  var hideUrlList = ["/login", "/sendResetPasswordMail", "/register", "/passwordReset"];
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "header bg--primary"
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(hideUrlList.includes(location.pathname)),
+      _useState2 = _slicedToArray(_useState, 2),
+      hide = _useState2[0],
+      setHide = _useState2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setHide(hideUrlList.includes(location.pathname));
+  }, [location]);
+  return hide ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+    className: "header bg--primary clearfix"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "header-title"
-  }, "\uADF8\uB8F9 \uBAA9\uB85D"));
+    className: "header-title",
+    style: {
+      "float": "left"
+    }
+  }, "\uADF8\uB8F9 \uBAA9\uB85D"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    onClick: logout,
+    style: {
+      color: "#fff",
+      "float": "right",
+      fontSize: "14px",
+      position: "relative",
+      top: "3px"
+    }
+  }, "\uB85C\uADF8\uC544\uC6C3"));
 };
 
 var mapState = function mapState(state) {
@@ -73011,9 +73042,9 @@ var Pop = function Pop(_ref) {
     if(pop === name){
         history.pushState({page: "pop"}, document.title, location.pathname + `#${name}`);
     }
-     window.addEventListener("popstate", e=> {
+      window.addEventListener("popstate", e=> {
         setPop(null);
-         onClose();
+          onClose();
     });
     */
   }, [pop]);
