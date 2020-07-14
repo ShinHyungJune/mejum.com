@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {login, setFlash} from '../actions/commonActions';
 import axios from "axios";
+import Form from '../components/common/Form';
 
 const Register = ({user, setFlash, history, login}) => {
 
     let phone = null;
 
     let [form, setForm] = useState({
+        avatar: "",
         number: "",
         name: "",
         phone: "",
@@ -15,6 +17,7 @@ const Register = ({user, setFlash, history, login}) => {
         password_confirmation: "",
         errors: null
     });
+
     let [loading, setLoading] = useState(false);
     let [mode, setMode] = useState("sendVerifyNumber");
 
@@ -108,27 +111,14 @@ const Register = ({user, setFlash, history, login}) => {
             });
     };
 
-    const register = (e) => {
-        e.preventDefault();
+    const register = (response) => {
+        let user = response.data;
 
-        setLoading(true);
+        setFlash(response.message);
 
-        if (form.phone)
-            phone = "+82" + form.phone.replace("-", "");
-
-        axios.post("/api/auth/signup", {
-            ...form,
-            phone: phone
-        }).then(response => {
-            setLoading(false);
-
-            setFlash(response.data.message);
-
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post("/login", {
-                    ...form,
-                    phone: phone
-                }).then(response => {
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post("/login", user)
+                .then(response => {
                     axios.get("/api/user")
                         .then(response => {
                             login(response.data);
@@ -138,18 +128,6 @@ const Register = ({user, setFlash, history, login}) => {
                 }).catch(error => {
                     setFlash(error.response.data.message);
                 })
-            });
-
-        }).catch(error => {
-            setLoading(false);
-
-            if (error.response.status === 422)
-                return setForm({
-                    ...form,
-                    errors: error.response.data.errors
-                });
-
-            setFlash(error.response.data.message);
         });
     };
 
@@ -163,8 +141,6 @@ const Register = ({user, setFlash, history, login}) => {
         <div className="container--auth">
             <div id="register">
                 <div className="container--mobile">
-                    <img src="/img/logo.png" alt="" className="logo"/>
-
                     {
                         mode === "sendVerifyNumber" ?
                             <form onSubmit={sendVerifyNumber} onKeyDown={clearError}>
@@ -217,45 +193,25 @@ const Register = ({user, setFlash, history, login}) => {
                     }
 
                     {
-                        mode === "register" ? <form onSubmit={register} onKeyDown={clearError}>
-                            <div className="input--wrap">
-                                <div className="input--text">
-                                    <input type="text" name="phone" placeholder="휴대폰 번호(-를 제외한 숫자만 입력해주세요.)"
-                                           value={form.phone} disabled/>
-                                </div>
-                            </div>
+                        mode === "register" ?
+                            <Form method={"post"} url={"/api/auth/signup"} onThen={register} defaultForm={form}>
+                                <input type="avatar" name="avatar" placeholder="휴대폰 번호(-를 제외한 숫자만 입력해주세요.)"/>
 
-                            <div className="input--wrap">
-                                <div className="input--text">
-                                    <input type="text" name="name" placeholder="이름" onChange={changeForm}/>
-                                </div>
-                            </div>
+                                <input type="text" name="phone" placeholder="휴대폰 번호(-를 제외한 숫자만 입력해주세요.)" disabled/>
 
-                            <div className="input--wrap">
-                                <div className="input--text">
-                                    <input type="password" name="password" placeholder="비밀번호" defaultValue=""
-                                           onChange={changeForm}/>
-                                </div>
-                            </div>
+                                <input type="text" name="name" placeholder="이름"/>
 
-                            <div className="input--wrap">
-                                <div className="input--text">
-                                    <input type="password" name="password_confirmation" placeholder="비밀번호 확인" defaultValue={form.password_confirmation} onChange={changeForm}/>
+                                <input type="password" name="password" placeholder="비밀번호"/>
 
-                                    <p className="input--error">{form.errors && form.errors.phone ? form.errors.phone : ""}</p>
-                                    <p className="input--error">{form.errors && form.errors.password ? form.errors.password : ""}</p>
-                                    <p className="input--error">{form.errors && form.errors.password_confirmation ? form.errors.password_confirmation : ""}</p>
-                                    <p className="input--error">{form.errors && form.errors.name ? form.errors.name : ""}</p>
-                                </div>
-                            </div>
+                                <input type="password" name="password_confirmation" placeholder="비밀번호 확인" />
 
-                            <button className="button--middle button--full bg--primary">
-                                {loading
-                                    ? <p className="animated flash infinite white">진행중</p>
-                                    : "회원가입"
-                                }
-                            </button>
-                        </form> : null
+                                <button className="button--middle button--full bg--primary">
+                                    {loading
+                                        ? <p className="animated flash infinite white">진행중</p>
+                                        : "회원가입"
+                                    }
+                                </button>
+                            </Form> : null
                     }
                 </div>
             </div>

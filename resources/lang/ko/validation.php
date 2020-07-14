@@ -56,7 +56,7 @@ return [
         'string' => 'The :attribute must be greater than or equal :value characters.',
         'array' => 'The :attribute must have :value items or more.',
     ],
-    'image' => 'The :attribute must be an image.',
+    'image' => ':attribute(은)는 이미지 파일이어야합니다.',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
@@ -154,7 +154,8 @@ return [
         "password" => "비밀번호",
         "name" => "닉네임",
         "img" => "이미지",
-        "number" => "인증번호"
+        "number" => "인증번호",
+        "avatar" => "아바타 이미지",
     ],
 
 ];

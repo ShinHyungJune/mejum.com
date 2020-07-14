@@ -27,10 +27,12 @@ class AuthController extends ApiController
 
         $request->validate([
             'name' => 'required|string|unique:users',
-            /* "avatar" => "required|base64image|base64mimes:jpeg,png,jpg,gif,svg|base64max:2048", */
+            "avatar" => "image",
             'phone' => 'required|string|unique:users',
             'password' => 'required|min:8|string|confirmed',
         ]);
+
+        $request->phone = "+82".$request->phone;
 
         $veryNumber = VerifyNumber::where("phone", $request->phone)->where("verified", true)->first();
 
@@ -44,12 +46,15 @@ class AuthController extends ApiController
                 'password' => bcrypt($request->password),
             ]);
 
-            // $this->storeBase64AndAddMedia($request->avatar, $user);
+            $user->addMedia($request->avatar)->toMediaCollection("img", "s3");
 
             VerifyNumber::where('phone', $request->phone)->first()->delete();
         });
 
-        return $this->respondSuccessfully(null,"회원가입이 완료되었습니다.");
+        return $this->respondSuccessfully([
+            "phone" => $request->phone,
+            "password" => $request->password
+        ],"회원가입이 완료되었습니다.");
     }
 
     /**

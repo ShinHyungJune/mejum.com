@@ -9,11 +9,11 @@ body {}
 .container--auth .input--error {margin-bottom:5px; color:#fff;}
 .container--auth .input--wrap {margin-bottom:0;}
 .container--auth .input--wrap input {border-radius:0; border-bottom:none;}
-.container--auth .input--wrap:last-of-type {border-bottom:1px solid #D2D3D8;}
+.container--auth .input--wrap .input--error {}
 .container--auth .input--wraps {border-radius:5px; overflow:hidden;}
 .container--auth .logo {display:block; margin:0 auto; margin-bottom:60px;}
 .container--auth .comment {margin-bottom:20px; text-decoration:underline; font-weight:300; text-align:center; color:#fff;}
-.container--mobile {width:100%; padding:0 20px; margin:0 auto; position:absolute; top:50%; left:0; transform:translateY(-50%);}
+.container--mobile {width:100%; padding:0 20px; margin:0 auto; position:absolute; top:45%; left:0; transform:translateY(-50%);}
 .container__title {margin-bottom:32px; font-size:24px; font-weight:500;}
 .container__top {margin-bottom:48px; overflow:hidden;}
 .container__top .input--search {float:left;}
@@ -77,8 +77,21 @@ body {}
 
 
 .input--text input {width:100%; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; color:#333; border-radius:5px;}
+.input--password input {width:100%; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; color:#333; border-radius:5px;}
 .input--textarea textarea {width:100%; height:100px; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; border-radius:5px;}
 .input--select select {padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; border-radius:5px;}
+
+.input--img input {display:none;}
+.input--img label {display:inline-block; cursor:pointer; padding:5px 10px; background-color:#2B3648; color:#fff;}
+.input--avatar {text-align:center;}
+.input--avatar input {display:none;}
+.input--avatar > label {display:inline-block; position:relative; content:""; width:70px; height:70px; margin-bottom:16px; background:url("/img/avatar.png") no-repeat; background-size:cover; color:transparent;}
+.input--avatar .input-file-img {width:70px; height:70px; margin:0 auto; margin-top:0; padding:0; border-radius:100%;}
+.input--avatar.active label {display:none;}
+.input--avatar .input-file-img {margin-top:0; margin-bottom:16px;}
+.input--avatar .ratioBox-wrap {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); border-radius:100%;}
+.input-file-name {display:inline-block; margin-left:10px;}
+.input-file-img {display:block; margin-top:20px; padding:20px; max-width:100%; border:1px solid #e1e1e1; border-radius:10px; background-color:transparent;}
 
 .text--h1 {font-size:24px; font-weight:500; color:#2E4266;}
 .text--h2 {font-size:20px; font-weight:500; color:#2E4266;}
@@ -89,9 +102,6 @@ body {}
 
 .height--10 {height:10px;}
 .height--24 {height:24px;}
-
-
-
 
 .box.type01 {border-radius:15px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff; border:1px solid transparent; overflow:hidden;}
 .box.type01 .box__top {padding:16px 24px; position:relative; border-bottom:1px solid #F5F6FF;}
@@ -173,10 +183,17 @@ body {}
 .empty.type01 {padding:48px; text-align:center; background-color:#fff; border-radius:5px;}
 .empty.type01 .empty__text {font-size:18px; font-weight:500;}
 
+/* ratio box */
+.ratioBox-wrap {width:100%; padding-top:100%; position:relative; background-color:#ebebeb; overflow:hidden;}
+.ratioBox {position:absolute; top:0; left:0; right:0; bottom:0;}
+.ratioBox img {width:105%; position:absolute; left:50%; top:50%; transform:translateY(-50%) translateX(-50%);}
+
 #login .links {width:100%; margin-bottom:30px; position:absolute; bottom:0; left:0;}
 #login .links .link {font-weight:300; color:#fff;}
 #login .links .link:last-child:before {content:"|"; display:inline-block; margin-left:10px; margin-right:12px;  position:relative; top:-2px; font-size:11px;}
 
+#register .input--wrap {margin-bottom:-5px;}
+#register .input--wrap:last-of-type {margin-bottom:5px;}
 
 
 

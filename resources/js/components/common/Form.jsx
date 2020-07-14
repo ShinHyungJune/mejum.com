@@ -9,8 +9,9 @@ import InputFile from './inputs/InputFile';
 import InputImage from './inputs/InputImage';
 import InputCodeEditor from './inputs/InputCodeEditor';
 import InputTags from "./inputs/InputTags";
+import InputAvatar from "./inputs/InputAvatar";
 
-const Form = ({children, url = "", method = "", onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
+const Form = ({children, url = "", method = "", onSubmit = null, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
     let [form, setForm] = useState({
         errors: {}
     });
@@ -94,13 +95,16 @@ const Form = ({children, url = "", method = "", onThen = (response) => {}, onCat
                                 {el.props.title ? React.createElement('p', {className: "input-title"}, el.props.title) : null}
 
                                 {/* input text */}
-                                {el.type === "input" && el.props.type === "text" ? <InputText form={form} setForm={setForm} el={el}/> : null}
+                                {el.type === "input" && (el.props.type === "text" || el.props.type === "password")  ? <InputText form={form} setForm={setForm} el={el}/> : null}
 
                                 {/* input checkbox */}
                                 {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
 
                                 {/* input tags */}
                                 {el.type === "input" && el.props.type === "tags" ? <InputTags form={form} setForm={setForm} el={el}/> : null}
+
+                                {/* input avatar */}
+                                {el.props.type === "avatar" ? <InputAvatar form={form} setForm={setForm} el={el}/> : null}
 
                                 {/* input img */}
                                 {el.props.type === "img" ? <InputImage form={form} setForm={setForm} el={el}/> : null}
@@ -135,13 +139,16 @@ const Form = ({children, url = "", method = "", onThen = (response) => {}, onCat
                                 {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
 
                                 {/* input text */}
-                                {el.type === "input" && el.props.type === "text" ? <InputText form={form} setForm={setForm} el={el}/> : null}
+                                {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={form} setForm={setForm} el={el}/> : null}
 
                                 {/* input checkbox */}
                                 {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
 
                                 {/* input tags */}
                                 {el.type === "input" && el.props.type === "tags" ? <InputTags form={form} setForm={setForm} el={el}/> : null}
+
+                                {/* input avatar */}
+                                {el.props.type === "avatar" ? <InputAvatar form={form} setForm={setForm} el={el}/> : null}
 
                                 {/* input img */}
                                 {el.props.type === "img" ? <InputImage form={form} setForm={setForm} el={el}/> : null}
