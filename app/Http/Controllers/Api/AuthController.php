@@ -32,8 +32,6 @@ class AuthController extends ApiController
             'password' => 'required|min:8|string|confirmed',
         ]);
 
-        $request->phone = "+82".$request->phone;
-
         $veryNumber = VerifyNumber::where("phone", $request->phone)->where("verified", true)->first();
 
         if(!$veryNumber || !$veryNumber->verified)
@@ -42,7 +40,7 @@ class AuthController extends ApiController
         DB::transaction(function() use($request) {
             $user = User::create([
                 'name' => $request->name,
-                'phone' => $request->phone,
+                'phone' => "+82".$request->phone,
                 'password' => bcrypt($request->password),
             ]);
 
