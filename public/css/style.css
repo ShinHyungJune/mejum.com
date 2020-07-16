@@ -30,11 +30,19 @@ header .button--icon {display:none; margin-right:32px;}
 .sidebar__navigations__navigation.active {opacity:1;}
 .sidebar__navigations__navigation img {margin-right:16px; position:relative; top:4px;}
 
+.empty {width:100%; position:absolute; top:45%; left:0; transform:translateY(-50%); text-align:center;}
+.empty__img {display:inline-block; margin-bottom:0px;}
+.empty__text {color:#fff; text-shadow:0px 3px 6px rgba(0,0,0,0.3);}
+
+
 .groups {}
-.group {margin-bottom:8px; padding:10px 16px; position:relative; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.16); border-radius:5px;}
+.group {margin-bottom:8px; padding:10px 16px; padding-left:56px; position:relative; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.16); border-radius:5px;}
+.group .img {position:absolute; left:16px; top:50%; transform:translateY(-50%);}
 .group__texts {padding-right:40px;}
 .group__title {font-weight:500;}
 .group__date {font-size:12px; color:#999;}
-.group__btn {position:absolute; top:50%; right:16px; transform:translateY(-50%);}
-.group__btn img {position:absolute; top:50%; right:0px; transform:translateY(-50%);}
+.group__btn {display:flex; align-items:center; padding:5px; position:absolute; top:50%; right:16px; transform:translateY(-50%);}
+.group__btn img {}
+.group__menus {position:absolute; right:15px; top:45px; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.4); border-radius:3px; z-index:1;}
+.group__menu {display:block; width:100%; padding:10px; font-size:14px; font-weight:500; color:#999; text-align:left;}
 
