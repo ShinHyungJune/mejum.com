@@ -5,6 +5,7 @@ export const SET_USER = "SET_USER";
 export const SET_TOKEN = "SET_TOKEN";
 export const SET_TARGET = "SET_TARGET";
 export const SET_TARGETS = "SET_TARGETS";
+export const SET_BLOCKED_URL = "SET_BLOCKED_URL";
 
 
 

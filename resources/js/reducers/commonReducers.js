@@ -1,4 +1,4 @@
-import {SET_POP, SET_LOADING, SET_FLASH, SET_USER, SET_TOKEN} from '../types';
+import {SET_POP, SET_LOADING, SET_FLASH, SET_USER, SET_TOKEN, SET_BLOCKED_URL} from '../types';
 import {getLocalUser, getLocalToken} from '../utilities/auth';
 
 const user = getLocalUser();
@@ -9,7 +9,8 @@ const initialsState = {
     token: token,
     pop: null,
     loading: false,
-    flash: null
+    flash: null,
+    blockedUrl: null
 };
 
 export default (state = initialsState, action) => {
@@ -45,6 +46,12 @@ export default (state = initialsState, action) => {
             return {
                 ...state,
                 token: action.payload
+            };
+
+        case SET_BLOCKED_URL:
+            return {
+                ...state,
+                blockedUrl: action.payload
             };
     }
 }

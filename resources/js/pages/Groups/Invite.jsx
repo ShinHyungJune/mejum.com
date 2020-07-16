@@ -1,8 +1,11 @@
 import React, {useEffect} from 'react';
 import Form from '../../components/common/Form';
 import Pop from "../../components/common/Pop";
+import store from "../../store";
 
 const Invite = ({onThen, group = null}) => {
+    let key = "2c421067f35449af1e8b0e88255eb3df";
+
     const copy = (data) => {
         let textarea = document.createElement("textarea");
 
@@ -22,14 +25,16 @@ const Invite = ({onThen, group = null}) => {
     };
 
     useEffect(() => {
-        window.Kakao.init("2c421067f35449af1e8b0e88255eb3df");
-        window.Kakao.Link.createDefaultButton({
-            container: "#kakao",
-            objectType: "feed",
+        window.Kakao.init(key);
+
+        Kakao.Link.createDefaultButton({
+            container: '#kakao',
+            objectType: 'feed',
             content: {
                 title: "메뉴선정서비스로부터 초대장이 도착하였습니다.",
-                description: `${window.user.name}께서 ${group.title} 그룹으로 초대하였습니다.`,
-                imageUrl: "https://in-diary.s3.amazonaws.com/141/euvuFmjoOJnTQB7R.png",
+                description: `${store.getState().commonStates.user.name}님께서 [${group.title}] 그룹으로 초대하였습니다.`,
+                imageUrl:
+                    "https://in-diary.s3.amazonaws.com/141/euvuFmjoOJnTQB7R.png",
                 link: {
                     mobileWebUrl: group.invitation,
                     webUrl: group.invitation,
@@ -41,8 +46,14 @@ const Invite = ({onThen, group = null}) => {
                     mobileWebUrl: group.invitation,
                     webUrl: group.invitation,
                 }
-            }]
-        })
+            }],
+            success: function(response) {
+
+            },
+            fail: function(error) {
+
+            }
+        });
     }, []);
 
     return (

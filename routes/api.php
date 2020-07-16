@@ -32,6 +32,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(["middleware" => "auth:sanctum"], function() {
+    Route::get("/groups/join", "Api\GroupController@join");
     Route::resource("/groups", "Api\GroupController");
 });
 

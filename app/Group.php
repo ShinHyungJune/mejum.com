@@ -12,6 +12,6 @@ class Group extends Model
 
     public function getInvitationAttribute()
     {
-        return config("app.url")."/".encrypt($this->id);
+        return config("app.url")."/groups/invite/id=".encrypt($this->id);
     }
 }

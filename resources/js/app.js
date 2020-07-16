@@ -1,6 +1,6 @@
 import store from './store';
 import setUpInterceptor from './utilities/interceptors';
-import {setPop, setFlash} from "./actions/commonActions";
+import {setPop, setFlash, setBlockedUrl} from "./actions/commonActions";
 
 setUpInterceptor();
 
@@ -14,7 +14,10 @@ window.setFlash = (message) => {
     store.dispatch(setFlash(message));
 };
 
-window.user = store.getState().commonStates.user;
+window.setBlockedUrl = (url) => {
+    store.dispatch(setBlockedUrl(url));
+};
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which

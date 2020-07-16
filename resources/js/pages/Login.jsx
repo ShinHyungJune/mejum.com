@@ -12,6 +12,7 @@ const Login = ({login, setFlash, user, location, history}) => {
     });
 
     useEffect(() => {
+
         if(store.getState().commonStates.user)
             history.replace("/");
     }, []);
@@ -52,6 +53,14 @@ const Login = ({login, setFlash, user, location, history}) => {
                 axios.get("/api/user")
                     .then(response => {
                         login(response.data);
+
+                        if(store.getState().commonStates.blockedUrl){
+                            let url = store.getState().commonStates.blockedUrl;
+
+                            window.setBlockedUrl(null);
+
+                            return history.push(url);
+                        }
 
                         history.push("/");
                     });

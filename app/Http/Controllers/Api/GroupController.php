@@ -58,4 +58,23 @@ class GroupController extends ApiController
 
         return $this->respondDeleted(null, "그룹에서 탈퇴하였습니다.");
     }
+
+    public function join(Request $request)
+    {
+        $request->validate([
+            "id" => "required|max:2000"
+        ]);
+
+        $id = decrypt($request->id);
+
+        $group = Group::find($id);
+
+        if(!$group)
+            return $this->respondNotFound();
+
+        if(!auth()->user()->groups()->find($group->id))
+            auth()->user()->groups()->attach($group->id);
+
+        return $this->respondSuccessfully(GroupResouce::make($group), "성공적으로 가입되었습니다.");
+    }
 }

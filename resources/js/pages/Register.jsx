@@ -123,6 +123,14 @@ const Register = ({user, setFlash, history, login}) => {
                         .then(response => {
                             login(response.data);
 
+                            if(store.getState().commonStates.blockedUrl){
+                                let url = store.getState().commonStates.blockedUrl;
+
+                                window.setBlockedUrl(null);
+
+                                return history.push(url);
+                            }
+
                             history.push("/");
                         })
                 }).catch(error => {

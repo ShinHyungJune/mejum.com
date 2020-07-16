@@ -1,4 +1,4 @@
-import {SET_POP, SET_FLASH, SET_USER, SET_TOKEN} from "../types";
+import {SET_POP, SET_FLASH, SET_USER, SET_TOKEN, SET_BLOCKED_URL} from "../types";
 
 export const setPop = (data) => {
     return (dispatch) => {
@@ -13,6 +13,15 @@ export const setFlash = (data) => {
     return (dispatch) => {
         dispatch({
             type: SET_FLASH,
+            payload: data
+        })
+    }
+};
+
+export const setBlockedUrl = (data) => {
+    return (dispatch) => {
+        dispatch({
+            type: SET_BLOCKED_URL,
             payload: data
         })
     }
