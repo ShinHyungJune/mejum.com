@@ -18,6 +18,7 @@ class GroupResouce extends JsonResource
         return [
             "id" => $this->id,
             "title" => $this->title,
+            "invitation" => $this->invitation,
             "created_at" => Carbon::make($this->created_at)->format("Y-m-d H:i:s")
         ];
     }

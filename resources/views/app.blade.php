@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="/css/animate.css?{{\Illuminate\Support\Carbon::now()}}">
         <link rel="stylesheet" href="/css/common.css?{{\Illuminate\Support\Carbon::now()}}">
         <link rel="stylesheet" href="/css/style.css?{{\Illuminate\Support\Carbon::now()}}">
+        <script src="/js/kakao.js"></script>
     </head>
     <body>
         <div id="app">

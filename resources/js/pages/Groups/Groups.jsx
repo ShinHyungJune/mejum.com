@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import Pagination from "../../components/common/Pagination";
 import Create from "./Create";
 import Edit from './Edit';
+import Invite from './Invite';
 import Group from './Group';
 
 const Groups = ({history}) => {
@@ -10,6 +11,7 @@ const Groups = ({history}) => {
         data: [],
         meta: {}
     });
+    let [inviteGroup, setInviteGroup] = useState(null);
 
     let [defaultForm, setDefaultForm] = useState(null);
 
@@ -53,8 +55,12 @@ const Groups = ({history}) => {
         });
 
         window.setPop("");
+    };
 
-        setMenuOpenedGroup(null);
+    const invite = (item) => {
+        setInviteGroup(item);
+
+        window.setPop("그룹원 초대");
     };
 
     return (
@@ -63,6 +69,9 @@ const Groups = ({history}) => {
 
             <Edit onThen={onUpdated} defaultForm={defaultForm}/>
 
+            {inviteGroup ? <Invite onThen={null} group={inviteGroup} /> : null}
+
+
             <div className="groups">
                 {
                     items.data.length === 0
@@ -70,7 +79,7 @@ const Groups = ({history}) => {
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">소속된 그룹이 없습니다.</p>
                         </div>
-                        : items.data.map(item => <Group group={item} groups={items} setGroups={setItems} key={item.id} menuOpenedGroup={menuOpenedGroup} setMenuOpenedGroup={setMenuOpenedGroup} setDefaultForm={setDefaultForm}/>)
+                        : items.data.map(item => <Group group={item} groups={items} setGroups={setItems} key={item.id} menuOpenedGroup={menuOpenedGroup} setMenuOpenedGroup={setMenuOpenedGroup} setDefaultForm={setDefaultForm} invite={invite}/>)
                 }
 
                 <button className="button--util bg--primary" onClick={() => {window.setPop("그룹 생성")}}>

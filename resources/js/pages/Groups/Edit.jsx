@@ -4,9 +4,6 @@ import Pop from "../../components/common/Pop";
 
 const Edit = ({onThen, defaultForm = null}) => {
 
-    useEffect(() => {
-        console.log(defaultForm);
-    }, [defaultForm]);
     return (
         defaultForm ?
                 <Pop name={"그룹 수정"}>

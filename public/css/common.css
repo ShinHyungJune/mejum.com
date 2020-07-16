@@ -80,6 +80,7 @@ body {}
 
 
 .input--text input {width:100%; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; color:#333; border-radius:5px;}
+.input--text input:disabled {color:#ccc;}
 .input--password input {width:100%; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; color:#333; border-radius:5px;}
 .input--textarea textarea {width:100%; height:100px; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; border-radius:5px;}
 .input--select select {padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; border-radius:5px;}
@@ -95,6 +96,13 @@ body {}
 .input--avatar .ratioBox-wrap {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); border-radius:100%;}
 .input-file-name {display:inline-block; margin-left:10px;}
 .input-file-img {display:block; margin-top:20px; padding:20px; max-width:100%; border:1px solid #e1e1e1; border-radius:10px; background-color:transparent;}
+
+.input--withButtons {padding-right:94px; position:relative;}
+.input--withButtons__buttons {position:absolute; top:0; right:0;}
+.input--withButtons__button {width:42px; height:42px; margin-right:5px; position:relative; border:1px solid #D2D3D8; border-radius:5px;}
+.input--withButtons__button img {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);}
+.input--withButtons__button:last-child {margin-right:0;}
+
 
 .text--h1 {font-size:24px; font-weight:500; color:#2E4266;}
 .text--h2 {font-size:20px; font-weight:500; color:#2E4266;}
@@ -116,7 +124,8 @@ body {}
 .pop.type-pop .pop__buttons {display:flex; margin-top:16px;}
 .pop.type-pop .pop__buttons button {flex:1; margin-left:8px;}
 .pop.type-pop .pop__buttons button:first-child {margin-left:0;}
-.pop__header {display:none;}
+.pop__header {display:block;}
+.pop__header__title {margin-bottom:16px; font-size:18px; font-weight:500; text-align:center; color:#000;}
 
 .tabs__buttons {display:flex; margin-bottom:40px;}
 .tabs__buttons__button {flex:1; margin:0 12px; padding:8px 16px; font-size:20px; font-weight:500; color:#fff; background-color:#ff9711; text-align:center;  transition:opacity .3s, box-shadow .3s; border-radius:100px; opacity:.5;}

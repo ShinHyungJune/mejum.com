@@ -31,7 +31,7 @@ const Pop = ({className="", type = "pop", name = null, children, onClose = () =>
             <div className="pop__wrap">
                 <div className={`pop ${type === "page" ? "type-page" : "type-pop"} ${className}`}>
                     <div className="pop__header">
-                        <p className="pop-header-title">
+                        <p className="pop__header__title">
                             {name}
                         </p>
 
