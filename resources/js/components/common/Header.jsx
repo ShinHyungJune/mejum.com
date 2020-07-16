@@ -19,7 +19,7 @@ const Header = ({setFlash, logout, user}) => {
     return (
         hide ? null : (
             <header className="header bg--primary clearfix">
-                <p className="header-title" style={{float:"left"}}>그룹 목록</p>
+                <p className="header-title" style={{float:"left"}}>페이지 제목</p>
 
                 <button onClick={logout} style={{color:"#fff", float:"right", fontSize:"14px", position:"relative", top:"3px"}}>로그아웃</button>
             </header>

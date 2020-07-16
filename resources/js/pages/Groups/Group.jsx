@@ -1,4 +1,5 @@
 import React, {useEffect, useState, Fragment} from 'react';
+import {Link} from "react-router-dom";
 
 const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, setDefaultForm, invite}) => {
 
@@ -25,7 +26,7 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
     };
 
     return (
-        <div className="group">
+        <Link to={"/groups/" + group.id} className="group">
             <img src="/img/spoon.png" alt="" className="img"/>
 
             <div className="group__texts">
@@ -33,19 +34,19 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
                 <p className="group__date">{group.created_at}</p>
             </div>
 
-            <button className="group__btn" onClick={() => setMenuOpenedGroup(group)}>
+            <button className="group__btn" onClick={(event) => {event.stopPropagation(); event.preventDefault(); setMenuOpenedGroup(group); }}>
                 <img src="/img/dots.png" alt=""/>
             </button>
 
             {menuOpenedGroup && menuOpenedGroup.id === group.id ?
-                <div className="group__menus">
+                <div className="group__menus" onClick={(event) => {event.stopPropagation(); event.preventDefault();}}>
                     <button className="group__menu" onClick={() => {invite(group); setMenuOpenedGroup(null);}}>그룹원 초대</button>
                     <button className="group__menu" onClick={edit}>그룹 수정</button>
                     <button className="group__menu" onClick={out}>그룹 나가기</button>
                     <button className="group__menu" onClick={() => setMenuOpenedGroup(null)}>닫기</button>
                 </div> : null}
 
-        </div>
+        </Link>
     );
 };
 
