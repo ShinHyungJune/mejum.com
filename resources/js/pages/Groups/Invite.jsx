@@ -4,7 +4,6 @@ import Pop from "../../components/common/Pop";
 import store from "../../store";
 
 const Invite = ({onThen, group = null}) => {
-    let key = "2c421067f35449af1e8b0e88255eb3df";
 
     const copy = (data) => {
         let textarea = document.createElement("textarea");
@@ -25,10 +24,8 @@ const Invite = ({onThen, group = null}) => {
     };
 
     useEffect(() => {
-        window.Kakao.init(key);
-
         Kakao.Link.createDefaultButton({
-            container: '#kakao',
+            container: '#kakao' + group.id,
             objectType: 'feed',
             content: {
                 title: "메뉴선정서비스로부터 초대장이 도착하였습니다.",
@@ -48,13 +45,18 @@ const Invite = ({onThen, group = null}) => {
                 }
             }],
             success: function(response) {
-
+                console.log(response);
             },
             fail: function(error) {
+                console.log(error);
 
             }
         });
-    }, []);
+    }, [group]);
+
+    const share = () => {
+
+    };
 
     return (
         group ?
@@ -68,7 +70,7 @@ const Invite = ({onThen, group = null}) => {
                         <button className="input--withButtons__button" onClick={() => copy(group.invitation)}>
                             <img src="/img/clipboard.png" alt=""/>
                         </button>
-                        <button className="input--withButtons__button" id={"kakao"}>
+                        <button className="input--withButtons__button" id={"kakao" + group.id}>
                             <img src="/img/externalLink.png" alt=""/>
                         </button>
                     </div>

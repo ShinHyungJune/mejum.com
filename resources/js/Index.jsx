@@ -19,9 +19,10 @@ import Flash from './components/common/Flash';
 
 
 const Index = () => {
+    let key = "2c421067f35449af1e8b0e88255eb3df";
 
     useEffect(() => {
-
+        window.Kakao.init(key);
     }, []);
 
     return (
