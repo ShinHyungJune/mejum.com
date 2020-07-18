@@ -3,27 +3,15 @@ import {Link, useLocation} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {setFlash, logout} from "../../actions/commonActions";
 
-const Header = ({setFlash, logout, user}) => {
-
-    let location = useLocation();
-
-
-    let hideUrlList = ["/login", "/sendResetPasswordMail", "/register", "/passwordReset"];
-
-    let [hide, setHide] = useState(hideUrlList.includes(location.pathname));
-
-    useEffect(() => {
-        setHide(hideUrlList.includes(location.pathname));
-    }, [location]);
+const Header = ({title="", children = null, logout}) => {
 
     return (
-        hide ? null : (
-            <header className="header bg--primary clearfix">
-                <p className="header-title" style={{float:"left"}}>페이지 제목</p>
+        <header className="header bg--primary clearfix">
+            <p className="header-title">{title}</p>
 
-                <button onClick={logout} style={{color:"#fff", float:"right", fontSize:"14px", position:"relative", top:"3px"}}>로그아웃</button>
-            </header>
-        )
+            <button onClick={logout}>로그아웃</button>
+            {children}
+        </header>
     );
 };
 const mapState = (state) => {

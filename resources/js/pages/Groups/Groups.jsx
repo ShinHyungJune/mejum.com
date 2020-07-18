@@ -5,6 +5,7 @@ import Create from "./Create";
 import Edit from './Edit';
 import Invite from './Invite';
 import Group from './Group';
+import Header from '../../components/common/Header';
 
 const Groups = ({history}) => {
     let [items, setItems] = useState({
@@ -65,6 +66,8 @@ const Groups = ({history}) => {
 
     return (
         <Fragment>
+            <Header title="그룹 목록" />
+
             <Create onThen={onCreated}/>
 
             <Edit onThen={onUpdated} defaultForm={defaultForm}/>
@@ -85,10 +88,6 @@ const Groups = ({history}) => {
                 <button className="button--util bg--primary" onClick={() => {window.setPop("그룹 생성")}}>
                     <img src="/img/plus--white.png" alt=""/>
                 </button>
-
-                <div className="navs">
-                    <p className="navs--title">페이지 하단</p>
-                </div>
             </div>
         </Fragment>
 

@@ -23,7 +23,11 @@ class GroupController extends ApiController
             "title" => "required|string|max:500"
         ]);
 
-        $group = auth()->user()->groups()->create($request->all());
+        $group = auth()->user()->groups()->create([
+            "title" => $request->title
+        ]);
+
+        auth()->user()->groups()->updateExistingPivot($group->id, ["master" => true]);
 
         return $this->respondCreated(GroupResouce::make($group));
     }
@@ -44,6 +48,17 @@ class GroupController extends ApiController
         return $this->respondUpdated(GroupResouce::make($group));
     }
 
+    public function show(Request $request, $id)
+    {
+        $group = auth()->user()->groups()->find($id);
+
+        if(!$group)
+            return $this->respondNotFound();
+
+
+        return $this->respond(GroupResouce::make($group));
+    }
+
     public function destroy($id)
     {
         $group = auth()->user()->groups()->find($id);
@@ -62,7 +77,7 @@ class GroupController extends ApiController
     public function join(Request $request)
     {
         $request->validate([
-            "id" => "required|max:2000"
+            "id" => "required"
         ]);
 
         $id = decrypt($request->id);
@@ -76,5 +91,63 @@ class GroupController extends ApiController
             auth()->user()->groups()->attach($group->id);
 
         return $this->respondSuccessfully(GroupResouce::make($group), "성공적으로 가입되었습니다.");
+    }
+
+    public function banish(Request $request)
+    {
+        $request->validate([
+            "user_id" => "required",
+            "group_id" => "required"
+        ]);
+
+        $group = Group::find($request->group_id);
+
+        if(!$group)
+            return $this->respondNotFound();
+
+        if(!$group->users()->find(auth()->id())->pivot->master)
+            return $this->respondForbidden("권한이 없습니다.");
+
+        $user = $group->users()->find($request->user_id);
+
+        if(!$user)
+            return $this->respondNotFound("해당 사용자는 그룹에 소속되어 있지 않습니다.");
+
+        if($user->pivot->master)
+            return $this->respondNotFound("그룹장은 내보낼 수 없습니다.");
+
+        $group->users()->detach($user);
+
+        return $this->respondSuccessfully(null, "성공적으로 내보냈습니다.");
+    }
+
+    public function appoint(Request $request)
+    {
+        $request->validate([
+            "user_id" => "required",
+            "group_id" => "required"
+        ]);
+
+        $group = Group::find($request->group_id);
+
+        if(!$group)
+            return $this->respondNotFound();
+
+        if(!$group->users()->find(auth()->id())->pivot->master)
+            return $this->respondForbidden("권한이 없습니다.");
+
+        $user = $group->users()->find($request->user_id);
+
+        if(!$user)
+            return $this->respondNotFound("해당 사용자는 그룹에 소속되어 있지 않습니다.");
+
+        if($user->pivot->master)
+            return $this->respondNotFound("이미 그룹장입니다.");
+
+        $group->users()->updateExistingPivot($user->id, ["master" => true]);
+
+        $group->users()->updateExistingPivot(auth()->id(), ["master" => false]);
+
+        return $this->respondSuccessfully(GroupResouce::make($group), "성공적으로 위임하였습니다.");
     }
 }

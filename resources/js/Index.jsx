@@ -14,6 +14,7 @@ import Components from './pages/Components';
 import GroupIndex from './pages/Groups/Groups';
 import GroupShow from './pages/Groups/Show';
 import Join from "./pages/Groups/Join";
+import Navs from "./components/common/Navs";
 
 import Flash from './components/common/Flash';
 
@@ -31,11 +32,10 @@ const Index = () => {
                 <Fragment>
                     <Flash />
 
-                    <Header />
-
                     <div className="contents">
                         <Switch>
                             <AuthRoute exact path="/" component={GroupIndex}/>
+                            <AuthRoute exact path="/groups" component={GroupIndex}/>
                             <AuthRoute exact path="/groups/:id" component={GroupShow}/>
                             <AuthRoute exact path="/groups/invite/:id" component={Join}/>
 
@@ -46,6 +46,8 @@ const Index = () => {
                             <Route exact path="/components" component={Components} />
                         </Switch>
                     </div>
+
+                    <Navs />
 
                 </Fragment>
             </Router>

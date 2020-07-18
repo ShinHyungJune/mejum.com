@@ -32,6 +32,8 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(["middleware" => "auth:sanctum"], function() {
+    Route::post("/groups/banish", "Api\GroupController@banish");
+    Route::post("/groups/appoint", "Api\GroupController@appoint");
     Route::get("/groups/join", "Api\GroupController@join");
     Route::resource("/groups", "Api\GroupController");
 });

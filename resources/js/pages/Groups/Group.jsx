@@ -41,6 +41,7 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
             {menuOpenedGroup && menuOpenedGroup.id === group.id ?
                 <div className="group__menus" onClick={(event) => {event.stopPropagation(); event.preventDefault();}}>
                     <button className="group__menu" onClick={() => {invite(group); setMenuOpenedGroup(null);}}>그룹원 초대</button>
+                    <Link to={`/groups/${group.id}`} className="group__menu" onClick={edit}>그룹 정보</Link>
                     <button className="group__menu" onClick={edit}>그룹 수정</button>
                     <button className="group__menu" onClick={out}>그룹 나가기</button>
                     <button className="group__menu" onClick={() => setMenuOpenedGroup(null)}>닫기</button>
