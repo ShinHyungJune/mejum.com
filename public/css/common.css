@@ -208,17 +208,17 @@ body {}
 #register .input--wrap {margin-bottom:-5px;}
 #register .input--wrap:last-of-type {margin-bottom:5px;}
 
-#group {padding:16px; border-radius:5px; background-color:rgba(255,255,255,0.95);}
-.info.type01 {margin-bottom:16px; min-height:24px; padding-left:60px; position:relative;}
+.info.type01 {margin-bottom:16px; min-height:24px; padding-left:84px; position:relative;}
 .info.type01:last-of-type {margin-bottom:0;}
-.info.type01 .info--title {font-weight:500; position:absolute; top:0; left:0; color:#333;}
-.info.type01 .info--body {color:#777;}
+.info.type01 .info--title {font-weight:500; position:absolute; top:0; left:0; color:#a0a0a0;}
+.info.type01 .info--title:before {content:"●"; margin-right:8px; position:relative; top:-3px; font-size:10px; color:#a0a0a0;}
+.info.type01 .info--body {color:#333;}
 .member {display:flex; align-items: center; margin-bottom:16px;}
 .member:last-of-type {margin-bottom:0;}
-.member--img {flex-basis:36px; padding-top:36px; border-radius:100%; border:1px solid #eee;}
-.member--title {flex:1; padding-left:8px;}
+.member--img {flex-basis:36px; padding-top:36px; border-radius:100%;}
+.member--title {flex:0.7; padding-left:16px; color:#fff;}
 .member--buttons {flex:1; text-align:right;}
-.member--button {margin-left:16px; font-size:12px; color:#999999;}
+.member--button {margin-left:16px; font-size:12px; color:rgba(255,255,255,0.7);}
 .member--button:first-child {margin-left:0;}
 
 

@@ -9,7 +9,6 @@ const Header = ({title="", children = null, logout}) => {
         <header className="header bg--primary clearfix">
             <p className="header-title">{title}</p>
 
-            <button onClick={logout}>로그아웃</button>
             {children}
         </header>
     );

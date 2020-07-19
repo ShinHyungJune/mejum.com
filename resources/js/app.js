@@ -1,6 +1,6 @@
 import store from './store';
 import setUpInterceptor from './utilities/interceptors';
-import {setPop, setFlash, setBlockedUrl} from "./actions/commonActions";
+import {setPop, setFlash, setBlockedUrl, logout} from "./actions/commonActions";
 
 setUpInterceptor();
 
@@ -8,6 +8,10 @@ window.store = store;
 
 window.setPop = (name) => {
     store.dispatch(setPop(name));
+};
+
+window.logout = (name) => {
+    store.dispatch(logout(name));
 };
 
 window.setFlash = (message) => {

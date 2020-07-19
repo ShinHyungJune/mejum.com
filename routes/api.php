@@ -36,6 +36,7 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::post("/groups/appoint", "Api\GroupController@appoint");
     Route::get("/groups/join", "Api\GroupController@join");
     Route::resource("/groups", "Api\GroupController");
+    Route::resource("/stores", "Api\StoreController");
 });
 
 Route::post('/passwordReset/send', 'Api\PasswordResetController@sendMail');

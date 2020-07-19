@@ -1,6 +1,5 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import Header from '../../components/common/Header';
-import Member from "./Member";
 
 
 const Show = ({match}) => {
@@ -68,7 +67,25 @@ const Show = ({match}) => {
 
                     <div className="members">
                         {group.users.map(user => (
-                            <Member key={user.id} member={user} authUser={authUser} banish={banish} appoint={appoint} group={group} master={master}/>
+                            <div className="member" key={user.id}>
+                                <div className="member--img ratioBox-wrap">
+                                    <div className="ratioBox">
+                                        <img src={user.img.url} alt=""/>
+                                    </div>
+                                </div>
+
+                                <p className="member--title">{user.name}</p>
+
+                                <div className="member--buttons">
+                                    {master.id === authUser.id && !user.master ?
+                                        <Fragment>
+                                            <button className="member--button" onClick={() => appoint(user, group)}>그룹장 위임</button>
+                                            <button className="member--button" onClick={() => banish(user, group)}>내보내기</button>
+                                        </Fragment> : null
+                                    }
+
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>

@@ -17,7 +17,7 @@ class User extends Authenticatable implements HasMedia
 
     use SoftDeletes;
 
-    protected $appends = ["img"];
+    protected $appends = ["img", "media"];
 
     /**
      * The attributes that are mass assignable.
@@ -48,8 +48,10 @@ class User extends Authenticatable implements HasMedia
 
     public function registerMediaCollections(Media $media = null)
     {
-        // 단일 이미지 파일이어야만 할 경우에는 끝에 singleFile() 추가
-        $this->addMediaCollection("img")->useDisk("s3")->singleFile();
+        $this->addMediaCollection("img")
+            ->withResponsiveImages()
+            ->useDisk("s3")
+            ->singleFile();
     }
 
     public function getImgAttribute()
@@ -69,5 +71,10 @@ class User extends Authenticatable implements HasMedia
     public function groups()
     {
         return $this->belongsToMany(Group::class);
+    }
+
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
     }
 }

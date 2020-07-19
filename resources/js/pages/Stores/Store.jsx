@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
 
-const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, setDefaultForm, invite}) => {
+const Store = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, setDefaultForm, invite}) => {
 
     const out = () => {
         axios.delete("/api/groups/" + group.id)
@@ -26,7 +26,7 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
     };
 
     return (
-        <Link to={"/stores"} className="group">
+        <Link to={"/groups/" + group.id} className="group">
             <img src="/img/spoon.png" alt="" className="img"/>
 
             <div className="group__texts">
@@ -51,4 +51,4 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
     );
 };
 
-export default Groups;
+export default Store;

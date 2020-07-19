@@ -27,7 +27,7 @@ class AuthController extends ApiController
 
         $request->validate([
             'name' => 'required|string|unique:users',
-            "avatar" => "image",
+            "avatar" => "nullable|image|max:61440",
             'phone' => 'required|string|unique:users',
             'password' => 'required|min:8|string|confirmed',
         ]);

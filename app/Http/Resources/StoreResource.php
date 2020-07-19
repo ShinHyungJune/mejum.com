@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GroupResouce extends JsonResource
+class StoreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,23 +15,19 @@ class GroupResouce extends JsonResource
      */
     public function toArray($request)
     {
-        $members = [];
-
-        foreach($this->users as $user){
-            $members[] = [
-                "id" => $user->id,
-                "name" => $user->name,
-                "img" => $user->img,
-                "master" => $user->pivot->master,
-                "test" => $user->test
-            ];
-        }
-
         return [
             "id" => $this->id,
+            "img" => $this->img,
             "title" => $this->title,
-            "invitation" => $this->invitation,
-            "users" => $members,
+            "contact" => $this->contact,
+            "address" => $this->address,
+            "address_detail" => $this->address_detail,
+            "park" => $this->park,
+            "closed" => $this->closed,
+            "secret" => $this->secret,
+            "group_id" => $this->group_id,
+            "user_id" => $this->user_id,
+            "menus" => $this->menus,
             "created_at" => Carbon::make($this->created_at)->format("Y-m-d H:i:s")
         ];
     }

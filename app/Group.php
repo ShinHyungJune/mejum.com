@@ -19,4 +19,9 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class)->withPivot("master");
     }
+
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
+    }
 }

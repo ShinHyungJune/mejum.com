@@ -15,11 +15,15 @@ import GroupIndex from './pages/Groups/Groups';
 import GroupShow from './pages/Groups/Show';
 import Join from "./pages/Groups/Join";
 import Navs from "./components/common/Navs";
+import Mypage from "./pages/Mypage";
+import StoresIndex from './pages/Stores/Stores';
+import {Redirect} from "react-router-dom";
+import More from './pages/More';
 
 import Flash from './components/common/Flash';
 
 
-const Index = () => {
+const Index = ({history}) => {
     let key = "2c421067f35449af1e8b0e88255eb3df";
 
     useEffect(() => {
@@ -34,10 +38,13 @@ const Index = () => {
 
                     <div className="contents">
                         <Switch>
-                            <AuthRoute exact path="/" component={GroupIndex}/>
+                            <Redirect exact path="/" to={"/groups"} />
                             <AuthRoute exact path="/groups" component={GroupIndex}/>
                             <AuthRoute exact path="/groups/:id" component={GroupShow}/>
                             <AuthRoute exact path="/groups/invite/:id" component={Join}/>
+                            <AuthRoute exact path="/stores" component={StoresIndex}/>
+                            <AuthRoute exact path="/more" component={More}/>
+                            <Route exact path="/mypage" component={Mypage} />
 
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />
