@@ -17,7 +17,7 @@ class User extends Authenticatable implements HasMedia
 
     use SoftDeletes;
 
-    protected $appends = ["img", "media"];
+    protected $appends = ["img"];
 
     /**
      * The attributes that are mass assignable.
