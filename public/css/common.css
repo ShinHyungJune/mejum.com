@@ -1,5 +1,5 @@
 html {background-color:#F8F9FC;}
-body, html, #app {}
+body, html, #app {overflow-x:hidden;}
 body {}
 #app {margin:0 auto;}
 
