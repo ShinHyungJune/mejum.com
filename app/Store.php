@@ -12,7 +12,7 @@ class Store extends Model implements HasMedia
 {
     use HasMediaTrait, SoftDeletes;
 
-    protected $fillable = ["title", "contact", "address", "address_detail", "park", "closed", "secret", "group_id"];
+    protected $fillable = ["title", "contact", "address", "address_detail", "park", "closed", "secret", "group_id", "user_id"];
 
     protected $appends = ["img"];
 
@@ -44,5 +44,10 @@ class Store extends Model implements HasMedia
     public function menus()
     {
         return $this->hasMany(Menu::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 }

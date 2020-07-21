@@ -46,6 +46,7 @@ class StoreController extends ApiController
             "park" => "required|boolean",
             "closed" => "required|array|max:500",
             "secret" => "nullable|boolean",
+            "menus" => "required|array|max:100",
             "menus.*.title" => "required|string|max:500",
             "menus.*.body" => "required|string|max:500",
             "menus.*.price" => "required|integer|min:0",
@@ -82,8 +83,9 @@ class StoreController extends ApiController
             "park" => "required|boolean",
             "closed" => "required|array|max:500",
             "secret" => "nullable|boolean",
+            "menus" => "required|array|max:100",
             "menus.*.title" => "required|string|max:500",
-            "menus.*.body" => "required|string|max:500",
+            "menus.*.body" => "nullable|string|max:500",
             "menus.*.price" => "required|integer|min:0",
         ]);
 
