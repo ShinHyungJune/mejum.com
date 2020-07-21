@@ -25,16 +25,6 @@ class ChoicesTest extends TestCase
 
     }
 
-    function 그룹원은_투표결과를_볼_수_있다()
-    {
-
-    }
-
-    function 투표지의_참여자_미참여자를_구분할_수_있다()
-    {
-
-    }
-
     function 다중_투표는_할_수_없다()
     {
 

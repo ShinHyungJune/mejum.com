@@ -34,6 +34,8 @@ class VoteController extends ApiController
 
         $vote = $store->votes()->create($request->all());
 
+        auth()->users()->votes()->attach($vote-);
+
         // 메뉴 추가
         foreach($store->menus as $menu){
             $vote->choices()->create([

@@ -119,4 +119,20 @@ class VotesTest extends TestCase
 
         $this->assertTrue($hasMenu);
     }
+
+    /** @test */
+    function 그릅원은_자기가_속한_그룹들의_투표지_목록을_볼_수_있다()
+    {
+
+    }
+
+    function 그룹원은_투표결과를_볼_수_있다()
+    {
+
+    }
+
+    function 투표지의_참여자_미참여자를_구분할_수_있다()
+    {
+
+    }
 }
