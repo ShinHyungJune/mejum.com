@@ -50,6 +50,7 @@ class StoreController extends ApiController
             "menus.*.title" => "required|string|max:500",
             "menus.*.body" => "required|string|max:500",
             "menus.*.price" => "required|integer|min:0",
+            "menus.*.img" => "nullable|image|max:61440",
         ]);
 
         $group = auth()->user()->groups()->find($request->group_id);
@@ -87,6 +88,7 @@ class StoreController extends ApiController
             "menus.*.title" => "required|string|max:500",
             "menus.*.body" => "nullable|string|max:500",
             "menus.*.price" => "required|integer|min:0",
+            "menus.*.img" => "nullable|image|max:61440",
         ]);
 
         $store = Store::find($id);

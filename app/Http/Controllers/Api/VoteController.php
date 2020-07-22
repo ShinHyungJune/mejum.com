@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Choice;
 use App\Group;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\VoteCollection;
 use App\Http\Resources\VoteResource;
 use App\Store;
 use App\Vote;
@@ -12,6 +13,26 @@ use Illuminate\Http\Request;
 
 class VoteController extends ApiController
 {
+    public function index(Request $request)
+    {
+        $votes = auth()->user()->votes()->orderBy("created_at", 'desc')->paginate(50);
+
+        return $this->respond(new VoteCollection($votes));
+    }
+
+    public function show(Request $request, $id)
+    {
+        $vote = Vote::find($id);
+
+        if(!$vote)
+            return $this->respondNotFound();
+
+        if(!$vote->store->group->users()->find(auth()->id()))
+            return $this->respondUnauthenticated();
+
+        return $this->respond(VoteResource::make($vote));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -34,7 +55,7 @@ class VoteController extends ApiController
 
         $vote = $store->votes()->create($request->all());
 
-        auth()->users()->votes()->attach($vote-);
+        $vote->users()->attach($store->group->users()->pluck("id"));
 
         // 메뉴 추가
         foreach($store->menus as $menu){

@@ -17,6 +17,8 @@ class VotesTest extends TestCase
 
     protected $member;
 
+    protected $anotherMember;
+
     protected $outsider;
 
     protected $group;
@@ -31,6 +33,8 @@ class VotesTest extends TestCase
 
         $this->member = factory(User::class)->create();
 
+        $this->anotherMember = factory(User::class)->create();
+
         $this->outsider = factory(User::class)->create();
 
         $this->actingAs($this->member);
@@ -38,6 +42,8 @@ class VotesTest extends TestCase
         $this->group = factory(Group::class)->create();
 
         $this->group->users()->attach($this->member);
+
+        $this->group->users()->attach($this->anotherMember);
 
         $this->store = factory(Store::class)->create([
             "group_id" => $this->group->id
@@ -86,7 +92,7 @@ class VotesTest extends TestCase
         foreach($menus as $menu){
             $hasMenu = false;
 
-            foreach($vote["choices"] as $choice){
+            foreach($vote["choices"]["data"] as $choice){
                 if(strpos($choice["title"], $menu["title"]) !== false)
                     $hasMenu = true;
             }
@@ -101,7 +107,6 @@ class VotesTest extends TestCase
     }
 
 
-    /** @test */
     function 음식점의_메뉴_외_옵션을_추가할_수_있다()
     {
         $otherChoice = ["title" => "추가옵션"];
@@ -112,7 +117,7 @@ class VotesTest extends TestCase
 
         $hasMenu = false;
 
-        foreach($vote["choices"] as $choice){
+        foreach($vote["choices"]["data"] as $choice){
             if(strpos($choice["title"], $otherChoice["title"]) !== false)
                 $hasMenu = true;
         }
@@ -123,16 +128,16 @@ class VotesTest extends TestCase
     /** @test */
     function 그릅원은_자기가_속한_그룹들의_투표지_목록을_볼_수_있다()
     {
+        $this->post("/api/votes", $this->voteForm)->assertStatus(201);
 
-    }
+        $votes = $this->get("/api/votes")->decodeResponseJson("data");
 
-    function 그룹원은_투표결과를_볼_수_있다()
-    {
+        $this->assertCount(1, $votes);
 
-    }
+        $this->actingAs($this->anotherMember);
 
-    function 투표지의_참여자_미참여자를_구분할_수_있다()
-    {
+        $votes = $this->get("/api/votes")->decodeResponseJson("data");
 
+        $this->assertCount(1, $votes);
     }
 }

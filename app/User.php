@@ -77,4 +77,14 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Store::class);
     }
+
+    public function votes()
+    {
+        return $this->belongsToMany(Vote::class);
+    }
+
+    public function choices()
+    {
+        return $this->belongsToMany(Choice::class);
+    }
 }

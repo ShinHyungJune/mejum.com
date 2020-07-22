@@ -10,6 +10,7 @@ import InputImage from './inputs/InputImage';
 import InputCodeEditor from './inputs/InputCodeEditor';
 import InputTags from "./inputs/InputTags";
 import InputAvatar from "./inputs/InputAvatar";
+import InputRadio from "./inputs/InputRadio";
 
 const Form = ({children, url = "", method = "", onSubmit = null, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
     let [form, setForm] = useState({
@@ -47,8 +48,6 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
             loading = false;
         }).catch(error => {
-            console.log(error);
-
             onCatch(error.response.data);
 
             if(error.response.status === 422)
@@ -78,6 +77,49 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
                 errors: {}
             });
     }, [defaultForm]);
+    
+    let contents = React.Children.map(children, el => {
+        return el.type === "input" || el.type === "select" || el.type === "textarea"
+            ?
+            (
+                <div className="input--wrap">
+                    {/* label */}
+                    {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
+                    
+                    {/* input text */}
+                    {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* input checkbox */}
+                    {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* input radio */}
+                    {el.type === "input" && el.props.type === "radio" ? <InputRadio form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* input tags */}
+                    {el.type === "input" && el.props.type === "tags" ? <InputTags form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* input avatar */}
+                    {el.props.type === "avatar" ? <InputAvatar form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* input img */}
+                    {el.props.type === "img" ? <InputImage form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* input file */}
+                    {el.props.type === "file" ? <InputFile form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* textarea */}
+                    {el.type === "textarea" ? <InputTextarea form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* select */}
+                    {el.type === "select" ? <InputSelect form={form} setForm={setForm} el={el}/> : null}
+                
+                    {/* codeEditor */}
+                    {el.props.type === "codeEditor" ? <InputCodeEditor defaultForm={defaultForm} form={form} setForm={setForm} el={el}/> : null}
+                
+                    {React.createElement('p', {className: "input--error"}, form.errors[el.props.name])}
+                </div>
+            ) : (el)
+    });
 
     /*const mergeOnChange = (el, event) => {
         el.props.onChange(event);
@@ -87,91 +129,11 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
     return enterSubmitDisabled ?
         (<div onSubmit={submit} onKeyDown={clearError}>
-            {
-                React.Children.map(children, el => {
-                    return el.type === "input" || el.type === "select" || el.type === "textarea"
-                        ?
-                        (
-                            <div className="input-wrap">
-                                {/* label */}
-                                {el.props.title ? React.createElement('p', {className: "input-title"}, el.props.title) : null}
-
-                                {/* input text */}
-                                {el.type === "input" && (el.props.type === "text" || el.props.type === "password")  ? <InputText form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input checkbox */}
-                                {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input tags */}
-                                {el.type === "input" && el.props.type === "tags" ? <InputTags form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input avatar */}
-                                {el.props.type === "avatar" ? <InputAvatar form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input img */}
-                                {el.props.type === "img" ? <InputImage form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input file */}
-                                {el.props.type === "file" ? <InputFile form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* textarea */}
-                                {el.type === "textarea" ? <InputTextarea form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* select */}
-                                {el.type === "select" ? <InputSelect form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* codeEditor */}
-                                {el.props.type === "codeEditor" ? <InputCodeEditor defaultForm={defaultForm} form={form} setForm={setForm} el={el}/> : null}
-
-                                {React.createElement('p', {className: "input--error"}, form.errors[el.props.name])}
-                            </div>
-                        ) : (el)
-                })
-            }
+            {contents}
         </div>)
         :
         (<form onSubmit={submit} onKeyDown={clearError}>
-            {
-                React.Children.map(children, el => {
-                    return el.type === "input" || el.type === "select" || el.type === "textarea"
-                        ?
-                        (
-                            <div className="input--wrap">
-                                {/* label */}
-                                {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
-
-                                {/* input text */}
-                                {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input checkbox */}
-                                {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input tags */}
-                                {el.type === "input" && el.props.type === "tags" ? <InputTags form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input avatar */}
-                                {el.props.type === "avatar" ? <InputAvatar form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input img */}
-                                {el.props.type === "img" ? <InputImage form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* input file */}
-                                {el.props.type === "file" ? <InputFile form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* textarea */}
-                                {el.type === "textarea" ? <InputTextarea form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* select */}
-                                {el.type === "select" ? <InputSelect form={form} setForm={setForm} el={el}/> : null}
-
-                                {/* codeEditor */}
-                                {el.props.type === "codeEditor" ? <InputCodeEditor defaultForm={defaultForm} form={form} setForm={setForm} el={el}/> : null}
-
-                                {React.createElement('p', {className: "input--error"}, form.errors[el.props.name])}
-                            </div>
-                        ) : (el)
-                })
-            }
+            {contents}
         </form>);
 };
 

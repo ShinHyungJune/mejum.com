@@ -12,4 +12,15 @@ class Vote extends Model
     {
         return $this->hasMany(Choice::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
 }
+

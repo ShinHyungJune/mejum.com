@@ -1,20 +1,11 @@
 import React, {Fragment} from 'react';
 
-const InputCheckbox = ({form, setForm, el}) => {
+const InputRadio = ({form, setForm, el}) => {
     
     const changeForm = (event) => {
-        if(!form[event.target.name])
-            form[event.target.name] = [];
-        
-        form[event.target.name] && form[event.target.name].includes(event.target.value)
-            ? form[event.target.name] = form[event.target.name].filter(data => data !== event.target.value)
-            : form[event.target.name].push(event.target.value);
-    
-        form[event.target.name].sort();
-    
         return setForm({
             ...form,
-            [event.target.name]: form[event.target.name]
+            [event.target.name]: event.target.name
         });
     };
     
@@ -23,7 +14,7 @@ const InputCheckbox = ({form, setForm, el}) => {
             {
                 React.cloneElement(el, {
                     onChange: (event) => { changeForm(event); },
-                    value: form[el.props.name] || "",
+                    value: el.props.value,
                     id: el.props.value
                 })
             }
@@ -35,4 +26,4 @@ const InputCheckbox = ({form, setForm, el}) => {
     );
 };
 
-export default InputCheckbox;
+export default InputRadio;

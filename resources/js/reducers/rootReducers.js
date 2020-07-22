@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
 import commonReducers from './commonReducers';
-import targetReducers from './targetReducers';
+import groupReducers from './groupReducers';
 
 export default combineReducers({
     commonStates: commonReducers,
-    targetStates: targetReducers,
+    groupStates: groupReducers,
 })

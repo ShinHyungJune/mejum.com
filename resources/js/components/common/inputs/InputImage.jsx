@@ -46,7 +46,7 @@ const InputImage = ({form, setForm, el, mergeOnChange}) => {
     };
     
     return (
-        <div className={el.props.className ? el.props.className :`input--${el.props.type ? el.props.type : el.type}`}>
+        <div className={el.props.className ? el.props.className + ` ${url ? "active" : ""}` :`input--${el.props.type ? el.props.type : el.type} ${url ? "active" : ""}`}>
             {/* button */}
             <label className={"btn btn-text bg-primary"} htmlFor={el.props.name}>파일 선택</label>
             

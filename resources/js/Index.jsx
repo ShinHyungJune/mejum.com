@@ -16,7 +16,8 @@ import GroupShow from './pages/Groups/Show';
 import Join from "./pages/Groups/Join";
 import Navs from "./components/common/Navs";
 import Mypage from "./pages/Mypage";
-import StoresIndex from './pages/Stores/Stores';
+import StoreIndex from './pages/Stores/Stores';
+import StoreCreate from './pages/Stores/Create';
 import {Redirect} from "react-router-dom";
 import More from './pages/More';
 
@@ -39,10 +40,13 @@ const Index = ({history}) => {
                     <div className="contents">
                         <Switch>
                             <Redirect exact path="/" to={"/groups"} />
+                            
                             <AuthRoute exact path="/groups" component={GroupIndex}/>
                             <AuthRoute exact path="/groups/:id" component={GroupShow}/>
                             <AuthRoute exact path="/groups/invite/:id" component={Join}/>
-                            <AuthRoute exact path="/stores" component={StoresIndex}/>
+                            <AuthRoute exact path="/stores/create" component={StoreCreate}/>
+                            <AuthRoute exact path="/stores" component={StoreIndex}/>
+                            <AuthRoute exact path="/stores/:group_id" component={StoreIndex}/>
                             <AuthRoute exact path="/more" component={More}/>
                             <Route exact path="/mypage" component={Mypage} />
 

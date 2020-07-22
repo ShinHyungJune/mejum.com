@@ -1,7 +1,9 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
+import {setActiveGroup} from "../../actions/groupActions";
+import {connect} from "react-redux";
 
-const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, setDefaultForm, invite}) => {
+const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, setActiveGroup, setDefaultForm, invite}) => {
 
     const out = () => {
         axios.delete("/api/groups/" + group.id)
@@ -26,7 +28,7 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
     };
 
     return (
-        <Link to={"/stores"} className="group">
+        <Link to={"/stores/" + group.id} className="group" onClick={() => setActiveGroup(group)}>
             <img src="/img/spoon.png" alt="" className="img"/>
 
             <div className="group__texts">
@@ -51,4 +53,12 @@ const Groups = ({group, setGroups, groups, menuOpenedGroup, setMenuOpenedGroup, 
     );
 };
 
-export default Groups;
+const mapDispatch = (dispatch) => {
+    return {
+        setActiveGroup: (data) => {
+            dispatch(setActiveGroup(data));
+        }
+    }
+};
+
+export default connect(null, mapDispatch)(Groups);

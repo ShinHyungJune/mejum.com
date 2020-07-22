@@ -16,7 +16,7 @@ class VoteResource extends JsonResource
     {
         return [
             "title" => $this->title,
-            "choices" => $this->choices,
+            "choices" => new ChoiceCollection($this->choices),
             "finished_at" => $this->finished_at,
             "created_at" => $this->created_at
         ];

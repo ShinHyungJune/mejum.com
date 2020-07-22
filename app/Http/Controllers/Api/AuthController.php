@@ -46,7 +46,8 @@ class AuthController extends ApiController
                 'password' => bcrypt($request->password),
             ]);
 
-            $user->addMedia($request->avatar)->toMediaCollection("img", "s3");
+            if($request->avatar)
+                $user->addMedia($request->avatar)->toMediaCollection("img", "s3");
 
             VerifyNumber::where('phone', $request->phone)->first()->delete();
         });

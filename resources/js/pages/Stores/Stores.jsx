@@ -1,12 +1,11 @@
 import React, {useEffect, useState, Fragment} from 'react';
-import {Link} from "react-router-dom";
-import Pagination from "../../components/common/Pagination";
 import Create from "./Create";
 import Edit from './Edit';
-import Group from './Store';
+import Store from './Store';
 import Header from '../../components/common/Header';
+import {connect} from "react-redux";
 
-const Stores = ({history}) => {
+const Stores = ({history, match}) => {
     let [items, setItems] = useState({
         data: [],
         meta: {}
@@ -14,20 +13,25 @@ const Stores = ({history}) => {
 
     let [defaultForm, setDefaultForm] = useState(null);
 
-    let [menuOpenedGroup, setMenuOpenedGroup] = useState(null);
-
-    let params = {
-        page: 1
-    };
+    let [params, setParams] = useState({
+        page: 1,
+        group_id: match.params.group_id
+    });
 
     useEffect(() => {
-        /*axios.get("/api/stores", {
+        if(!match.params.group_id){
+            window.setFlash("참여된 그룹이 없습니다. 그룹에 먼저 참여해주세요.");
+            
+            return history.push("/groups");
+        }
+        
+        axios.get("/api/stores", {
             params: params
         }).then(response => {
             setItems(response.data);
         }).catch(error => {
             window.setFlash(error.message);
-        });*/
+        });
     }, []);
 
     const onCreated = (response) => {
@@ -42,54 +46,33 @@ const Stores = ({history}) => {
           window.setPop("");
     };
 
-    const onUpdated = (response) => {
-        setItems({
-            ...items,
-            data: items.data.map(item => {
-                if(item.id === response.data.id)
-                    return response.data;
-
-                return item;
-            })
-        });
-
-        window.setPop("");
-    };
-
-    const invite = (item) => {
-        setInviteGroup(item);
-
-        window.setPop("그룹원 초대");
-    };
-
     return (
         <Fragment>
             <Header title="음식점 목록" />
-
-            {/*<Create onThen={onCreated}/>
-
-            <Edit onThen={onUpdated} defaultForm={defaultForm}/>
-
-            {inviteGroup ? <Invite onThen={null} group={inviteGroup} /> : null}
-
-
+    
             <div className="groups">
                 {
                     items.data.length === 0
                         ? <div className="empty">
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
-                            <p className="empty__text">소속된 그룹이 없습니다.</p>
+                            <p className="empty__text">등록된 음식점이 없습니다.</p>
                         </div>
-                        : items.data.map(item => <Group group={item} groups={items} setGroups={setItems} key={item.id} menuOpenedGroup={menuOpenedGroup} setMenuOpenedGroup={setMenuOpenedGroup} setDefaultForm={setDefaultForm} invite={invite}/>)
+                        : items.data.map(item => <Store key={item.id} store={item} />)
                 }
-
-                <button className="button--util bg--primary" onClick={() => {window.setPop("그룹 생성")}}>
+        
+                <button className="button--util bg--primary" onClick={() => {history.push("/stores/create")}}>
                     <img src="/img/plus--white.png" alt=""/>
                 </button>
-            </div>*/}
+            </div>
         </Fragment>
 
     );
 };
 
-export default Stores;
+const mapStates = (state) => {
+    return {
+        activeGroup: state.groupStates.activeGroup
+    }
+};
+
+export default connect(mapStates,null)(Stores);

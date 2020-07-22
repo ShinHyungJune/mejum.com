@@ -6,7 +6,7 @@ const Edit = ({onThen, defaultForm = null}) => {
 
     return (
         defaultForm ?
-                <Pop name={"그룹 수정"}>
+                <Pop name={"음식점 수정"}>
                     <Form method="patch" url={`/api/groups/${defaultForm.id}`} onThen={onThen} defaultForm={defaultForm}>
                         <input type="text" name={"title"} placeholder={"그룹명"}/>
 

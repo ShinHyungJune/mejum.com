@@ -1,10 +1,9 @@
 import React, {} from 'react';
-import {useRouteMatch, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {Link} from "react-router-dom";
-import SendResetPassword from "../../pages/SendResetPassword";
-import ResetPassword from "../../pages/ResetPassword";
+import {connect} from "react-redux";
 
-const Navs = ({}) => {
+const Navs = ({activeGroup}) => {
     let hiddenUrls = ["/login", "/register", "/sendResetPasswordMail", "/passwordReset"];
 
     let navs = [{
@@ -15,7 +14,7 @@ const Navs = ({}) => {
         inactiveIcon: "/img/users--gray.png",
     }, {
         title: "음식점",
-        to: "/stores",
+        to: `/stores${activeGroup ? `/${activeGroup.id}` : ""}`,
         activeLinks: ["/stores"],
         activeIcon: "/img/store--primary.png",
         inactiveIcon: "/img/store--gray.png",
@@ -50,4 +49,10 @@ const Navs = ({}) => {
     );
 };
 
-export default Navs;
+const mapStates = (state) => {
+    return {
+        activeGroup: state.groupStates.activeGroup
+    }
+};
+
+export default connect(mapStates, null)(Navs);
