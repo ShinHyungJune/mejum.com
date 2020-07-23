@@ -22,8 +22,20 @@ const Create = ({onThen}) => {
                     <input type="radio" name={"park"} label="있음" value="true" id={"parkTrue"} title={"주차장 여부"}/>
     
                     <input type="radio" name={"park"} label="없음" value="false" id={"parkFalse"}/>
-                    
-                    <input type="children" name={"menu"} id={"parkFalse"}/>
+    
+                    <input type="array" name={"menus"}>
+                        <input type="object">
+                            <input type="img" name={"img"}/>
+                            <input type="text" name={"title"}/>
+                            <input type="text" name={"price"}/>
+                        </input>
+    
+                        <input type="object">
+                            <input type="img" name={"img"}/>
+                            <input type="text" name={"title"}/>
+                            <input type="text" name={"price"}/>
+                        </input>
+                    </input>
                     
                     <div className="pop__buttons">
                         <button className={"button--middle width--100 bg--primary"}>생성</button>

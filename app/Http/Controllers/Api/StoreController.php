@@ -36,6 +36,9 @@ class StoreController extends ApiController
 
     public function store(Request $request)
     {
+
+        dd($request->all());
+
         $request->validate([
             "img" => "nullable|image|max:61440",
             "group_id" => "required|integer",

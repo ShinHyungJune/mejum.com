@@ -72717,6 +72717,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inputs_InputTags__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./inputs/InputTags */ "./resources/js/components/common/inputs/InputTags.jsx");
 /* harmony import */ var _inputs_InputAvatar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./inputs/InputAvatar */ "./resources/js/components/common/inputs/InputAvatar.jsx");
 /* harmony import */ var _inputs_InputRadio__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./inputs/InputRadio */ "./resources/js/components/common/inputs/InputRadio.jsx");
+/* harmony import */ var _inputs_InputArray__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./inputs/InputArray */ "./resources/js/components/common/inputs/InputArray.jsx");
+/* harmony import */ var _inputs_InputObject__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./inputs/InputObject */ "./resources/js/components/common/inputs/InputObject.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -72734,6 +72738,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -72781,9 +72787,7 @@ var Form = function Form(_ref) {
     if (loading) return;
     loading = true;
     var formData = new FormData();
-    Object.entries(form).map(function (item) {
-      formData.append(item[0], item[1]);
-    });
+    getFormData(formData, form, null);
 
     if (method === "patch" || method === "PATCH" || method === "put" || method === "PUT") {
       method = "post"; // patch, put multipart form 쓰면 데이터가 안날아가 그래서 post로 날리고 _method를 설정해주는식으로 해야돼
@@ -72808,6 +72812,22 @@ var Form = function Form(_ref) {
     });
   };
 
+  var getFormData = function getFormData(formData, data, key) {
+    if (_typeof(data) === 'object' && data !== null || Array.isArray(data)) {
+      for (var i in data) {
+        if (_typeof(data[i]) === 'object' && data[i] !== null || Array.isArray(data[i])) {
+          if (key) return getFormData(formData, data[i], key + '[' + i + ']');
+          getFormData(formData, data[i], key + '[' + i + ']');
+        } else {
+          if (key) return formData.append(key + '[' + i + ']', data[i]);
+          return formData.append(data[i]);
+        }
+      }
+    } else {
+      formData.append(key, data);
+    }
+  };
+
   var clearError = function clearError() {
     setForm(_objectSpread(_objectSpread({}, form), {}, {
       errors: {}
@@ -72824,7 +72844,15 @@ var Form = function Form(_ref) {
       className: "input--wrap"
     }, el.props.title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--title"
-    }, el.props.title) : null, el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputText__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }, el.props.title) : null, el.type === "input" && el.props.type === "array" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputArray__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      form: form,
+      setForm: setForm,
+      el: el
+    }, el.props.children) : null, el.type === "input" && el.props.type === "object" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputObject__WEBPACK_IMPORTED_MODULE_14__["default"], {
+      form: form,
+      setForm: setForm,
+      el: el
+    }, el.props.children) : null, el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputText__WEBPACK_IMPORTED_MODULE_3__["default"], {
       form: form,
       setForm: setForm,
       el: el
@@ -72867,7 +72895,7 @@ var Form = function Form(_ref) {
       el: el
     }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--error"
-    }, form.errors[el.props.name])) : el;
+    }, form.errors ? form.errors[el.props.name] : null)) : el;
   });
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
@@ -73185,6 +73213,146 @@ var Tabs = function Tabs(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Tabs);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/inputs/InputArray.jsx":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/common/inputs/InputArray.jsx ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _InputText__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputText */ "./resources/js/components/common/inputs/InputText.jsx");
+/* harmony import */ var _InputCheckbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./InputCheckbox */ "./resources/js/components/common/inputs/InputCheckbox.jsx");
+/* harmony import */ var _InputRadio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./InputRadio */ "./resources/js/components/common/inputs/InputRadio.jsx");
+/* harmony import */ var _InputTags__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./InputTags */ "./resources/js/components/common/inputs/InputTags.jsx");
+/* harmony import */ var _InputAvatar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./InputAvatar */ "./resources/js/components/common/inputs/InputAvatar.jsx");
+/* harmony import */ var _InputImage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./InputImage */ "./resources/js/components/common/inputs/InputImage.jsx");
+/* harmony import */ var _InputFile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./InputFile */ "./resources/js/components/common/inputs/InputFile.jsx");
+/* harmony import */ var _InputTextarea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./InputTextarea */ "./resources/js/components/common/inputs/InputTextarea.jsx");
+/* harmony import */ var _InputSelect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./InputSelect */ "./resources/js/components/common/inputs/InputSelect.jsx");
+/* harmony import */ var _InputCodeEditor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./InputCodeEditor */ "./resources/js/components/common/inputs/InputCodeEditor.jsx");
+/* harmony import */ var _InputObject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./InputObject */ "./resources/js/components/common/inputs/InputObject.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var InputArray = function InputArray(_ref) {
+  var form = _ref.form,
+      setForm = _ref.setForm,
+      el = _ref.el,
+      mergeOnChange = _ref.mergeOnChange,
+      children = _ref.children,
+      _ref$defaultForm = _ref.defaultForm,
+      defaultForm = _ref$defaultForm === void 0 ? {} : _ref$defaultForm;
+  var name = el.props.name; // 자식이 1개만 있을 때
+
+  if (!Array.isArray(children)) children = [children];
+  var controlStates = children.map(function (el, index) {
+    return Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
+  });
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    form = _objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, controlStates.map(function (controlState) {
+      return controlState[0];
+    })));
+    setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, controlStates.map(function (controlState) {
+      return controlState[0];
+    }))));
+  }, []);
+
+  var changeForm = function changeForm(state, index) {
+    form[name][index] = state;
+    setForm(form);
+  };
+
+  controlStates.map(function (controlState, index) {
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+      changeForm(controlState[0], index);
+    }, [controlState[0]]);
+  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: el.props.className ? el.props.className : "input--".concat(el.props.type ? el.props.type : el.type)
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.Children.map(children, function (el, index) {
+    return el.type === "input" || el.type === "select" || el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "input--wrap"
+    }, el.props.title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
+      className: "input--title"
+    }, el.props.title) : null, el.type === "input" && el.props.type === "object" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputObject__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }, el.props.children) : null, el.type === "input" && el.props.type === "array" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InputArray, {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }, el.props.children) : null, el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputText__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }, el.props.children) : null, el.type === "input" && el.props.type === "checkbox" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputCheckbox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "input" && el.props.type === "radio" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputRadio__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "input" && el.props.type === "tags" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputTags__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "avatar" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputAvatar__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "img" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputImage__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "file" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputFile__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputTextarea__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "select" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputSelect__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "codeEditor" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputCodeEditor__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      defaultForm: defaultForm,
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
+      className: "input--error"
+    }, form.errors ? form.errors[el.props.name] : null)) : el;
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (InputArray);
 
 /***/ }),
 
@@ -73591,6 +73759,162 @@ var InputImage = function InputImage(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (InputImage);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/inputs/InputObject.jsx":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/common/inputs/InputObject.jsx ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _InputText__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputText */ "./resources/js/components/common/inputs/InputText.jsx");
+/* harmony import */ var _InputCheckbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./InputCheckbox */ "./resources/js/components/common/inputs/InputCheckbox.jsx");
+/* harmony import */ var _InputRadio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./InputRadio */ "./resources/js/components/common/inputs/InputRadio.jsx");
+/* harmony import */ var _InputTags__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./InputTags */ "./resources/js/components/common/inputs/InputTags.jsx");
+/* harmony import */ var _InputAvatar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./InputAvatar */ "./resources/js/components/common/inputs/InputAvatar.jsx");
+/* harmony import */ var _InputImage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./InputImage */ "./resources/js/components/common/inputs/InputImage.jsx");
+/* harmony import */ var _InputFile__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./InputFile */ "./resources/js/components/common/inputs/InputFile.jsx");
+/* harmony import */ var _InputTextarea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./InputTextarea */ "./resources/js/components/common/inputs/InputTextarea.jsx");
+/* harmony import */ var _InputSelect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./InputSelect */ "./resources/js/components/common/inputs/InputSelect.jsx");
+/* harmony import */ var _InputCodeEditor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./InputCodeEditor */ "./resources/js/components/common/inputs/InputCodeEditor.jsx");
+/* harmony import */ var _InputArray__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./InputArray */ "./resources/js/components/common/inputs/InputArray.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var InputObject = function InputObject(_ref) {
+  var form = _ref.form,
+      setForm = _ref.setForm,
+      el = _ref.el,
+      mergeOnChange = _ref.mergeOnChange,
+      children = _ref.children,
+      _ref$defaultForm = _ref.defaultForm,
+      defaultForm = _ref$defaultForm === void 0 ? {} : _ref$defaultForm;
+  var name = el.props.name; // 자식이 1개만 있을 때
+
+  if (!Array.isArray(children)) children = [children];
+  var controlStates = children.map(function (el, index) {
+    return Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
+  });
+  controlStates.map(function (controlState) {
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+      changeForm(controlState[0]);
+    }, [controlState[0]]);
+  });
+
+  var changeForm = function changeForm(state) {
+    /* name 없을 경우
+    [
+        {
+            title: "test",
+            body: "test"
+        }
+    ]
+    * */
+
+    /* name 있을 경우
+    [
+        [name] : {
+            title: "test",
+            body: "test"
+        }
+    ]
+    * */
+    if (!name) {
+      for (var key in state) {
+        setForm(_objectSpread(_objectSpread({}, form), state));
+      }
+    } else {
+      for (var _key in state) {
+        setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, _objectSpread(_objectSpread({}, form[name]), {}, _defineProperty({}, _key, state[_key])))));
+      }
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: el.props.className ? el.props.className : "input--".concat(el.props.type ? el.props.type : el.type)
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.Children.map(children, function (el, index) {
+    return el.type === "input" || el.type === "select" || el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "input--wrap"
+    }, el.props.title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
+      className: "input--title"
+    }, el.props.title) : null, el.type === "input" && el.props.type === "object" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InputObject, {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }, el.props.children) : null, el.type === "input" && el.props.type === "array" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputArray__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }, el.props.children) : null, el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputText__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }, el.props.children) : null, el.type === "input" && el.props.type === "checkbox" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputCheckbox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "input" && el.props.type === "radio" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputRadio__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "input" && el.props.type === "tags" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputTags__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "avatar" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputAvatar__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "img" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputImage__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "file" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputFile__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputTextarea__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.type === "select" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputSelect__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, el.props.type === "codeEditor" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputCodeEditor__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      defaultForm: defaultForm,
+      form: controlStates[index][0],
+      setForm: controlStates[index][1],
+      el: el
+    }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
+      className: "input--error"
+    }, form.errors ? form.errors[el.props.name] : null)) : el;
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (InputObject);
 
 /***/ }),
 
@@ -74982,7 +75306,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/common/Header */ "./resources/js/components/common/Header.jsx");
+/* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/common/Form */ "./resources/js/components/common/Form.jsx");
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
 
 
 
@@ -75644,10 +75970,31 @@ var Create = function Create(_ref) {
     value: "false",
     id: "parkFalse"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "children",
-    name: "menu",
-    id: "parkFalse"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    type: "array",
+    name: "menus"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "object"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "img",
+    name: "img"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "title"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "price"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "object"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "img",
+    name: "img"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "title"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "price"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--middle width--100 bg--primary"
