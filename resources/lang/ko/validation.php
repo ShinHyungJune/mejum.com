@@ -29,7 +29,7 @@ return [
         'string' => 'The :attribute must be between :min and :max characters.',
         'array' => 'The :attribute must have between :min and :max items.',
     ],
-    'boolean' => 'The :attribute field must be true or false.',
+    'boolean' => ':attribute(은)는 참과 거짓 둘 중 하나여야 합니다.',
     'confirmed' => 'The :attribute confirmation does not match.',
     'date' => 'The :attribute is not a valid date.',
     'date_equals' => 'The :attribute must be a date equal to :date.',
@@ -163,6 +163,10 @@ return [
         "address_detail" => "상세주소",
         "park" => "주차장 여부",
         "closed" => "휴무일",
+        "menus" => "메뉴",
+        "menus.*.body" => "메뉴 내용",
+        "menus.*.title" => "메뉴명",
+        "menus.*.price" => "메뉴 가격",
     ],
 
 ];

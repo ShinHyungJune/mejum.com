@@ -72719,6 +72719,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inputs_InputRadio__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./inputs/InputRadio */ "./resources/js/components/common/inputs/InputRadio.jsx");
 /* harmony import */ var _inputs_InputArray__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./inputs/InputArray */ "./resources/js/components/common/inputs/InputArray.jsx");
 /* harmony import */ var _inputs_InputObject__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./inputs/InputObject */ "./resources/js/components/common/inputs/InputObject.jsx");
+/* harmony import */ var _custom_InputMenus__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./custom/InputMenus */ "./resources/js/components/common/custom/InputMenus.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -72738,6 +72739,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -72787,7 +72789,7 @@ var Form = function Form(_ref) {
     if (loading) return;
     loading = true;
     var formData = new FormData();
-    getFormData(formData, form, null);
+    getFormData(formData, form);
 
     if (method === "patch" || method === "PATCH" || method === "put" || method === "PUT") {
       method = "post"; // patch, put multipart form 쓰면 데이터가 안날아가 그래서 post로 날리고 _method를 설정해주는식으로 해야돼
@@ -72816,11 +72818,9 @@ var Form = function Form(_ref) {
     if (_typeof(data) === 'object' && data !== null || Array.isArray(data)) {
       for (var i in data) {
         if (_typeof(data[i]) === 'object' && data[i] !== null || Array.isArray(data[i])) {
-          if (key) return getFormData(formData, data[i], key + '[' + i + ']');
-          getFormData(formData, data[i], key + '[' + i + ']');
+          if (!key) getFormData(formData, data[i], i);else getFormData(formData, data[i], key + '[' + i + ']');
         } else {
-          if (key) return formData.append(key + '[' + i + ']', data[i]);
-          return formData.append(data[i]);
+          if (!key) formData.append(i, data[i]);else formData.append(key + '[' + i + ']', data[i]);
         }
       }
     } else {
@@ -72844,7 +72844,11 @@ var Form = function Form(_ref) {
       className: "input--wrap"
     }, el.props.title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--title"
-    }, el.props.title) : null, el.type === "input" && el.props.type === "array" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputArray__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    }, el.props.title) : null, el.type === "input" && el.props.type === "menus" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_custom_InputMenus__WEBPACK_IMPORTED_MODULE_15__["default"], {
+      form: form,
+      setForm: setForm,
+      el: el
+    }, el.props.children) : null, el.type === "input" && el.props.type === "array" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputArray__WEBPACK_IMPORTED_MODULE_13__["default"], {
       form: form,
       setForm: setForm,
       el: el
@@ -73216,6 +73220,131 @@ var Tabs = function Tabs(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/common/custom/InputMenus.jsx":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/common/custom/InputMenus.jsx ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_commonActions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/commonActions */ "./resources/js/actions/commonActions.js");
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Form */ "./resources/js/components/common/Form.jsx");
+/* harmony import */ var _inputs_InputImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../inputs/InputImage */ "./resources/js/components/common/inputs/InputImage.jsx");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var InputMenus = function InputMenus(_ref) {
+  var form = _ref.form,
+      setForm = _ref.setForm,
+      el = _ref.el,
+      mergeOnChange = _ref.mergeOnChange;
+  var max = el.props.max ? el.props.max : 50;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      inputs = _useState2[0],
+      setInputs = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      controlStates = _useState4[0],
+      setControlStates = _useState4[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, el.props.name, [])));
+  }, []);
+
+  var removeInput = function removeInput(index) {
+    setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, el.props.name, form[el.props.name].splice(index, 1))));
+  };
+
+  var changeForm = function changeForm(event, index) {
+    form[el.props.name][index][event.target.name] = event.target.value;
+  };
+
+  var addInput = function addInput() {
+    setControlStates([].concat(_toConsumableArray(controlStates), [Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({})]));
+    form[el.props.name].push([]); // 최대 개수 체크
+
+    if (max <= form[el.props.name].length) return store.dispatch(Object(_actions_commonActions__WEBPACK_IMPORTED_MODULE_1__["setFlash"])("\uCD5C\uB300 ".concat(max, "\uAC1C\uAE4C\uC9C0\uB9CC \uC785\uB825 \uAC00\uB2A5\uD569\uB2C8\uB2E4.")));
+    setInputs([].concat(_toConsumableArray(inputs), [""]));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "input--menus"
+  }, inputs.map(function (input, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      form: form,
+      setForm: setForm,
+      el: {
+        props: {
+          name: "img"
+        }
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "img",
+      name: "img",
+      onChange: function onChange(event) {
+        return changeForm(event, index);
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "text",
+      name: "title",
+      onChange: function onChange(event) {
+        return changeForm(event, index);
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "text",
+      name: "price",
+      onChange: function onChange(event) {
+        return changeForm(event, index);
+      }
+    }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button--middle bg--lightGray width--100",
+    onClick: addInput
+  }, "\uBA54\uB274 \uCD94\uAC00"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (InputMenus);
+
+/***/ }),
+
 /***/ "./resources/js/components/common/inputs/InputArray.jsx":
 /*!**************************************************************!*\
   !*** ./resources/js/components/common/inputs/InputArray.jsx ***!
@@ -73300,52 +73429,64 @@ var InputArray = function InputArray(_ref) {
     }, el.props.title) : null, el.type === "input" && el.props.type === "object" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputObject__WEBPACK_IMPORTED_MODULE_11__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }, el.props.children) : null, el.type === "input" && el.props.type === "array" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(InputArray, {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }, el.props.children) : null, el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputText__WEBPACK_IMPORTED_MODULE_1__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }, el.props.children) : null, el.type === "input" && el.props.type === "checkbox" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputCheckbox__WEBPACK_IMPORTED_MODULE_2__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.type === "input" && el.props.type === "radio" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputRadio__WEBPACK_IMPORTED_MODULE_3__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.type === "input" && el.props.type === "tags" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputTags__WEBPACK_IMPORTED_MODULE_4__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.props.type === "avatar" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputAvatar__WEBPACK_IMPORTED_MODULE_5__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.props.type === "img" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputImage__WEBPACK_IMPORTED_MODULE_6__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.props.type === "file" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputFile__WEBPACK_IMPORTED_MODULE_7__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputTextarea__WEBPACK_IMPORTED_MODULE_8__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.type === "select" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputSelect__WEBPACK_IMPORTED_MODULE_9__["default"], {
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, el.props.type === "codeEditor" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_InputCodeEditor__WEBPACK_IMPORTED_MODULE_10__["default"], {
       defaultForm: defaultForm,
       form: controlStates[index][0],
       setForm: controlStates[index][1],
-      el: el
+      el: el,
+      parentName: name
     }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--error"
     }, form.errors ? form.errors[el.props.name] : null)) : el;
@@ -73811,8 +73952,7 @@ var InputObject = function InputObject(_ref) {
       children = _ref.children,
       _ref$defaultForm = _ref.defaultForm,
       defaultForm = _ref$defaultForm === void 0 ? {} : _ref$defaultForm;
-  var name = el.props.name; // 자식이 1개만 있을 때
-
+  // 자식이 1개만 있을 때
   if (!Array.isArray(children)) children = [children];
   var controlStates = children.map(function (el, index) {
     return Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
@@ -73910,7 +74050,7 @@ var InputObject = function InputObject(_ref) {
       el: el
     }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--error"
-    }, form.errors ? form.errors[el.props.name] : null)) : el;
+    }, form.errors ? form.errors["".concat(name, ".").concat(index, ".").concat(el.props.name)] : null)) : el;
   }));
 };
 
@@ -75948,7 +76088,7 @@ var Create = function Create(_ref) {
     title: "상호명"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
-    name: "phone",
+    name: "contact",
     placeholder: "전화번호",
     title: "전화번호"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -75960,41 +76100,19 @@ var Create = function Create(_ref) {
     type: "radio",
     name: "park",
     label: "\uC788\uC74C",
-    value: "true",
+    value: "1",
     id: "parkTrue",
     title: "주차장 여부"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "radio",
     name: "park",
     label: "\uC5C6\uC74C",
-    value: "false",
+    value: "0",
     id: "parkFalse"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "array",
+    type: "menus",
     name: "menus"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "object"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "img",
-    name: "img"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "title"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "price"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "object"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "img",
-    name: "img"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "title"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "text",
-    name: "price"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--middle width--100 bg--primary"

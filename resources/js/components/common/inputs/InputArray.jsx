@@ -54,40 +54,40 @@ const InputArray = ({form, setForm, el, mergeOnChange, children, defaultForm = {
                                 {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
                                 
                                 {/* input object */}
-                                {el.type === "input" && (el.props.type === "object") ? <InputObject form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}>{el.props.children}</InputObject> : null}
+                                {el.type === "input" && (el.props.type === "object") ? <InputObject form={controlStates[index][0]} setForm={controlStates[index][1]} el={el} parentName={name}>{el.props.children}</InputObject> : null}
     
                                 {/* input array */}
-                                {el.type === "input" && (el.props.type === "array") ? <InputArray form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}>{el.props.children}</InputArray> : null}
+                                {el.type === "input" && (el.props.type === "array") ? <InputArray form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}>{el.props.children}</InputArray> : null}
                                 
                                 {/* input text */}
-                                {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}>{el.props.children}</InputText> : null}
+                                {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}>{el.props.children}</InputText> : null}
                 
                                 {/* input checkbox */}
-                                {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* input radio */}
-                                {el.type === "input" && el.props.type === "radio" ? <InputRadio form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.type === "input" && el.props.type === "radio" ? <InputRadio form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* input tags */}
-                                {el.type === "input" && el.props.type === "tags" ? <InputTags form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.type === "input" && el.props.type === "tags" ? <InputTags form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* input avatar */}
-                                {el.props.type === "avatar" ? <InputAvatar form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.props.type === "avatar" ? <InputAvatar form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* input img */}
-                                {el.props.type === "img" ? <InputImage form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.props.type === "img" ? <InputImage form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* input file */}
-                                {el.props.type === "file" ? <InputFile form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.props.type === "file" ? <InputFile form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* textarea */}
-                                {el.type === "textarea" ? <InputTextarea form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.type === "textarea" ? <InputTextarea form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* select */}
-                                {el.type === "select" ? <InputSelect form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.type === "select" ? <InputSelect form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
                 
                                 {/* codeEditor */}
-                                {el.props.type === "codeEditor" ? <InputCodeEditor defaultForm={defaultForm} form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
+                                {el.props.type === "codeEditor" ? <InputCodeEditor defaultForm={defaultForm} form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}  parentName={name}/> : null}
     
                                 {React.createElement('p', {className: "input--error"}, form.errors ? form.errors[el.props.name] : null)}
                             </div>

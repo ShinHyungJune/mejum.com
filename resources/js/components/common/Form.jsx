@@ -13,6 +13,7 @@ import InputAvatar from "./inputs/InputAvatar";
 import InputRadio from "./inputs/InputRadio";
 import InputArray from './inputs/InputArray';
 import InputObject from './inputs/InputObject';
+import InputMenus from "./custom/InputMenus";
 
 const Form = ({children, url = "", method = "", onSubmit = null, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
     let [form, setForm] = useState({
@@ -31,7 +32,7 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
         let formData = new FormData();
     
-        getFormData(formData, form, null);
+        getFormData(formData, form);
 
         if(method === "patch" || method === "PATCH" || method === "put" || method === "PUT") {
             method = "post"; // patch, put multipart form 쓰면 데이터가 안날아가 그래서 post로 날리고 _method를 설정해주는식으로 해야돼
@@ -64,19 +65,19 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
     };
     
     const getFormData = (formData, data, key) => {
-        
+    
         if ( ( typeof data === 'object' && data !== null ) || Array.isArray(data) ) {
             for ( let i in data ) {
                 if ( ( typeof data[i] === 'object' && data[i] !== null ) || Array.isArray(data[i]) ) {
-                    if(key)
-                        return getFormData(formData, data[i], key + '[' + i + ']');
-    
-                    getFormData(formData, data[i], key + '[' + i + ']');
+                    if(!key)
+                        getFormData(formData, data[i],i);
+                    else
+                        getFormData(formData, data[i], key + '[' + i + ']');
                 } else {
-                    if(key)
-                        return formData.append(key + '[' + i + ']', data[i]);
-    
-                    return formData.append(data[i]);
+                    if(!key)
+                        formData.append(i, data[i]);
+                    else
+                        formData.append(key + '[' + i + ']', data[i]);
                 }
             }
         } else {
@@ -106,6 +107,9 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
                 <div className="input--wrap">
                     {/* label */}
                     {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
+    
+                    {/* input menus */}
+                    {el.type === "input" && (el.props.type === "menus") ? <InputMenus form={form} setForm={setForm} el={el}>{el.props.children}</InputMenus> : null}
                     
                     {/* input array */}
                     {el.type === "input" && (el.props.type === "array") ? <InputArray form={form} setForm={setForm} el={el}>{el.props.children}</InputArray> : null}

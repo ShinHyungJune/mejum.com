@@ -12,7 +12,6 @@ import InputCodeEditor from "./InputCodeEditor";
 import InputArray from "./InputArray";
 
 const InputObject = ({form, setForm, el, mergeOnChange, children, defaultForm = {}}) => {
-    let name = el.props.name;
     
     // 자식이 1개만 있을 때
     if(!Array.isArray(children))
@@ -69,7 +68,6 @@ const InputObject = ({form, setForm, el, mergeOnChange, children, defaultForm = 
         <div className={el.props.className ? el.props.className :`input--${el.props.type ? el.props.type : el.type}`}>
             {
                 React.Children.map(children, (el,index) => {
-           
                     return el.type === "input" || el.type === "select" || el.type === "textarea"
                         ?
                         (
@@ -113,7 +111,7 @@ const InputObject = ({form, setForm, el, mergeOnChange, children, defaultForm = 
                                 {/* codeEditor */}
                                 {el.props.type === "codeEditor" ? <InputCodeEditor defaultForm={defaultForm} form={controlStates[index][0]} setForm={controlStates[index][1]} el={el}/> : null}
                 
-                                {React.createElement('p', {className: "input--error"}, form.errors ? form.errors[el.props.name] : null)}
+                                {React.createElement('p', {className: "input--error"}, form.errors ? form.errors[`${name}.${index}.${el.props.name}`] : null)}
                             </div>
                         ) : (el)
                 })
