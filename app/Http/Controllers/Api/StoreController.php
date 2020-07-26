@@ -44,13 +44,8 @@ class StoreController extends ApiController
             "address" => "required|string|max:1000",
             "address_detail" => "required|string|max:1000",
             "park" => "required",
-            "closed" => "required|array|max:500",
+            /*"closed" => "required|array|max:500",*/
             "secret" => "nullable",
-            "menus" => "required|array|max:100",
-            "menus.*.title" => "required|string|max:500",
-            "menus.*.body" => "required|string|max:500",
-            "menus.*.price" => "required|integer|min:0",
-            "menus.*.img" => "nullable|image|max:61440",
         ]);
 
         $group = auth()->user()->groups()->find($request->group_id);
@@ -58,16 +53,14 @@ class StoreController extends ApiController
         if(!$group)
             return $this->respondNotFound();
 
+        $request["park"] = (boolean) $request->park;
+
         $request["closed"] = json_encode($request->closed);
 
         $store = auth()->user()->stores()->create($request->all());
 
         if($request->img)
             $store->addMedia($request->img)->toMediaCollection("img", "s3");
-
-        foreach($request->menus as $menu){
-            $store->menus()->create($menu);
-        }
 
         return $this->respondCreated(StoreResource::make($store));
     }
@@ -81,14 +74,14 @@ class StoreController extends ApiController
             "contact" => "required|string|max:500",
             "address" => "required|string|max:1000",
             "address_detail" => "required|string|max:1000",
-            "park" => "required|boolean",
+            "park" => "required",
             "closed" => "required|array|max:500",
-            "secret" => "nullable|boolean",
-            "menus" => "required|array|max:100",
+            "secret" => "nullable",
+            /*"menus" => "required|array|max:100",
             "menus.*.title" => "required|string|max:500",
             "menus.*.body" => "nullable|string|max:500",
             "menus.*.price" => "required|integer|min:0",
-            "menus.*.img" => "nullable|image|max:61440",
+            "menus.*.img" => "nullable|image|max:61440",*/
         ]);
 
         $store = Store::find($id);
@@ -101,8 +94,8 @@ class StoreController extends ApiController
         if(!$user)
             return $this->respondUnauthenticated();
 
-        if(!$user->pivot->master && $store->user_id != auth()->id())
-            return $this->respondUnauthenticated();
+        /*if(!$user->pivot->master && $store->user_id != auth()->id())
+            return $this->respondUnauthenticated();*/
 
         $request["closed"] = json_encode($request->closed);
 
@@ -110,12 +103,6 @@ class StoreController extends ApiController
 
         if($request->img)
             $store->addMedia($request->img)->toMediaCollection("img", "s3");
-
-        foreach($request->menus as $menu){
-            $store->menus()->updateOrCreate([
-                "title" => $menu["title"]
-            ], $menu);
-        }
 
         return $this->respondUpdated(StoreResource::make($store));
     }
@@ -132,8 +119,8 @@ class StoreController extends ApiController
         if(!$user)
             return $this->respondUnauthenticated();
 
-        if(!$user->pivot->master && $store->user_id != auth()->id())
-            return $this->respondUnauthenticated();
+        /*if(!$user->pivot->master && $store->user_id != auth()->id())
+            return $this->respondUnauthenticated();*/
 
         $store->delete();
 

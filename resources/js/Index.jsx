@@ -44,8 +44,8 @@ const Index = ({history}) => {
                             <AuthRoute exact path="/groups" component={GroupIndex}/>
                             <AuthRoute exact path="/groups/:id" component={GroupShow}/>
                             <AuthRoute exact path="/groups/invite/:id" component={Join}/>
-                            <AuthRoute exact path="/stores/create" component={StoreCreate}/>
                             <AuthRoute exact path="/stores" component={StoreIndex}/>
+                            <AuthRoute exact path="/stores/:group_id/create" component={StoreCreate}/>
                             <AuthRoute exact path="/stores/:group_id" component={StoreIndex}/>
                             <AuthRoute exact path="/more" component={More}/>
                             <Route exact path="/mypage" component={Mypage} />

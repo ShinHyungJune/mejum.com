@@ -43,11 +43,12 @@ const InputAvatar = ({form, setForm, el, mergeOnChange}) => {
             img.src = e.target.result;
 
             img.onload = () => {
+
                 if(img.width > img.height)
-                    $(".input--avatar .ratioBox img").css("width", "auto").css("height", "100%");
+                    $(`.${el.props.className ? el.props.className : ".input--avatar"} .ratioBox img`).css("width", "auto").css("height", "100%");
 
                 if(img.width <= img.height)
-                    $(".input--avatar .ratioBox img").css("width", "100%").css("height", "auto");
+                    $(`.${el.props.className ? el.props.className : ".input--avatar"} .ratioBox img`).css("width", "100%").css("height", "auto");
             };
 
             setForm({
@@ -58,9 +59,9 @@ const InputAvatar = ({form, setForm, el, mergeOnChange}) => {
     };
     
     return (
-        <div className={el.props.className ? el.props.className :`input--${el.props.type ? el.props.type : el.type}`}>
+        <div className={el.props.className ? `${el.props.className} ${url ? "active" : ""}` :`input--${el.props.type ? el.props.type : el.type} ${url ? "active" : ""}`}>
             {/* button */}
-            <label className={`btn btn-text bg-primary ${url ? "active" : ""}`} htmlFor={el.props.name}>
+            <label className={`btn btn-text bg-primary`} htmlFor={el.props.name}>
                 파일 선택
                 {
                     url ?

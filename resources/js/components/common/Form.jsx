@@ -11,9 +11,6 @@ import InputCodeEditor from './inputs/InputCodeEditor';
 import InputTags from "./inputs/InputTags";
 import InputAvatar from "./inputs/InputAvatar";
 import InputRadio from "./inputs/InputRadio";
-import InputArray from './inputs/InputArray';
-import InputObject from './inputs/InputObject';
-import InputMenus from "./custom/InputMenus";
 
 const Form = ({children, url = "", method = "", onSubmit = null, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
     let [form, setForm] = useState({
@@ -31,8 +28,9 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
         loading = true;
 
         let formData = new FormData();
-    
-        getFormData(formData, form);
+
+        Object.entries(form).map(data => formData.append(data[0], data[1]));
+        // getFormData(formData, form);
 
         if(method === "patch" || method === "PATCH" || method === "put" || method === "PUT") {
             method = "post"; // patch, put multipart form 쓰면 데이터가 안날아가 그래서 post로 날리고 _method를 설정해주는식으로 해야돼
@@ -49,6 +47,8 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
             loading = false;
         }).catch(error => {
+            console.log(error);
+
             onCatch(error.response.data);
 
             if(error.response.status === 422)
@@ -107,19 +107,10 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
                 <div className="input--wrap">
                     {/* label */}
                     {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
-    
-                    {/* input menus */}
-                    {el.type === "input" && (el.props.type === "menus") ? <InputMenus form={form} setForm={setForm} el={el}>{el.props.children}</InputMenus> : null}
-                    
-                    {/* input array */}
-                    {el.type === "input" && (el.props.type === "array") ? <InputArray form={form} setForm={setForm} el={el}>{el.props.children}</InputArray> : null}
-    
-                    {/* input object */}
-                    {el.type === "input" && (el.props.type === "object") ? <InputObject form={form} setForm={setForm} el={el}>{el.props.children}</InputObject> : null}
                     
                     {/* input text */}
                     {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={form} setForm={setForm} el={el}/> : null}
-                
+
                     {/* input checkbox */}
                     {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
                 

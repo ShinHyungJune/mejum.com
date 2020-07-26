@@ -34,18 +34,6 @@ const Stores = ({history, match}) => {
         });
     }, []);
 
-    const onCreated = (response) => {
-          setItems({
-              ...items,
-              data: [
-                  response.data,
-                  ...items.data
-              ]
-          });
-
-          window.setPop("");
-    };
-
     return (
         <Fragment>
             <Header title="음식점 목록" />
@@ -60,7 +48,7 @@ const Stores = ({history, match}) => {
                         : items.data.map(item => <Store key={item.id} store={item} />)
                 }
         
-                <button className="button--util bg--primary" onClick={() => {history.push("/stores/create")}}>
+                <button className="button--util bg--primary" onClick={() => {history.push(`/stores/${match.params.group_id}/create`)}}>
                     <img src="/img/plus--white.png" alt=""/>
                 </button>
             </div>

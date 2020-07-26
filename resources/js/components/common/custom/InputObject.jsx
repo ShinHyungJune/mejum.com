@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import InputText from "./InputText";
-import InputCheckbox from "./InputCheckbox";
-import InputRadio from "./InputRadio";
-import InputTags from "./InputTags";
-import InputAvatar from "./InputAvatar";
-import InputImage from "./InputImage";
-import InputFile from "./InputFile";
-import InputTextarea from "./InputTextarea";
-import InputSelect from "./InputSelect";
-import InputCodeEditor from "./InputCodeEditor";
+import InputText from "../inputs/InputText";
+import InputCheckbox from "../inputs/InputCheckbox";
+import InputRadio from "../inputs/InputRadio";
+import InputTags from "../inputs/InputTags";
+import InputAvatar from "../inputs/InputAvatar";
+import InputImage from "../inputs/InputImage";
+import InputFile from "../inputs/InputFile";
+import InputTextarea from "../inputs/InputTextarea";
+import InputSelect from "../inputs/InputSelect";
+import InputCodeEditor from "../inputs/InputCodeEditor";
 import InputArray from "./InputArray";
 
 const InputObject = ({form, setForm, el, mergeOnChange, children, defaultForm = {}}) => {

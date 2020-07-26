@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Group;
+use App\Menu;
 use App\Store;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -57,18 +58,6 @@ class StoresTest extends TestCase
             "park" => false,
             "closed" => ["월", "화"],
             "secret" => true,
-            "menus" => [
-                [
-                    "title" => "메뉴1",
-                    "body" => "설명1",
-                    "price" => 1000
-                ],
-                [
-                    "title" => "메뉴2",
-                    "body" => "설명2",
-                    "price" => 2000
-                ],
-            ]
         ];
 
         $this->updateForm = [
@@ -80,18 +69,6 @@ class StoresTest extends TestCase
             "park" => false,
             "closed" => ["월", "화"],
             "secret" => true,
-            "menus" => [
-                [
-                    "title" => "메뉴1",
-                    "body" => "설명1",
-                    "price" => 1000
-                ],
-                [
-                    "title" => "메뉴2",
-                    "body" => "설명2",
-                    "price" => 2000
-                ],
-            ]
         ];
 
         $this->actingAs($this->member);
@@ -129,7 +106,7 @@ class StoresTest extends TestCase
     }
 
     /** @test */
-    public function 자기가_등록한_음식점은_삭제_및_수정할_수_있다()
+    public function 그룹원은_음식점을_삭제_및_수정할_수_있다()
     {
         $this->post("/api/stores", $this->storeForm)->assertStatus(201);
 
@@ -142,8 +119,7 @@ class StoresTest extends TestCase
         $this->delete("/api/stores/" . $storeByMember->id)->assertStatus(200);
     }
 
-    /** @test */
-    public function 다른_사람이_등록한_음식점은_삭제_및_수정할_수_없다()
+    /*public function 다른_사람이_등록한_음식점은_삭제_및_수정할_수_없다()
     {
         $this->post("/api/stores", $this->storeForm)->assertStatus(201);
 
@@ -154,10 +130,9 @@ class StoresTest extends TestCase
         $this->patch("/api/stores/" . $storeByMember->id, $this->updateForm)->assertStatus(401);
 
         $this->delete("/api/stores/" . $storeByMember->id)->assertStatus(401);
-    }
+    }*/
 
-    /** @test */
-    public function 그룹장은_그룹원이_등록한_음식점을_수정_및_삭제할_수_있다()
+    /*public function 그룹장은_그룹원이_등록한_음식점을_수정_및_삭제할_수_있다()
     {
         $this->post("/api/stores", $this->storeForm)->assertStatus(201);
 
@@ -168,7 +143,7 @@ class StoresTest extends TestCase
         $this->patch("/api/stores/" . $storeByMember->id, $this->updateForm)->assertStatus(200);
 
         $this->delete("/api/stores/" . $storeByMember->id)->assertStatus(200);
-    }
+    }*/
 
     /** @test */
     public function 음식점은_메뉴명_및_음식정명으로_검색할_수_있다()
@@ -181,7 +156,6 @@ class StoresTest extends TestCase
 
         $this->storeForm["title"] = $storeTitle;
 
-        $this->storeForm["menus"][0]["title"] = $menuTitle;
 
         $this->post("/api/stores", $this->storeForm);
 
@@ -192,6 +166,11 @@ class StoresTest extends TestCase
         ])->decodeResponseJson("data");
 
         $this->assertCount(1, $data);
+
+        factory(Menu::class)->create([
+            "store_id" => $data[0]["id"],
+            "title" => $menuTitle
+        ]);
 
         // 메뉴명으로 검색
         $data = $this->json("get", "/api/stores", [
