@@ -1,13 +1,13 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
 
-const Store = ({store, edit}) => {
+const Menu = ({menu, edit}) => {
     let [isWidthLong, setIsWidthLong] = useState(false);
     
     useEffect(() => {
         let img = new Image();
     
-        img.src = store.img.url;
+        img.src = menu.img.url;
     
         img.onload = () => {
             if(img.width > img.height)
@@ -18,16 +18,19 @@ const Store = ({store, edit}) => {
     }, []);
     
     return (
-        <Link to={`/stores/${store.group_id}/${store.id}`} className={`store ${isWidthLong ? "widthLong" : "heightLong"}`}>
+        <div className={`menu ${isWidthLong ? "widthLong" : "heightLong"}`}>
             <div className="ratioBox-wrap">
                 <div className="ratioBox">
-                    <img src={store.img.url} alt=""/>
+                    <img src={menu.img.url} alt=""/>
                 </div>
             </div>
             
-           <p className="store__title">{store.title}</p>
-        </Link>
+            <div className="menu__texts">
+                <p className="menu__title">{menu.title}</p>
+                <p className="menu__title">{menu.price}</p>
+            </div>
+        </div>
     );
 };
 
-export default Store;
+export default Menu;

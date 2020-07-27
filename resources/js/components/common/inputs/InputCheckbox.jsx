@@ -5,7 +5,7 @@ const InputCheckbox = ({form, setForm, el}) => {
     const changeForm = (event) => {
         if(!form[event.target.name])
             form[event.target.name] = [];
-        
+        console.log(event.target.value);
         form[event.target.name] && form[event.target.name].includes(event.target.value)
             ? form[event.target.name] = form[event.target.name].filter(data => data !== event.target.value)
             : form[event.target.name].push(event.target.value);
@@ -23,7 +23,7 @@ const InputCheckbox = ({form, setForm, el}) => {
             {
                 React.cloneElement(el, {
                     onChange: (event) => { changeForm(event); },
-                    value: form[el.props.name] || "",
+                    value: el.props.value,
                     id: el.props.value
                 })
             }

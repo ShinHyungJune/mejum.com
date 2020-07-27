@@ -22,6 +22,8 @@ window.setBlockedUrl = (url) => {
     store.dispatch(setBlockedUrl(url));
 };
 
+window.naverApiKey = "gEf2Obm290rhS5luowhC";
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which

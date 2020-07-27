@@ -44,9 +44,10 @@ class StoreController extends ApiController
             "address" => "required|string|max:1000",
             "address_detail" => "required|string|max:1000",
             "park" => "required",
-            /*"closed" => "required|array|max:500",*/
+            "closed" => "nullable|string|max:500",
             "secret" => "nullable",
         ]);
+
 
         $group = auth()->user()->groups()->find($request->group_id);
 
@@ -55,14 +56,25 @@ class StoreController extends ApiController
 
         $request["park"] = (boolean) $request->park;
 
-        $request["closed"] = json_encode($request->closed);
-
         $store = auth()->user()->stores()->create($request->all());
 
         if($request->img)
             $store->addMedia($request->img)->toMediaCollection("img", "s3");
 
         return $this->respondCreated(StoreResource::make($store));
+    }
+
+    public function show($id)
+    {
+        $store = Store::find($id);
+
+        if(!$store)
+            return $this->respondNotFound();
+
+        if(!$store->group->users()->find(auth()->id()))
+            return $this->respondUnauthenticated();
+
+        return $this->respond(StoreResource::make($store, true));
     }
 
     public function update(Request $request, $id)

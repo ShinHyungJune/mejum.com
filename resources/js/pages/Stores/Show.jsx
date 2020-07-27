@@ -1,92 +1,110 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import Header from '../../components/common/Header';
+import {Link} from "react-router-dom";
+import Tabs from '../../components/common/Tabs';
+import CreateMenu from '../Menus/Create';
 
 
 const Show = ({match}) => {
-    let [group, setGroup] = useState(null);
-    let [master, setMaster] = useState(null);
-    let authUser = window.store.getState().commonStates.user;
-
+    let [store, setStore] = useState(null);
+    let [isWidthLong, setIsWidthLong] = useState(false);
+    let [defaultForm, setDefaultForm] = useState({});
+    
     useEffect(() => {
-        axios.get("/api/groups/" + match.params.id)
+        axios.get("/api/stores/" + match.params.store_id)
             .then(response => {
-                setMaster(response.data.users.find(user => user.master));
-
-                setGroup(response.data);
+    
+                setStore(response.data);
+                
+                console.log(response.data);
+    
+                setDefaultForm({
+                    store_id: response.data.id
+                });
+                
+                let img = new Image();
+    
+                img.src = response.data.img.url;
+    
+                img.onload = () => {
+                    if(img.width > img.height)
+                        return setIsWidthLong(true);
+        
+                    setIsWidthLong(false);
+                };
             })
     }, []);
-
-    const appoint = (user, group) => {
-        axios.post("/api/groups/appoint", {
-            user_id: user.id,
-            group_id: group.id
-        }).then(response => {
-            setGroup(response.data.data);
-
-            setMaster(response.data.data.users.find(user => user.master));
-
-            window.setFlash(response.data.message);
-        })
-    };
-
-    const banish = (user, group) => {
-        axios.post("/api/groups/banish", {
-            user_id: user.id,
-            group_id: group.id
-        }).then(response => {
-            setGroup({
-                ...group,
-                users: group.users.filter(userData => userData.id !== user.id)
-            });
-
-            window.setFlash(response.data.message);
-        })
+    
+    const onMenuCreated = (response) => {
+        setStore({
+            ...store,
+            menus: [...store.menus, response.data]
+        });
+        
+        window.setPop("");
     };
 
     return (
         <Fragment>
-            <Header title={group ? group.title : ""}></Header>
-            {group ?
-                <div id="group">
-                    <div className="infos type01">
-                        <div className="info type01">
-                            <p className="info--title">그룹명</p>
-                            <p className="info--body">{group.title}</p>
+            <Header title={store ? store.title : ""} />
+            
+            {store ?
+                <div id="store">
+                    <div className="box type01">
+                        {/* 메뉴 생성 팝업 */}
+                        <CreateMenu store={store} onThen={onMenuCreated} defaultForm={defaultForm}/>
+    
+                        {/* 썸네일 */}
+                        <div className={`ratioBox-wrap ${isWidthLong ? "widthLong" : "heightLong"}`}>
+                            <div className="ratioBox">
+                                <img src={store.img.url} alt=""/>
+                            </div>
                         </div>
-
-                        <div className="info type01">
-                            <p className="info--title">생성일</p>
-                            <p className="info--body">{group.created_at}</p>
+    
+                        {/* 유틸 버튼 */}
+                        <div className="store__buttons">
+                            <button className="store__button"></button>
+                            <button className="store__button"></button>
+                            <button className="store__button"></button>
                         </div>
-
-                        <div className="info type01">
-                            <p className="info--title">그룹장</p>
-                            <p className="info--body">{master.name}</p>
-                        </div>
-                    </div>
-
-                    <div className="members">
-                        {group.users.map(user => (
-                            <div className="member" key={user.id}>
-                                <div className="member--img ratioBox-wrap">
-                                    <div className="ratioBox">
-                                        <img src={user.img.url} alt=""/>
-                                    </div>
+    
+                        {/* 정보 */}
+                        <div className="infos--wrap">
+                            <div className="infos type01">
+                                <div className="info type01">
+                                    <p className="info--title">주차장</p>
+                                    <p className="info--body">{store.park ? "있음" : "없음"}</p>
                                 </div>
-
-                                <p className="member--title">{user.name}</p>
-
-                                <div className="member--buttons">
-                                    {master.id === authUser.id && !user.master ?
-                                        <Fragment>
-                                            <button className="member--button" onClick={() => appoint(user, group)}>그룹장 위임</button>
-                                            <button className="member--button" onClick={() => banish(user, group)}>내보내기</button>
-                                        </Fragment> : null
-                                    }
-
+            
+                                <div className="info type01">
+                                    <p className="info--title">휴무일</p>
+                                    <p className="info--body">{store.closed ? store.closed : "연중무휴"}</p>
                                 </div>
                             </div>
-                        ))}
+        
+                            <div className="map">
+                                지도 영역
+                            </div>
+                        </div>
+    
+                        <Tabs>
+                            {/* 메뉴 */}
+                            <div name="메뉴">메뉴</div>
+    
+                            {/* 리뷰 */}
+                            <div name="리뷰">리뷰</div>
+                        </Tabs>
+                        
+                        {/* 메뉴 생성 */}
+                        <div className="button--utils">
+                            <button className="button--util bg--primary" onClick={null}>
+                                <img src="/img/edit--white.png" alt=""/>
+                            </button>
+        
+                            <button className="button--util bg--primary" onClick={() => {window.setPop("메뉴 생성")}}>
+                                <img src="/img/plus--white.png" alt=""/>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 : null

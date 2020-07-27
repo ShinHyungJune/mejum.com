@@ -5,7 +5,9 @@ import Store from './Store';
 import Header from '../../components/common/Header';
 import {connect} from "react-redux";
 
-const Stores = ({history, match}) => {
+const Stores = ({history, match, activeGroup}) => {
+    let [group, setGroup] = useState(null);
+    
     let [items, setItems] = useState({
         data: [],
         meta: {}
@@ -24,6 +26,14 @@ const Stores = ({history, match}) => {
             
             return history.push("/groups");
         }
+    
+        axios.get("/api/groups/" + match.params.group_id, {
+            params: params
+        }).then(response => {
+            setGroup(response.data);
+        }).catch(error => {
+            window.setFlash(error.message);
+        });
         
         axios.get("/api/stores", {
             params: params
@@ -37,17 +47,21 @@ const Stores = ({history, match}) => {
     return (
         <Fragment>
             <Header title="음식점 목록" />
-    
-            <div className="groups">
+            
+            <div className="stores">
+                {group ? <p className="groups__title"><span className="point">“{group.title}”</span>의 식당</p> : null}
                 {
                     items.data.length === 0
                         ? <div className="empty">
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">등록된 음식점이 없습니다.</p>
                         </div>
-                        : items.data.map(item => <Store key={item.id} store={item} />)
+                        : <div className="box type01">
+                            {items.data.map(item => <Store key={item.id} store={item} />)}
+                        </div>
                 }
-        
+     
+    
                 <button className="button--util bg--primary" onClick={() => {history.push(`/stores/${match.params.group_id}/create`)}}>
                     <img src="/img/plus--white.png" alt=""/>
                 </button>

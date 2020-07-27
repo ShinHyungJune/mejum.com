@@ -7,6 +7,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class StoreResource extends JsonResource
 {
+    protected $withMenus = false;
+
+    public function __construct($resource, $withMenus = false)
+    {
+        parent::__construct($resource);
+
+        $this->withMenus = $withMenus;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -27,7 +36,7 @@ class StoreResource extends JsonResource
             "secret" => $this->secret,
             "group_id" => $this->group_id,
             "user_id" => $this->user_id,
-            "menus" => $this->menus,
+            "menus" => $this->withMenus ? $this->menus : [],
             "created_at" => Carbon::make($this->created_at)->format("Y-m-d H:i:s")
         ];
     }
