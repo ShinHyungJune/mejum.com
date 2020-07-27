@@ -25,9 +25,7 @@ const Create = ({history, match}) => {
         
                     <input type="text" name={"contact"} placeholder={"전화번호"} title={"전화번호"}/>
         
-                    <input type="text" name={"address"} placeholder={"주소"} title={"주소"}/>
-
-                    <input type="text" name={"address_detail"} placeholder={"상세주소"} title={"상세주소"}/>
+                    <input type="address" name={"address"} placeholder={"주소"} title={"주소"}/>
 
                     <input type="radio" name={"park"} label="있음" value="1" id={"parkTrue"} title={"주차장 여부"}/>
     

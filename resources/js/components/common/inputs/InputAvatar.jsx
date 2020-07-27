@@ -45,10 +45,10 @@ const InputAvatar = ({form, setForm, el, mergeOnChange}) => {
             img.onload = () => {
 
                 if(img.width > img.height)
-                    $(`.${el.props.className ? el.props.className : ".input--avatar"} .ratioBox img`).css("width", "auto").css("height", "100%");
+                    $(`${el.props.className ? "." + el.props.className : ".input--avatar"} .ratioBox img`).css("width", "auto").css("height", "100%");
 
                 if(img.width <= img.height)
-                    $(`.${el.props.className ? el.props.className : ".input--avatar"} .ratioBox img`).css("width", "100%").css("height", "auto");
+                    $(`${el.props.className ? "." + el.props.className : ".input--avatar"} .ratioBox img`).css("width", "100%").css("height", "auto");
             };
 
             setForm({

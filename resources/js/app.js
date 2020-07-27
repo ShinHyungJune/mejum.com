@@ -22,7 +22,12 @@ window.setBlockedUrl = (url) => {
     store.dispatch(setBlockedUrl(url));
 };
 
-window.naverApiKey = "gEf2Obm290rhS5luowhC";
+window.naver = {
+    key:"gEf2Obm290rhS5luowhC",
+    secret: "qy8flzFjTF",
+    couldKey: "ue3zysm2ng",
+    couldSecret: "RsUwfvXmRh3FZgyvwrLFJW8ToLd4vz7isBbPlwri",
+};
 
 
 /**

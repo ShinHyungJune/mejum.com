@@ -15,7 +15,6 @@ $factory->define(\App\Store::class, function (Faker $faker) {
         "title" => $faker->paragraph,
         "contact" => $faker->paragraph,
         "address" => $faker->paragraph,
-        "address_detail" => $faker->paragraph,
         "park" => true,
         "closed" => true,
         "secret" => false

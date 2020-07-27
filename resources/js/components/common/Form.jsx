@@ -11,6 +11,7 @@ import InputCodeEditor from './inputs/InputCodeEditor';
 import InputTags from "./inputs/InputTags";
 import InputAvatar from "./inputs/InputAvatar";
 import InputRadio from "./inputs/InputRadio";
+import InputAddress from "./inputs/InputAddress";
 
 const Form = ({children, url = "", method = "", onSubmit = null, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
     let [form, setForm] = useState({
@@ -128,7 +129,10 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
                 
                     {/* input file */}
                     {el.props.type === "file" ? <InputFile form={form} setForm={setForm} el={el}/> : null}
-                
+
+                    {/* input address */}
+                    {el.props.type === "address" ? <InputAddress form={form} setForm={setForm} el={el}/> : null}
+
                     {/* textarea */}
                     {el.type === "textarea" ? <InputTextarea form={form} setForm={setForm} el={el}/> : null}
                 

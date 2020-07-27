@@ -5,10 +5,11 @@ import Tabs from '../../components/common/Tabs';
 import CreateMenu from '../Menus/Create';
 
 
-const Show = ({match}) => {
+const Show = ({history, match}) => {
     let [store, setStore] = useState(null);
     let [isWidthLong, setIsWidthLong] = useState(false);
     let [defaultForm, setDefaultForm] = useState({});
+    let map;
     
     useEffect(() => {
         axios.get("/api/stores/" + match.params.store_id)
@@ -21,6 +22,8 @@ const Show = ({match}) => {
                 setDefaultForm({
                     store_id: response.data.id
                 });
+
+                settingMap(response.data);
                 
                 let img = new Image();
     
@@ -44,6 +47,45 @@ const Show = ({match}) => {
         window.setPop("");
     };
 
+    const settingMap = (data) => {
+        let url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
+        let geoCode = {x: null, y: null};
+
+        axios.get(`${url}?query=${data.address}`, {
+            headers: {
+                "X-NCP-APIGW-API-KEY-ID": window.naver.couldKey,
+                "X-NCP-APIGW-API-KEY": window.naver.couldSecret,
+            }
+        }).then(response => {
+            if(response.data.addresses[0]){
+                geoCode = {
+                    x: response.data.addresses[0].x,
+                    y: response.data.addresses[0].y,
+                };
+
+                map = new naver.maps.Map('map', {
+                    center: new naver.maps.LatLng(geoCode.y, geoCode.x),
+                    zoom: 15
+                });
+
+                let marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(geoCode.y, geoCode.x),
+                    map: map
+                });
+            }
+
+        });
+    };
+
+    const remove = () => {
+        axios.delete("/api/stores/" + store.id)
+            .then(response => {
+                window.setFlash(response.data.message);
+
+                history.goBack();
+            })
+    };
+
     return (
         <Fragment>
             <Header title={store ? store.title : ""} />
@@ -63,9 +105,9 @@ const Show = ({match}) => {
     
                         {/* 유틸 버튼 */}
                         <div className="store__buttons">
-                            <button className="store__button"></button>
-                            <button className="store__button"></button>
-                            <button className="store__button"></button>
+                            <button className="store__button">전화</button>
+                            <button className="store__button">좋아요</button>
+                            <button className="store__button">투표생성</button>
                         </div>
     
                         {/* 정보 */}
@@ -78,13 +120,11 @@ const Show = ({match}) => {
             
                                 <div className="info type01">
                                     <p className="info--title">휴무일</p>
-                                    <p className="info--body">{store.closed ? store.closed : "연중무휴"}</p>
+                                    <p className="info--body">{!store.closed || store.closed === "null" ? "연중무휴" : store.closed}</p>
                                 </div>
                             </div>
-        
-                            <div className="map">
-                                지도 영역
-                            </div>
+
+                            <div id="map" style={{height:"200px"}}></div>
                         </div>
     
                         <Tabs>
@@ -97,6 +137,10 @@ const Show = ({match}) => {
                         
                         {/* 메뉴 생성 */}
                         <div className="button--utils">
+                            <button className="button--util bg--red" onClick={remove}>
+                                <img src="/img/trash--white.png" alt=""/>
+                            </button>
+
                             <button className="button--util bg--primary" onClick={null}>
                                 <img src="/img/edit--white.png" alt=""/>
                             </button>
