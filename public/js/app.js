@@ -72906,7 +72906,7 @@ var Form = function Form(_ref) {
   });
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
-       changeForm(event);
+        changeForm(event);
   };*/
 
   return enterSubmitDisabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76089,7 +76089,6 @@ var Show = function Show(_ref) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/stores/" + match.params.store_id).then(function (response) {
       setStore(response.data);
-      console.log(response.data);
       setDefaultForm({
         store_id: response.data.id
       });
@@ -76158,6 +76157,8 @@ var Show = function Show(_ref) {
     onThen: onMenuCreated,
     defaultForm: defaultForm
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "store__top"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap ".concat(isWidthLong ? "widthLong" : "heightLong")
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox"
@@ -76165,14 +76166,45 @@ var Show = function Show(_ref) {
     src: store.img.url,
     alt: ""
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "store__top__texts"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "store__title"
+  }, store.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "store__ranks"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/star--active.png",
+    alt: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/star--active.png",
+    alt: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/star--active.png",
+    alt: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/star--active.png",
+    alt: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/star--yellow.png",
+    alt: ""
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__buttons"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "tel:".concat(store.phone),
     className: "store__button"
-  }, "\uC804\uD654"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/phone--black.png",
+    alt: ""
+  }), "\uC804\uD654"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "store__button"
-  }, "\uC88B\uC544\uC694"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/heart--black.png",
+    alt: ""
+  }), "\uC88B\uC544\uC694"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "store__button"
-  }, "\uD22C\uD45C\uC0DD\uC131")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/checkSquare--black.png",
+    alt: ""
+  }), "\uD22C\uD45C\uC0DD\uC131")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "infos--wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "infos type01"

@@ -52,7 +52,7 @@ body {}
 .button--full {width:100%;}
 .button--util {width:50px; height:50px; position:fixed; right:20px; bottom:80px; border-radius:100%; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}
 .button--util img {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);}
-.button--utils {position:fixed; right:20px; bottom:80px;}
+.button--utils {position:fixed; right:20px; bottom:80px; z-index:1;}
 .button--utils .button--util {display:block; margin-top:10px; position:relative; right:auto; bottom:auto;}
 
 .text--h1 {font-size:24px; font-weight:500; color:#2E4266;}
@@ -128,7 +128,7 @@ body {}
 .box.type01 .box__top__icon {width:20px; height:20px; position:absolute; right:16px; top:50%; transform:translateY(-50%);}
 .box.type01 .box__bottom {padding:16px 24px;}
 
-.pop__wrap {width:100%; padding:0 20px; position:fixed; top:47%; left:50%; transform:translate(-50%, -50%); z-index:2;}
+.pop__wrap {width:100%; padding:0 20px; position:fixed; top:47%; left:50%; transform:translate(-50%, -50%); z-index:4;}
 .pop.type-pop {width:100%; padding:16px; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff; }
 .pop.type-pop .pop__buttons {display:flex; margin-top:16px;}
 .pop.type-pop .pop__buttons button {flex:1; margin-left:8px;}
@@ -137,10 +137,10 @@ body {}
 .pop__header__title {margin-bottom:16px; font-size:18px; font-weight:500; text-align:center; color:#000;}
 
 .tabs__buttons {display:flex; margin-bottom:20px;}
-.tabs__buttons__button {flex:1; padding:8px 16px; font-weight:500; text-align:center; border:1px solid #ccc;}
+.tabs__buttons__button {flex:1; padding:8px 16px; font-weight:500; text-align:center; border:1px solid #ccc; color:#ccc;}
 .tabs__buttons__button:first-child {margin-left:0; border-right:none;}
 .tabs__buttons__button:last-child {margin-right:0;}
-.tabs__buttons__button.active {border-top:1px solid #ff9711; border-bottom:none;}
+.tabs__buttons__button.active {border-top:1px solid #ff9711; border-bottom:none; color:#333;}
 
 .tabs__contents__content {display:none; padding:0 18px;}
 .tabs__contents__content.active {display:block;}
@@ -155,7 +155,7 @@ body {}
 .align--right {text-align:right;}
 .align--left {text-align:left;}
 
-.black {width:100%; height:100%; position:fixed; top:0; left:0; background-color:rgba(0,0,0,0.6); z-index:1;}
+.black {width:100%; height:100%; position:fixed; top:0; left:0; background-color:rgba(0,0,0,0.6); z-index:3;}
 .black.active {display:block;}
 
 .comments--comment {padding:8px 0; background-color:#fff; }

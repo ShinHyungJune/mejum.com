@@ -16,9 +16,7 @@ const Show = ({history, match}) => {
             .then(response => {
     
                 setStore(response.data);
-                
-                console.log(response.data);
-    
+
                 setDefaultForm({
                     store_id: response.data.id
                 });
@@ -97,17 +95,40 @@ const Show = ({history, match}) => {
                         <CreateMenu store={store} onThen={onMenuCreated} defaultForm={defaultForm}/>
     
                         {/* 썸네일 */}
-                        <div className={`ratioBox-wrap ${isWidthLong ? "widthLong" : "heightLong"}`}>
-                            <div className="ratioBox">
-                                <img src={store.img.url} alt=""/>
+                        <div className="store__top">
+                            <div className={`ratioBox-wrap ${isWidthLong ? "widthLong" : "heightLong"}`}>
+                                <div className="ratioBox">
+                                    <img src={store.img.url} alt=""/>
+                                </div>
+                            </div>
+
+                            <div className="store__top__texts">
+                                <p className="store__title">{store.title}</p>
+                                <div className="store__ranks">
+                                    <img src="/img/star--active.png" alt=""/>
+                                    <img src="/img/star--active.png" alt=""/>
+                                    <img src="/img/star--active.png" alt=""/>
+                                    <img src="/img/star--active.png" alt=""/>
+                                    <img src="/img/star--yellow.png" alt=""/>
+                                </div>
                             </div>
                         </div>
+
     
                         {/* 유틸 버튼 */}
                         <div className="store__buttons">
-                            <button className="store__button">전화</button>
-                            <button className="store__button">좋아요</button>
-                            <button className="store__button">투표생성</button>
+                            <a href={`tel:${store.phone}`} className="store__button">
+                                <img src="/img/phone--black.png" alt=""/>
+                                전화
+                            </a>
+                            <button className="store__button">
+                                <img src="/img/heart--black.png" alt=""/>
+                                좋아요
+                            </button>
+                            <button className="store__button">
+                                <img src="/img/checkSquare--black.png" alt=""/>
+                                투표생성
+                            </button>
                         </div>
     
                         {/* 정보 */}
