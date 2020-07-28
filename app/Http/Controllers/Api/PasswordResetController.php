@@ -62,7 +62,10 @@ class PasswordResetController extends ApiController
 
         $sms = new SMS();
 
-        $sms->send($request->phone, "인증번호 [${token}]\n- ".config("app.name")." -");
+        $result = $sms->send($request->phone, "인증번호 [${token}]\n- ".config("app.name")." -");
+
+        if(!$result)
+            return $this->respondForbidden("유효하지 않은 번호입니다.");
 
         return $this->respondCreated(null, "인증번호가 발송되었습니다!");
     }

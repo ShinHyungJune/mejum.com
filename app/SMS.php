@@ -3,6 +3,7 @@
 namespace App;
 
 use Aws\Sns\SnsClient;
+use Matrix\Exception;
 
 class SMS
 {
@@ -18,13 +19,15 @@ class SMS
 
     public function send($to, $message)
     {
-        if (!$result = $this->client->checkIfPhoneNumberIsOptedOut(['phoneNumber' => $to])) { // 번호확인 실패
-            return;
+        try{
+            $this->client->checkIfPhoneNumberIsOptedOut(['phoneNumber' => $to]);
+        }catch(\Throwable $exception) {
+          return false;
         }
 
-        if ($result['isOptedOut']) { // 잘못된 번호 맞다면
+        /*if ($result['isOptedOut']) { // 잘못된 번호 맞다면
             return;
-        }
+        }*/
 
         return $this->client->publish([
             "Message" => $message,

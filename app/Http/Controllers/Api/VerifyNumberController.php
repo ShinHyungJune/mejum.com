@@ -30,7 +30,10 @@ class VerifyNumberController extends ApiController
 
         $sms = new SMS();
 
-        $sms->send($request->phone, "인증번호 [${number}]\n- ".config("app.name")." -");
+        $result = $sms->send($request->phone, "인증번호 [${number}]\n- ".config("app.name")." -");
+
+        if(!$result)
+            return $this->respondForbidden("유효하지 않은 번호입니다.");
 
         // return $this->respondSuccessfully(null, __("response.verifyNumber")["send mail"]);
         return $this->respondSuccessfully(null, "인증번호가 전송되었습니다.");
