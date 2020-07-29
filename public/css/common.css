@@ -136,13 +136,13 @@ body {}
 .pop__header {display:block;}
 .pop__header__title {margin-bottom:16px; font-size:18px; font-weight:500; text-align:center; color:#000;}
 
-.tabs__buttons {display:flex; margin-bottom:20px;}
+.tabs__buttons {display:flex; margin-bottom:10px;}
 .tabs__buttons__button {flex:1; padding:8px 16px; font-weight:500; text-align:center; border:1px solid #ccc; color:#ccc;}
 .tabs__buttons__button:first-child {margin-left:0; border-right:none;}
 .tabs__buttons__button:last-child {margin-right:0;}
 .tabs__buttons__button.active {border-top:1px solid #ff9711; border-bottom:none; color:#333;}
 
-.tabs__contents__content {display:none; padding:0 18px;}
+.tabs__contents__content {display:none;}
 .tabs__contents__content.active {display:block;}
 
 .infos.type01 .infos__info {margin-bottom:16px; padding-left:70px; position:relative;}
@@ -201,8 +201,12 @@ body {}
 .progress.type01 .progress--points {display:flex; justify-content: space-between; margin-top:8px;}
 .progress.type01 .progress--points--point {font-size:12px;}
 
-.empty.type01 {padding:48px; text-align:center; background-color:#fff; border-radius:5px;}
-.empty.type01 .empty__text {font-size:18px; font-weight:500;}
+.empty.type01 {width:100%; position:absolute; top:45%; left:0; transform:translateY(-50%); text-align:center;}
+.empty.type01 .empty__img {display:inline-block; margin-bottom:0px;}
+.empty.type01 .empty__text {color:#fff; text-shadow:0px 3px 6px rgba(0,0,0,0.3);}
+
+.empty.type02 {padding:16px; text-align:center;}
+.empty.type02 .empty__text {font-size:18px; font-weight:500;}
 
 /* ratio box */
 .ratioBox-wrap {width:100%; padding-top:100%; position:relative; background-color:#fff; overflow:hidden;}

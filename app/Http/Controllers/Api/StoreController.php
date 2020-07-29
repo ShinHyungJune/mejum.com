@@ -47,7 +47,6 @@ class StoreController extends ApiController
             "secret" => "nullable",
         ]);
 
-
         $group = auth()->user()->groups()->find($request->group_id);
 
         if(!$group)
@@ -85,7 +84,7 @@ class StoreController extends ApiController
             "contact" => "required|string|max:500",
             "address" => "required|string|max:1000",
             "park" => "required",
-            "closed" => "required|array|max:500",
+            "closed" => "required|string|max:500",
             "secret" => "nullable",
             /*"menus" => "required|array|max:100",
             "menus.*.title" => "required|string|max:500",
@@ -107,7 +106,7 @@ class StoreController extends ApiController
         /*if(!$user->pivot->master && $store->user_id != auth()->id())
             return $this->respondUnauthenticated();*/
 
-        $request["closed"] = json_encode($request->closed);
+        $request["park"] = (boolean) $request->park;
 
         $store->update($request->all());
 

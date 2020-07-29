@@ -32,7 +32,10 @@ class Menu extends Model implements HasMedia
             ];
         }
 
-        return null;
+        return [
+            "name" => null,
+            "url" => "/img/replace--store.jpg"
+        ];
     }
 
     public function store()

@@ -76,7 +76,7 @@ const Groups = ({history}) => {
             <div className="groups">
                 {
                     items.data.length === 0
-                        ? <div className="empty">
+                        ? <div className="empty" type01>
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">소속된 그룹이 없습니다.</p>
                         </div>

@@ -3,9 +3,10 @@ import React, {Fragment} from 'react';
 const InputRadio = ({form, setForm, el}) => {
     
     const changeForm = (event) => {
+        
         return setForm({
             ...form,
-            [event.target.name]: event.target.name
+            [event.target.name]: event.target.value
         });
     };
     
@@ -15,7 +16,8 @@ const InputRadio = ({form, setForm, el}) => {
                 React.cloneElement(el, {
                     onChange: (event) => { changeForm(event); },
                     value: el.props.value,
-                    id: el.props.value
+                    id: el.props.value,
+                    checked: form[el.props.name] ? el.props.value == form[el.props.name] : false
                 })
             }
             

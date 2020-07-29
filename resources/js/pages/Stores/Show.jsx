@@ -3,10 +3,12 @@ import Header from '../../components/common/Header';
 import {Link} from "react-router-dom";
 import Tabs from '../../components/common/Tabs';
 import CreateMenu from '../Menus/Create';
-
+import EditMenu from '../Menus/Edit';
+import Menu from '../Menus/Menu';
 
 const Show = ({history, match}) => {
     let [store, setStore] = useState(null);
+    let [selectedMenu, setSelectedMenu] = useState(null);
     let [isWidthLong, setIsWidthLong] = useState(false);
     let [defaultForm, setDefaultForm] = useState({});
     let map;
@@ -44,7 +46,34 @@ const Show = ({history, match}) => {
         
         window.setPop("");
     };
-
+    
+    const onMenuUpdated = (response) => {
+        setStore({
+            ...store,
+            menus: store.menus.map(menu => {
+                if(menu.id === response.data.id)
+                    return response.data;
+                
+                return menu;
+            })
+        });
+        
+        setSelectedMenu(null);
+        
+        window.setPop("");
+    };
+    
+    const onMenuDeleted = (menu) => {
+        setStore({
+            ...store,
+            menus: store.menus.filter(menuData => menuData.id !== menu.id)
+        });
+        
+        setSelectedMenu(null);
+        
+        window.setPop("");
+    };
+    
     const settingMap = (data) => {
         let url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
         let geoCode = {x: null, y: null};
@@ -94,6 +123,9 @@ const Show = ({history, match}) => {
                         {/* 메뉴 생성 팝업 */}
                         <CreateMenu store={store} onThen={onMenuCreated} defaultForm={defaultForm}/>
     
+                        {/* 메뉴 수정 팝업 */}
+                        {selectedMenu ? <EditMenu store={store} onThen={onMenuUpdated} onDeleted={onMenuDeleted} defaultForm={selectedMenu}/> : null}
+                        
                         {/* 썸네일 */}
                         <div className="store__top">
                             <div className={`ratioBox-wrap ${isWidthLong ? "widthLong" : "heightLong"}`}>
@@ -113,22 +145,25 @@ const Show = ({history, match}) => {
                                 </div>
                             </div>
                         </div>
-
-    
+                        
                         {/* 유틸 버튼 */}
-                        <div className="store__buttons">
-                            <a href={`tel:${store.phone}`} className="store__button">
-                                <img src="/img/phone--black.png" alt=""/>
-                                전화
-                            </a>
-                            <button className="store__button">
-                                <img src="/img/heart--black.png" alt=""/>
-                                좋아요
-                            </button>
-                            <button className="store__button">
-                                <img src="/img/checkSquare--black.png" alt=""/>
-                                투표생성
-                            </button>
+                        <div className="store__buttons--wrap">
+                            <div className="store__buttons">
+                                <a href={`tel:${store.phone}`} className="store__button">
+                                    <img src="/img/phone--black.png" alt=""/>
+                                    전화
+                                </a>
+                                
+                                <button className="store__button" onClick={() => {window.setFlash("준비중입니다.")}}>
+                                    <img src="/img/heart--black.png" alt=""/>
+                                    좋아요
+                                </button>
+                                
+                                <button className="store__button">
+                                    <img src="/img/checkSquare--black.png" alt=""/>
+                                    투표생성
+                                </button>
+                            </div>
                         </div>
     
                         {/* 정보 */}
@@ -150,10 +185,18 @@ const Show = ({history, match}) => {
     
                         <Tabs>
                             {/* 메뉴 */}
-                            <div name="메뉴">메뉴</div>
+                            <div name="메뉴">
+                                <div className="menus">
+                                    {store.menus.length === 0 ? <div className="empty type02"><p className="empty__text">등록된 메뉴가 없습니다.</p></div> : null}
+                                    
+                                    {store.menus.map(menu => <Menu menu={menu} key={menu.id} onClick={() => {setSelectedMenu(menu); window.setPop("메뉴 수정");}}/>)}
+                                </div>
+                            </div>
     
                             {/* 리뷰 */}
-                            <div name="리뷰">리뷰</div>
+                            <div name="리뷰">
+                                <div className="empty type02"><p className="empty__text">준비중입니다.</p></div>
+                            </div>
                         </Tabs>
                         
                         {/* 메뉴 생성 */}
@@ -162,7 +205,7 @@ const Show = ({history, match}) => {
                                 <img src="/img/trash--white.png" alt=""/>
                             </button>
 
-                            <button className="button--util bg--primary" onClick={null}>
+                            <button className="button--util bg--primary" onClick={() => {history.push("/stores/" + store.id + "/edit")}}>
                                 <img src="/img/edit--white.png" alt=""/>
                             </button>
         

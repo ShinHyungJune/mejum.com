@@ -52,7 +52,7 @@ const Stores = ({history, match, activeGroup}) => {
                 {group ? <p className="groups__title"><span className="point">“{group.title}”</span>의 식당</p> : null}
                 {
                     items.data.length === 0
-                        ? <div className="empty">
+                        ? <div className="empty type01">
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">등록된 음식점이 없습니다.</p>
                         </div>

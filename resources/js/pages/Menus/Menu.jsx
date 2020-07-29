@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
 
-const Menu = ({menu, edit}) => {
+const Menu = ({menu, onClick}) => {
     let [isWidthLong, setIsWidthLong] = useState(false);
     
     useEffect(() => {
@@ -12,13 +12,14 @@ const Menu = ({menu, edit}) => {
         img.onload = () => {
             if(img.width > img.height)
                 return setIsWidthLong(true);
-    
+        
             setIsWidthLong(false);
         };
+
     }, []);
     
     return (
-        <div className={`menu ${isWidthLong ? "widthLong" : "heightLong"}`}>
+        <div className={`menu ${isWidthLong ? "widthLong" : "heightLong"}`} onClick={onClick}>
             <div className="ratioBox-wrap">
                 <div className="ratioBox">
                     <img src={menu.img.url} alt=""/>
@@ -27,7 +28,7 @@ const Menu = ({menu, edit}) => {
             
             <div className="menu__texts">
                 <p className="menu__title">{menu.title}</p>
-                <p className="menu__title">{menu.price}</p>
+                <p className="menu__price">· {menu.price}</p>
             </div>
         </div>
     );

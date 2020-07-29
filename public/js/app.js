@@ -72263,9 +72263,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Mypage__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Mypage */ "./resources/js/pages/Mypage.jsx");
 /* harmony import */ var _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/Stores/Stores */ "./resources/js/pages/Stores/Stores.jsx");
 /* harmony import */ var _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/Stores/Create */ "./resources/js/pages/Stores/Create.jsx");
-/* harmony import */ var _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/Stores/Show */ "./resources/js/pages/Stores/Show.jsx");
-/* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.jsx");
-/* harmony import */ var _components_common_Flash__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/common/Flash */ "./resources/js/components/common/Flash.jsx");
+/* harmony import */ var _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/Stores/Edit */ "./resources/js/pages/Stores/Edit.jsx");
+/* harmony import */ var _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/Stores/Show */ "./resources/js/pages/Stores/Show.jsx");
+/* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.jsx");
+/* harmony import */ var _components_common_Flash__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/common/Flash */ "./resources/js/components/common/Flash.jsx");
+
 
 
 
@@ -72298,7 +72300,7 @@ var Index = function Index(_ref) {
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
     store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_21__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_22__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "contents"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
     exact: true,
@@ -72322,12 +72324,16 @@ var Index = function Index(_ref) {
     component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
+    path: "/stores/:store_id/edit",
+    component: _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_19__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    exact: true,
     path: "/stores/:group_id/create",
     component: _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_18__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores/:group_id/:store_id",
-    component: _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_19__["default"]
+    component: _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_20__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores/:group_id",
@@ -72335,7 +72341,7 @@ var Index = function Index(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/more",
-    component: _pages_More__WEBPACK_IMPORTED_MODULE_20__["default"]
+    component: _pages_More__WEBPACK_IMPORTED_MODULE_21__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/mypage",
@@ -73536,7 +73542,6 @@ var InputCheckbox = function InputCheckbox(_ref) {
 
   var changeForm = function changeForm(event) {
     if (!form[event.target.name]) form[event.target.name] = [];
-    console.log(event.target.value);
     form[event.target.name] && form[event.target.name].includes(event.target.value) ? form[event.target.name] = form[event.target.name].filter(function (data) {
       return data !== event.target.value;
     }) : form[event.target.name].push(event.target.value);
@@ -73551,7 +73556,8 @@ var InputCheckbox = function InputCheckbox(_ref) {
       changeForm(event);
     },
     value: el.props.value,
-    id: el.props.value
+    id: el.props.value,
+    checked: form[el.props.name] ? form[el.props.name].includes(el.props.value) : false
   }), el.props.label ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: el.props.value
   }, el.props.label) : null);
@@ -73828,7 +73834,7 @@ var InputRadio = function InputRadio(_ref) {
       el = _ref.el;
 
   var changeForm = function changeForm(event) {
-    return setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, event.target.name, event.target.name)));
+    return setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, event.target.name, event.target.value)));
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73838,7 +73844,8 @@ var InputRadio = function InputRadio(_ref) {
       changeForm(event);
     },
     value: el.props.value,
-    id: el.props.value
+    id: el.props.value,
+    checked: form[el.props.name] ? el.props.value == form[el.props.name] : false
   }), el.props.label ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: el.props.value
   }, el.props.label) : null);
@@ -74621,7 +74628,8 @@ var Groups = function Groups(_ref) {
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "groups"
   }, items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "empty"
+    className: "empty",
+    type01: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
     alt: "",
@@ -75173,7 +75181,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var Create = function Create(_ref) {
   var onThen = _ref.onThen,
-      store = _ref.store,
       defaultForm = _ref.defaultForm;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: "메뉴 생성"
@@ -75210,6 +75217,145 @@ var Create = function Create(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Create);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Menus/Edit.jsx":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/Menus/Edit.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
+/* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+
+
+
+
+var Edit = function Edit(_ref) {
+  var onThen = _ref.onThen,
+      defaultForm = _ref.defaultForm,
+      onDeleted = _ref.onDeleted;
+
+  var remove = function remove() {
+    axios["delete"]("/api/menus/" + defaultForm.id).then(function (response) {
+      window.setFlash(response.data.message);
+      onDeleted(defaultForm);
+    });
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    name: "메뉴 수정"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "create--menu"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    method: "patch",
+    url: "/api/menus/".concat(defaultForm.id),
+    onThen: onThen,
+    defaultForm: defaultForm
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "avatar",
+    name: "img",
+    className: "create--menu--thumbnail"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "title",
+    placeholder: "메뉴명"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "price",
+    placeholder: "가격"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "pop__buttons"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "button--middle bg--red",
+    onClick: remove
+  }, "\uC0AD\uC81C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button--middle bg--primary"
+  }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return window.setPop("");
+    },
+    className: "button--middle bg--lightGray"
+  }, "\uCDE8\uC18C")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Edit);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Menus/Menu.jsx":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/Menus/Menu.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+var Menu = function Menu(_ref) {
+  var menu = _ref.menu,
+      onClick = _ref.onClick;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      isWidthLong = _useState2[0],
+      setIsWidthLong = _useState2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var img = new Image();
+    img.src = menu.img.url;
+
+    img.onload = function () {
+      if (img.width > img.height) return setIsWidthLong(true);
+      setIsWidthLong(false);
+    };
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "menu ".concat(isWidthLong ? "widthLong" : "heightLong"),
+    onClick: onClick
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ratioBox-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ratioBox"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: menu.img.url,
+    alt: ""
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "menu__texts"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "menu__title"
+  }, menu.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "menu__price"
+  }, "\xB7 ", menu.price)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Menu);
 
 /***/ }),
 
@@ -75983,36 +76129,127 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+/* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
 
 var Edit = function Edit(_ref) {
-  var onThen = _ref.onThen,
-      _ref$defaultForm = _ref.defaultForm,
-      defaultForm = _ref$defaultForm === void 0 ? null : _ref$defaultForm;
-  return defaultForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    name: "그룹 수정"
+  var match = _ref.match,
+      history = _ref.history;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState2 = _slicedToArray(_useState, 2),
+      defaultForm = _useState2[0],
+      setDefaultForm = _useState2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get("/api/stores/" + match.params.store_id).then(function (response) {
+      console.log(response.data);
+      setDefaultForm(response.data);
+    });
+  }, []);
+
+  var onThen = function onThen(response) {
+    history.goBack();
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    title: "음식점 수정"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box type01",
+    id: "create--store"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
     method: "patch",
-    url: "/api/groups/".concat(defaultForm.id),
+    url: "/api/stores/".concat(match.params.store_id),
     onThen: onThen,
     defaultForm: defaultForm
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "img",
+    name: "img",
+    className: "create--store--thumbnail"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     name: "title",
-    placeholder: "그룹명"
+    placeholder: "상호명",
+    title: "상호명"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "contact",
+    placeholder: "전화번호",
+    title: "전화번호"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "address",
+    name: "address",
+    placeholder: "주소",
+    title: "주소"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "radio",
+    name: "park",
+    label: "\uC788\uC74C",
+    value: "1",
+    id: "parkTrue",
+    title: "주차장 여부"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "radio",
+    name: "park",
+    label: "\uC5C6\uC74C",
+    value: "0",
+    id: "parkFalse"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uC6D4",
+    value: "\uC6D4",
+    title: "휴무일"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uD654",
+    value: "\uD654"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uC218",
+    value: "\uC218"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uBAA9",
+    value: "\uBAA9"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uAE08",
+    value: "\uAE08"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uD1A0",
+    value: "\uD1A0"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uC77C",
+    value: "\uC77C"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button--middle bg--primary"
-  }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    onClick: function onClick() {
-      return window.setPop("");
-    },
-    className: "button--middle bg--lightGray"
-  }, "\uCDE8\uC18C")))) : null;
+    className: "button--middle width--100 bg--primary"
+  }, "\uC218\uC815")))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Edit);
@@ -76034,6 +76271,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Tabs */ "./resources/js/components/common/Tabs.jsx");
 /* harmony import */ var _Menus_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menus/Create */ "./resources/js/pages/Menus/Create.jsx");
+/* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
+/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -76066,6 +76305,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var Show = function Show(_ref) {
   var history = _ref.history,
       match = _ref.match;
@@ -76075,15 +76316,20 @@ var Show = function Show(_ref) {
       store = _useState2[0],
       setStore = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      isWidthLong = _useState4[0],
-      setIsWidthLong = _useState4[1];
+      selectedMenu = _useState4[0],
+      setSelectedMenu = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      defaultForm = _useState6[0],
-      setDefaultForm = _useState6[1];
+      isWidthLong = _useState6[0],
+      setIsWidthLong = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState8 = _slicedToArray(_useState7, 2),
+      defaultForm = _useState8[0],
+      setDefaultForm = _useState8[1];
 
   var map;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -76107,6 +76353,27 @@ var Show = function Show(_ref) {
     setStore(_objectSpread(_objectSpread({}, store), {}, {
       menus: [].concat(_toConsumableArray(store.menus), [response.data])
     }));
+    window.setPop("");
+  };
+
+  var onMenuUpdated = function onMenuUpdated(response) {
+    setStore(_objectSpread(_objectSpread({}, store), {}, {
+      menus: store.menus.map(function (menu) {
+        if (menu.id === response.data.id) return response.data;
+        return menu;
+      })
+    }));
+    setSelectedMenu(null);
+    window.setPop("");
+  };
+
+  var onMenuDeleted = function onMenuDeleted(menu) {
+    setStore(_objectSpread(_objectSpread({}, store), {}, {
+      menus: store.menus.filter(function (menuData) {
+        return menuData.id !== menu.id;
+      })
+    }));
+    setSelectedMenu(null);
     window.setPop("");
   };
 
@@ -76156,7 +76423,12 @@ var Show = function Show(_ref) {
     store: store,
     onThen: onMenuCreated,
     defaultForm: defaultForm
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), selectedMenu ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Edit__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    store: store,
+    onThen: onMenuUpdated,
+    onDeleted: onMenuDeleted,
+    defaultForm: selectedMenu
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap ".concat(isWidthLong ? "widthLong" : "heightLong")
@@ -76187,6 +76459,8 @@ var Show = function Show(_ref) {
     src: "/img/star--yellow.png",
     alt: ""
   })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "store__buttons--wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "tel:".concat(store.phone),
@@ -76195,7 +76469,10 @@ var Show = function Show(_ref) {
     src: "/img/phone--black.png",
     alt: ""
   }), "\uC804\uD654"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "store__button"
+    className: "store__button",
+    onClick: function onClick() {
+      window.setFlash("준비중입니다.");
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/heart--black.png",
     alt: ""
@@ -76204,7 +76481,7 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/checkSquare--black.png",
     alt: ""
-  }), "\uD22C\uD45C\uC0DD\uC131")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), "\uD22C\uD45C\uC0DD\uC131"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "infos--wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "infos type01"
@@ -76227,9 +76504,28 @@ var Show = function Show(_ref) {
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uBA54\uB274"
-  }, "\uBA54\uB274"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "menus"
+  }, store.menus.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "empty type02"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "empty__text"
+  }, "\uB4F1\uB85D\uB41C \uBA54\uB274\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : null, store.menus.map(function (menu) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      menu: menu,
+      key: menu.id,
+      onClick: function onClick() {
+        setSelectedMenu(menu);
+        window.setPop("메뉴 수정");
+      }
+    });
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uB9AC\uBDF0"
-  }, "\uB9AC\uBDF0")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "empty type02"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "empty__text"
+  }, "\uC900\uBE44\uC911\uC785\uB2C8\uB2E4.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "button--utils"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--util bg--red",
@@ -76239,7 +76535,9 @@ var Show = function Show(_ref) {
     alt: ""
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--util bg--primary",
-    onClick: null
+    onClick: function onClick() {
+      history.push("/stores/" + store.id + "/edit");
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/edit--white.png",
     alt: ""
@@ -76418,7 +76716,7 @@ var Stores = function Stores(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "point"
   }, "\u201C", group.title, "\u201D"), "\uC758 \uC2DD\uB2F9") : null, items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "empty"
+    className: "empty type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
     alt: "",

@@ -1,23 +1,63 @@
-import React, {useEffect} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import Form  from '../../components/common/Form';
 import Pop from "../../components/common/Pop";
+import Header from "../../components/common/Header";
 
-const Edit = ({onThen, defaultForm = null}) => {
+const Edit = ({match, history}) => {
+    
+    let [defaultForm, setDefaultForm] = useState({});
+    
+    useEffect(() => {
+        axios.get("/api/stores/" + match.params.store_id)
+            .then(response => {
+                console.log(response.data);
+                
+                setDefaultForm(response.data);
+            })
+    }, []);
+    
+    const onThen = (response) => {
+        history.goBack();
+    };
 
     return (
-        defaultForm ?
-                <Pop name={"그룹 수정"}>
-                    <Form method="patch" url={`/api/groups/${defaultForm.id}`} onThen={onThen} defaultForm={defaultForm}>
-                        <input type="text" name={"title"} placeholder={"그룹명"}/>
-
-                        <div className="pop__buttons">
-                            <button className={"button--middle bg--primary"}>수정</button>
-                            <button type={"button"} onClick={() => window.setPop("")} className={"button--middle bg--lightGray"}>취소</button>
-                        </div>
-                    </Form>
-                </Pop>
-            : null
-
+        <Fragment>
+            <Header title={"음식점 수정"}/>
+        
+            <div className="box type01" id={"create--store"}>
+                <Form method="patch" url={`/api/stores/${match.params.store_id}`}  onThen={onThen} defaultForm={defaultForm}>
+                    <input type="img" name={"img"} className={"create--store--thumbnail"}/>
+                
+                    <input type="text" name={"title"} placeholder={"상호명"} title={"상호명"}/>
+                
+                    <input type="text" name={"contact"} placeholder={"전화번호"} title={"전화번호"}/>
+                
+                    <input type="address" name={"address"} placeholder={"주소"} title={"주소"}/>
+                
+                    <input type="radio" name={"park"} label="있음" value="1" id={"parkTrue"} title={"주차장 여부"}/>
+                
+                    <input type="radio" name={"park"} label="없음" value="0" id={"parkFalse"}/>
+                
+                    <input type="checkbox" name={"closed"} label="월" value="월" title={"휴무일"}/>
+                
+                    <input type="checkbox" name={"closed"} label="화" value="화"/>
+                
+                    <input type="checkbox" name={"closed"} label="수" value="수"/>
+                
+                    <input type="checkbox" name={"closed"} label="목" value="목"/>
+                
+                    <input type="checkbox" name={"closed"} label="금" value="금"/>
+                
+                    <input type="checkbox" name={"closed"} label="토" value="토"/>
+                
+                    <input type="checkbox" name={"closed"} label="일" value="일"/>
+                
+                    <div className="pop__buttons">
+                        <button className={"button--middle width--100 bg--primary"}>수정</button>
+                    </div>
+                </Form>
+            </div>
+        </Fragment>
     );
 };
 
