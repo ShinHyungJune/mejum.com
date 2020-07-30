@@ -159,7 +159,7 @@ const Show = ({history, match}) => {
                         {selectedMenu ? <EditMenu store={store} onThen={onMenuUpdated} onDeleted={onMenuDeleted} defaultForm={selectedMenu} loading={loading} setLoading={setLoading}/> : null}
                         
                         {/* 투표지 생성 팝업 */}
-                        {<CreateVote defaultForm={{choices: store.menus}} />}
+                        {<CreateVote store={store} />}
                         
                         {/* 썸네일 */}
                         <div className="store__top">

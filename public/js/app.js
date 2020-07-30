@@ -72821,6 +72821,7 @@ var Form = function Form(_ref) {
       });
       loading = false;
     })["catch"](function (error) {
+      console.log(error);
       onCatch(error.response.data);
 
       if (error.response.status === 422) {
@@ -73958,9 +73959,10 @@ var InputTags = function InputTags(_ref) {
 
   var addTag = function addTag(event) {
     var forced = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    console.log(form);
     event.preventDefault();
 
-    if (event.key === "Enter" && word !== "" || forced) {
+    if (event.key === "Enter" && word !== "" || forced && word !== "") {
       // undefined나 null이라면 빈 배열로 초기화
       if (!form[el.props.name]) {
         form[el.props.name] = [];
@@ -76565,9 +76567,7 @@ var Show = function Show(_ref) {
     loading: loading,
     setLoading: setLoading
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Votes_Create__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    defaultForm: {
-      choices: store.menus
-    }
+    store: store
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76919,7 +76919,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Create = function Create(_ref) {
-  var defaultForm = _ref.defaultForm;
+  var store = _ref.store;
+  var defaultForm = {
+    store_id: store.id,
+    choices: store.menus.map(function (menu) {
+      return "".concat(menu.title, " - ").concat(menu.price);
+    })
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: "투표지 생성"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

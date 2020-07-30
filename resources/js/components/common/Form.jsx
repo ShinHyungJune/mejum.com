@@ -48,6 +48,8 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
             loading = false;
         }).catch(error => {
+            console.log(error);
+
             onCatch(error.response.data);
     
             if(error.response.status === 422) {

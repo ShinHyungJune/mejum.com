@@ -2,7 +2,11 @@ import React, {} from 'react';
 import Form  from '../../components/common/Form';
 import Pop from "../../components/common/Pop";
 
-const Create = ({defaultForm}) => {
+const Create = ({store}) => {
+    let defaultForm = {
+        store_id: store.id,
+        choices: store.menus.map(menu => `${menu.title} - ${menu.price}`)
+    };
     
     return (
         <Pop name={"투표지 생성"}>

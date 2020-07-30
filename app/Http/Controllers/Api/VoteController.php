@@ -35,6 +35,7 @@ class VoteController extends ApiController
 
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             "store_id" => "required|integer",
             "finished_at" => "required|string|max:500",

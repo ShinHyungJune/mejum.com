@@ -11,9 +11,10 @@ const InputTags = ({form, setForm, el, mergeOnChange}) => {
     let inputEl = document.querySelector(`input[name=${el.props.name}]`);
     
     const addTag = (event, forced = false) => {
+        console.log(form);
         event.preventDefault();
         
-        if((event.key === "Enter" && word !== "") || forced){
+        if((event.key === "Enter" && word !== "") || forced && word !== ""){
             // undefined나 null이라면 빈 배열로 초기화
             if(!form[el.props.name]) {
                 form[el.props.name] = [];
