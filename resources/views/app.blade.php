@@ -18,7 +18,7 @@
         <div id="app">
 
         </div>
-        <script src="{{mix('/js/app.js')}}"></script>
+        <script src="{{mix('/js/app.js')}}?{{\Carbon\Carbon::now()}}"></script>
         <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ue3zysm2ng"></script>
     </body>
 </html>
