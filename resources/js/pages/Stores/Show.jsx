@@ -75,32 +75,27 @@ const Show = ({history, match}) => {
     };
     
     const settingMap = (data) => {
-        let url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
         let geoCode = {x: null, y: null};
 
-        axios.get(`${url}?query=${data.address}`, {
-            headers: {
-                "X-NCP-APIGW-API-KEY-ID": window.naver.couldKey,
-                "X-NCP-APIGW-API-KEY": window.naver.couldSecret,
-            }
-        }).then(response => {
-            if(response.data.addresses[0]){
-                geoCode = {
-                    x: response.data.addresses[0].x,
-                    y: response.data.addresses[0].y,
-                };
-
-                map = new naver.maps.Map('map', {
-                    center: new naver.maps.LatLng(geoCode.y, geoCode.x),
-                    zoom: 15
-                });
-
-                let marker = new naver.maps.Marker({
-                    position: new naver.maps.LatLng(geoCode.y, geoCode.x),
-                    map: map
-                });
-            }
-
+        axios.get(`/api/getGeoCode?address=${data.address}`)
+            .then(response => {
+                console.log(response);
+                if(response.data.addresses[0]){
+                    geoCode = {
+                        x: response.data.addresses[0].x,
+                        y: response.data.addresses[0].y,
+                    };
+    
+                    map = new naver.maps.Map('map', {
+                        center: new naver.maps.LatLng(geoCode.y, geoCode.x),
+                        zoom: 15
+                    });
+    
+                    new naver.maps.Marker({
+                        position: new naver.maps.LatLng(geoCode.y, geoCode.x),
+                        map: map
+                    });
+                }
         });
     };
 

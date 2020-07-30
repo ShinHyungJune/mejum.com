@@ -73291,13 +73291,7 @@ var FindAddress = function FindAddress(_ref) {
 
   var search = function search(e) {
     e.preventDefault();
-    var url = "	https://openapi.naver.com/v1/search/local.json";
-    axios.get("".concat(url, "?query=").concat(word, "&display=5"), {
-      headers: {
-        "X-Naver-Client-Id": window.naver.key,
-        "X-Naver-Client-Secret": window.naver.secret
-      }
-    }).then(function (response) {
+    axios.get("/api/search?word=".concat(word)).then(function (response) {
       setItems(response.data.items.map(function (item) {
         item.title = item.title.replace(/<[^>]+>/g, '');
         return item;
@@ -76390,17 +76384,13 @@ var Show = function Show(_ref) {
   };
 
   var settingMap = function settingMap(data) {
-    var url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
     var geoCode = {
       x: null,
       y: null
     };
-    axios.get("".concat(url, "?query=").concat(data.address), {
-      headers: {
-        "X-NCP-APIGW-API-KEY-ID": window.naver.couldKey,
-        "X-NCP-APIGW-API-KEY": window.naver.couldSecret
-      }
-    }).then(function (response) {
+    axios.get("/api/getGeoCode?address=".concat(data.address)).then(function (response) {
+      console.log(response);
+
       if (response.data.addresses[0]) {
         geoCode = {
           x: response.data.addresses[0].x,
@@ -76410,7 +76400,7 @@ var Show = function Show(_ref) {
           center: new naver.maps.LatLng(geoCode.y, geoCode.x),
           zoom: 15
         });
-        var marker = new naver.maps.Marker({
+        new naver.maps.Marker({
           position: new naver.maps.LatLng(geoCode.y, geoCode.x),
           map: map
         });
