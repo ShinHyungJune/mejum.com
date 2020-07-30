@@ -48,8 +48,6 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
             loading = false;
         }).catch(error => {
-            console.log(error);
-
             onCatch(error.response.data);
     
             if(error.response.status === 422) {
@@ -150,7 +148,7 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
     
                     {React.createElement('p', {className: "input--error"}, form.errors ? form.errors[el.props.name] : null)}
                 </div>
-            ) : (el)
+            ) : el.props.type === "submit" ? React.cloneElement(el, {onClick: submit}) : (el)
     });
 
     /*const mergeOnChange = (el, event) => {

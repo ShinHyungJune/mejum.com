@@ -72821,7 +72821,6 @@ var Form = function Form(_ref) {
       });
       loading = false;
     })["catch"](function (error) {
-      console.log(error);
       onCatch(error.response.data);
 
       if (error.response.status === 422) {
@@ -72911,7 +72910,9 @@ var Form = function Form(_ref) {
       el: el
     }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--error"
-    }, form.errors ? form.errors[el.props.name] : null)) : el;
+    }, form.errors ? form.errors[el.props.name] : null)) : el.props.type === "submit" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(el, {
+      onClick: submit
+    }) : el;
   });
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
@@ -73925,6 +73926,18 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -73935,25 +73948,38 @@ var InputTags = function InputTags(_ref) {
       mergeOnChange = _ref.mergeOnChange;
   var max = el.props.max ? el.props.max : 10;
 
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      word = _useState2[0],
+      setWord = _useState2[1];
+
+  var label = el.props.label ? el.props.label : "태그";
+  var inputEl = document.querySelector("input[name=".concat(el.props.name, "]"));
+
   var addTag = function addTag(event) {
+    var forced = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     event.preventDefault();
 
-    if (event.key === "Enter" && event.target.value !== "") {
+    if (event.key === "Enter" && word !== "" || forced) {
       // undefined나 null이라면 빈 배열로 초기화
-      if (!form[event.target.name]) {
-        form[event.target.name] = [];
+      if (!form[el.props.name]) {
+        form[el.props.name] = [];
         setForm(form);
       } // 중복 체크
 
 
-      if (form[event.target.name].find(function (tag) {
-        return tag === event.target.value;
-      })) return store.dispatch(Object(_actions_commonActions__WEBPACK_IMPORTED_MODULE_1__["setFlash"])("중복된 태그는 추가할 수 없습니다.")); // 최대 개수 체크
+      if (form[el.props.name].find(function (tag) {
+        return tag === word;
+      })) return store.dispatch(Object(_actions_commonActions__WEBPACK_IMPORTED_MODULE_1__["setFlash"])("\uC911\uBCF5\uB41C ".concat(label, "(\uC740)\uB294 \uCD94\uAC00\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."))); // 최대 개수 체크
 
-      if (max <= form[event.target.name].length) return store.dispatch(Object(_actions_commonActions__WEBPACK_IMPORTED_MODULE_1__["setFlash"])("\uD0DC\uADF8\uB294 \uCD5C\uB300 ".concat(max, "\uAC1C\uAE4C\uC9C0\uB9CC \uC785\uB825 \uAC00\uB2A5\uD569\uB2C8\uB2E4.")));
-      form[event.target.name].push(event.target.value);
-      setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, event.target.name, form[event.target.name])));
-      event.target.value = "";
+      if (max <= form[el.props.name].length) return store.dispatch(Object(_actions_commonActions__WEBPACK_IMPORTED_MODULE_1__["setFlash"])("".concat(label, "(\uC740)\uB294 \uCD5C\uB300 ").concat(max, "\uAC1C\uAE4C\uC9C0\uB9CC \uC785\uB825 \uAC00\uB2A5\uD569\uB2C8\uB2E4.")));
+      form[el.props.name].push(word);
+      setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, el.props.name, form[el.props.name])));
+      inputEl.value = "";
+      inputEl.focus();
+      setWord("");
+    } else {
+      setWord(event.target.value);
     }
   };
 
@@ -73964,16 +73990,10 @@ var InputTags = function InputTags(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: el.props.className ? el.props.className : "input-".concat(el.props.type ? el.props.type : el.type)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(el, {
-    onKeyUp: function onKeyUp(event) {
-      el.props.onChange ? mergeOnChange(el, event) : addTag(event);
-    },
-    type: "text",
-    placeholder: el.props.placeholder ? el.props.placeholder : "입력 후 엔터"
-  }), form[el.props.name] ? form[el.props.name].map(function (tag) {
+    className: el.props.className ? el.props.className : "input--".concat(el.props.type ? el.props.type : el.type)
+  }, form[el.props.name] ? form[el.props.name].map(function (tag) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-      className: "input-tag bg-accent",
+      className: "input--tag",
       key: tag
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text"
@@ -73982,9 +74002,20 @@ var InputTags = function InputTags(_ref) {
       onClick: function onClick() {
         removeTag(tag);
       },
-      className: "input-tag-btn"
+      className: "input--tag__button"
     }));
-  }) : null);
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(el, {
+    onKeyUp: function onKeyUp(event) {
+      el.props.onChange ? mergeOnChange(el, event) : addTag(event);
+    },
+    type: "text",
+    placeholder: el.props.placeholder ? el.props.placeholder : "입력 후 엔터"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button--middle width--100",
+    onClick: function onClick(event) {
+      addTag(event, true);
+    }
+  }, label, " \uCD94\uAC00"));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (InputTags);
@@ -76355,7 +76386,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Tabs */ "./resources/js/components/common/Tabs.jsx");
 /* harmony import */ var _Menus_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menus/Create */ "./resources/js/pages/Menus/Create.jsx");
 /* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
-/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
+/* harmony import */ var _Votes_Create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Votes/Create */ "./resources/js/pages/Votes/Create.jsx");
+/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -76381,6 +76413,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -76531,7 +76564,11 @@ var Show = function Show(_ref) {
     defaultForm: selectedMenu,
     loading: loading,
     setLoading: setLoading
-  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Votes_Create__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    defaultForm: {
+      choices: store.menus
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap ".concat(isWidthLong ? "widthLong" : "heightLong")
@@ -76580,7 +76617,10 @@ var Show = function Show(_ref) {
     src: "/img/heart--black.png",
     alt: ""
   }), "\uC88B\uC544\uC694"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "store__button"
+    className: "store__button",
+    onClick: function onClick() {
+      return window.setPop("투표지 생성");
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/checkSquare--black.png",
     alt: ""
@@ -76620,7 +76660,7 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
   }, "\uB4F1\uB85D\uB41C \uBA54\uB274\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : null, store.menus.map(function (menu) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_7__["default"], {
       menu: menu,
       key: menu.id,
       onClick: function onClick() {
@@ -76858,6 +76898,55 @@ var mapStates = function mapStates(state) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStates, null)(Stores));
+
+/***/ }),
+
+/***/ "./resources/js/pages/Votes/Create.jsx":
+/*!*********************************************!*\
+  !*** ./resources/js/pages/Votes/Create.jsx ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
+/* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+
+
+
+
+var Create = function Create(_ref) {
+  var defaultForm = _ref.defaultForm;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    name: "투표지 생성"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "create--vote"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    method: "post",
+    url: "/api/votes",
+    defaultForm: defaultForm,
+    enterSubmitDisabled: true
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "tags",
+    name: "choices",
+    label: "\uC120\uD0DD\uC9C0",
+    placeholder: "선택지명 입력 후 엔터"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit",
+    className: "pop__button button--middle bg--primary"
+  }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return window.setPop("");
+    },
+    className: "pop__button button--middle bg--lightGray"
+  }, "\uCDE8\uC18C"))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Create);
 
 /***/ }),
 
