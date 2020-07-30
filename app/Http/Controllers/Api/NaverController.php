@@ -32,7 +32,7 @@ class NaverController extends ApiController
             'X-NCP-APIGW-API-KEY-ID' => config("naver.cloud.key"),
             'X-NCP-APIGW-API-KEY' => config("naver.cloud.secret")
         ])->get(config("naver.cloud.domain").'/map-geocode/v2/geocode', [
-            "query" => "서울특별시 중구 세종대로 99 덕수궁"
+            "query" => $request->address
         ]);
 
         return $this->respond($response->json());

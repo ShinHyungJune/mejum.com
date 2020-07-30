@@ -72823,9 +72823,14 @@ var Form = function Form(_ref) {
     })["catch"](function (error) {
       console.log(error);
       onCatch(error.response.data);
-      if (error.response.status === 422) return setForm(_objectSpread(_objectSpread({}, form), {}, {
-        errors: error.response.data.errors
-      }));
+
+      if (error.response.status === 422) {
+        form.errors = error.response.data.errors;
+        return setForm(_objectSpread(_objectSpread({}, form), {}, {
+          errors: error.response.data.errors
+        }));
+      }
+
       setFlash(error.response.data.message);
       loading = false;
     });
@@ -72852,9 +72857,7 @@ var Form = function Form(_ref) {
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (defaultForm) setForm(_objectSpread(_objectSpread({}, defaultForm), {}, {
-      errors: {}
-    }));
+    if (defaultForm) setForm(_objectSpread(_objectSpread({}, form), defaultForm));
   }, [defaultForm]);
   var contents = react__WEBPACK_IMPORTED_MODULE_0___default.a.Children.map(children, function (el) {
     return el.type === "input" || el.type === "select" || el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73464,6 +73467,7 @@ var InputAvatar = function InputAvatar(_ref) {
       // 사용자가 파일 선택 눌러서 이미지 변경했으면, 업데이트라 해도 이미지는 새로 등록되야함.
       setFakeFile(form[el.props.name]);
       setUrl(form[el.props.name].url);
+      if (form[el.props.name].url) extendImg(form[el.props.name].url);
       setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, el.props.name, "")));
     }
   }, [form]);
@@ -73478,15 +73482,18 @@ var InputAvatar = function InputAvatar(_ref) {
 
     reader.onload = function (e) {
       setUrl(e.target.result);
-      var img = new Image();
-      img.src = e.target.result;
-
-      img.onload = function () {
-        if (img.width > img.height) $("".concat(el.props.className ? "." + el.props.className : ".input--avatar", " .ratioBox img")).css("width", "auto").css("height", "100%");
-        if (img.width <= img.height) $("".concat(el.props.className ? "." + el.props.className : ".input--avatar", " .ratioBox img")).css("width", "100%").css("height", "auto");
-      };
-
+      extendImg(e.target.result);
       setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, eventTargetName, file)));
+    };
+  };
+
+  var extendImg = function extendImg(url) {
+    var img = new Image();
+    img.src = url;
+
+    img.onload = function () {
+      if (img.width > img.height) $("".concat(el.props.className ? "." + el.props.className : ".input--avatar", " .ratioBox img")).css("width", "auto").css("height", "100%");
+      if (img.width <= img.height) $("".concat(el.props.className ? "." + el.props.className : ".input--avatar", " .ratioBox img")).css("width", "100%").css("height", "auto");
     };
   };
 
@@ -74358,7 +74365,7 @@ var Edit = function Edit(_ref) {
       _ref$defaultForm = _ref.defaultForm,
       defaultForm = _ref$defaultForm === void 0 ? null : _ref$defaultForm;
   return defaultForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    name: "음식점 수정"
+    name: "그룹 수정"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
     method: "patch",
     url: "/api/groups/".concat(defaultForm.id),
@@ -74678,6 +74685,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store */ "./resources/js/store.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -74687,6 +74706,11 @@ var Invite = function Invite(_ref) {
   var onThen = _ref.onThen,
       _ref$group = _ref.group,
       group = _ref$group === void 0 ? null : _ref$group;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loading = _useState2[0],
+      setLoading = _useState2[1];
 
   var copy = function copy(data) {
     var textarea = document.createElement("textarea");
@@ -74727,9 +74751,6 @@ var Invite = function Invite(_ref) {
       }
     });
   }, [group]);
-
-  var share = function share() {};
-
   return group ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: "그룹원 초대"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75185,7 +75206,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var Create = function Create(_ref) {
   var onThen = _ref.onThen,
-      defaultForm = _ref.defaultForm;
+      defaultForm = _ref.defaultForm,
+      loading = _ref.loading,
+      setLoading = _ref.setLoading;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
     name: "메뉴 생성"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75194,6 +75217,9 @@ var Create = function Create(_ref) {
     method: "post",
     url: "/api/menus",
     onThen: onThen,
+    onCatch: function onCatch() {
+      return setLoading(false);
+    },
     defaultForm: defaultForm
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "avatar",
@@ -75210,7 +75236,10 @@ var Create = function Create(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button--middle bg--primary"
+    className: "button--middle bg--primary ".concat(loading ? "loading type01" : null),
+    onClick: function onClick() {
+      return setLoading(true);
+    }
   }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
@@ -75244,7 +75273,9 @@ __webpack_require__.r(__webpack_exports__);
 var Edit = function Edit(_ref) {
   var onThen = _ref.onThen,
       defaultForm = _ref.defaultForm,
-      onDeleted = _ref.onDeleted;
+      onDeleted = _ref.onDeleted,
+      loading = _ref.loading,
+      setLoading = _ref.setLoading;
 
   var remove = function remove() {
     axios["delete"]("/api/menus/" + defaultForm.id).then(function (response) {
@@ -75261,6 +75292,9 @@ var Edit = function Edit(_ref) {
     method: "patch",
     url: "/api/menus/".concat(defaultForm.id),
     onThen: onThen,
+    onCatch: function onCatch() {
+      return setLoading(false);
+    },
     defaultForm: defaultForm
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "avatar",
@@ -75281,7 +75315,10 @@ var Edit = function Edit(_ref) {
     className: "button--middle bg--red",
     onClick: remove
   }, "\uC0AD\uC81C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button--middle bg--primary"
+    className: "button--middle bg--primary ".concat(loading ? "loading type01" : null),
+    onClick: function onClick() {
+      return setLoading(true);
+    }
   }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
@@ -76015,6 +76052,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -76023,12 +76072,24 @@ __webpack_require__.r(__webpack_exports__);
 var Create = function Create(_ref) {
   var history = _ref.history,
       match = _ref.match;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      loading = _useState2[0],
+      setLoading = _useState2[1];
+
   var defaultForm = {
     "group_id": match.params.group_id
   };
 
   var onThen = function onThen(response) {
+    setLoading(false);
     history.goBack();
+  };
+
+  var onCatch = function onCatch(error) {
+    console.log(error);
+    setLoading(false);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -76041,6 +76102,7 @@ var Create = function Create(_ref) {
     method: "post",
     url: "/api/stores",
     onThen: onThen,
+    onCatch: onCatch,
     defaultForm: defaultForm
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "img",
@@ -76113,7 +76175,10 @@ var Create = function Create(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button--middle width--100 bg--primary"
+    className: "button--middle width--100 bg--primary ".concat(loading ? "loading type01" : null),
+    onClick: function onClick() {
+      return setLoading(true);
+    }
   }, "\uC0DD\uC131")))));
 };
 
@@ -76161,14 +76226,20 @@ var Edit = function Edit(_ref) {
       defaultForm = _useState2[0],
       setDefaultForm = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      loading = _useState4[0],
+      setLoading = _useState4[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/stores/" + match.params.store_id).then(function (response) {
-      console.log(response.data);
+      response.data.closed = response.data.closed.split(",");
       setDefaultForm(response.data);
     });
   }, []);
 
   var onThen = function onThen(response) {
+    setLoading(false);
     history.goBack();
   };
 
@@ -76182,9 +76253,12 @@ var Edit = function Edit(_ref) {
     method: "patch",
     url: "/api/stores/".concat(match.params.store_id),
     onThen: onThen,
+    onCatch: function onCatch() {
+      setLoading(false);
+    },
     defaultForm: defaultForm
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "img",
+    type: "avatar",
     name: "img",
     className: "create--store--thumbnail"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -76254,7 +76328,10 @@ var Edit = function Edit(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "button--middle width--100 bg--primary"
+    className: "button--middle width--100 bg--primary ".concat(loading ? "loading type01" : null),
+    onClick: function onClick() {
+      return setLoading(true);
+    }
   }, "\uC218\uC815")))));
 };
 
@@ -76317,29 +76394,35 @@ var Show = function Show(_ref) {
   var history = _ref.history,
       match = _ref.match;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
-      store = _useState2[0],
-      setStore = _useState2[1];
+      loading = _useState2[0],
+      setLoading = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      selectedMenu = _useState4[0],
-      setSelectedMenu = _useState4[1];
+      store = _useState4[0],
+      setStore = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      isWidthLong = _useState6[0],
-      setIsWidthLong = _useState6[1];
+      selectedMenu = _useState6[0],
+      setSelectedMenu = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState8 = _slicedToArray(_useState7, 2),
-      defaultForm = _useState8[0],
-      setDefaultForm = _useState8[1];
+      isWidthLong = _useState8[0],
+      setIsWidthLong = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState10 = _slicedToArray(_useState9, 2),
+      defaultForm = _useState10[0],
+      setDefaultForm = _useState10[1];
 
   var map;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/stores/" + match.params.store_id).then(function (response) {
+      response.data.closed = alignDayOfWeeks(response.data.closed);
       setStore(response.data);
       setDefaultForm({
         store_id: response.data.id
@@ -76355,7 +76438,21 @@ var Show = function Show(_ref) {
     });
   }, []);
 
+  var alignDayOfWeeks = function alignDayOfWeeks(dayOfWeeks) {
+    if (!dayOfWeeks) return null;
+    var aligned = [];
+    if (dayOfWeeks.includes("월")) aligned.push("월");
+    if (dayOfWeeks.includes("화")) aligned.push("화");
+    if (dayOfWeeks.includes("수")) aligned.push("수");
+    if (dayOfWeeks.includes("목")) aligned.push("목");
+    if (dayOfWeeks.includes("금")) aligned.push("금");
+    if (dayOfWeeks.includes("토")) aligned.push("토");
+    if (dayOfWeeks.includes("일")) aligned.push("일");
+    return aligned;
+  };
+
   var onMenuCreated = function onMenuCreated(response) {
+    setLoading(false);
     setStore(_objectSpread(_objectSpread({}, store), {}, {
       menus: [].concat(_toConsumableArray(store.menus), [response.data])
     }));
@@ -76363,6 +76460,7 @@ var Show = function Show(_ref) {
   };
 
   var onMenuUpdated = function onMenuUpdated(response) {
+    setLoading(false);
     setStore(_objectSpread(_objectSpread({}, store), {}, {
       menus: store.menus.map(function (menu) {
         if (menu.id === response.data.id) return response.data;
@@ -76389,8 +76487,6 @@ var Show = function Show(_ref) {
       y: null
     };
     axios.get("/api/getGeoCode?address=".concat(data.address)).then(function (response) {
-      console.log(response);
-
       if (response.data.addresses[0]) {
         geoCode = {
           x: response.data.addresses[0].x,
@@ -76425,12 +76521,16 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Create__WEBPACK_IMPORTED_MODULE_4__["default"], {
     store: store,
     onThen: onMenuCreated,
-    defaultForm: defaultForm
+    defaultForm: defaultForm,
+    loading: loading,
+    setLoading: setLoading
   }), selectedMenu ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Edit__WEBPACK_IMPORTED_MODULE_5__["default"], {
     store: store,
     onThen: onMenuUpdated,
     onDeleted: onMenuDeleted,
-    defaultForm: selectedMenu
+    defaultForm: selectedMenu,
+    loading: loading,
+    setLoading: setLoading
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76466,7 +76566,7 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "tel:".concat(store.phone),
+    href: "tel:".concat(store.contact),
     className: "store__button"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/phone--black.png",

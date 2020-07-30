@@ -51,13 +51,18 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
             console.log(error);
 
             onCatch(error.response.data);
-
-            if(error.response.status === 422)
+    
+            if(error.response.status === 422) {
+                form.errors = error.response.data.errors;
+                
                 return setForm({
                     ...form,
                     errors: error.response.data.errors
                 });
+            }
+            
 
+            
             setFlash(error.response.data.message);
 
             loading = false;
@@ -96,8 +101,9 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
     useEffect(() => {
         if(defaultForm)
             setForm({
+                ...form,
                 ...defaultForm,
-                errors: {}
+                /*errors: form.errors ? form.errors : {}*/
             });
     }, [defaultForm]);
     

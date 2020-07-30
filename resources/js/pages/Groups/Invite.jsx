@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Form from '../../components/common/Form';
 import Pop from "../../components/common/Pop";
 import store from "../../store";
 
 const Invite = ({onThen, group = null}) => {
-
+    let [loading, setLoading] = useState(false);
+    
     const copy = (data) => {
         let textarea = document.createElement("textarea");
 
@@ -54,10 +55,6 @@ const Invite = ({onThen, group = null}) => {
         });
     }, [group]);
 
-    const share = () => {
-
-    };
-
     return (
         group ?
             <Pop name={"그룹원 초대"}>
@@ -70,7 +67,7 @@ const Invite = ({onThen, group = null}) => {
                         <button className="input--withButtons__button" onClick={() => copy(group.invitation)}>
                             <img src="/img/clipboard.png" alt=""/>
                         </button>
-                        <button className="input--withButtons__button" id={"kakao" + group.id}>
+                        <button className={`input--withButtons__button`} id={"kakao" + group.id}>
                             <img src="/img/externalLink.png" alt=""/>
                         </button>
                     </div>

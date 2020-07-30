@@ -236,6 +236,22 @@ body {}
 .member--button {margin-left:16px; font-size:12px; color:rgba(255,255,255,0.7);}
 .member--button:first-child {margin-left:0;}
 
+.loading.type01 {position:relative; color:transparent;}
+.loading.type01 img {display:none;}
+.loading.type01 * {color:transparent;}
+.loading.type01:after {content:""; width:20px; height:20px; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
+    background:url("/img/rotate--black.png") no-repeat; background-size:cover;
+    animation:rotate .5s forwards linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform:translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform:translate(-50%, -50%) rotate(360deg);
+    }
+}
 
 
 

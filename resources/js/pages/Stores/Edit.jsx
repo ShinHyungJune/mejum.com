@@ -6,17 +6,20 @@ import Header from "../../components/common/Header";
 const Edit = ({match, history}) => {
     
     let [defaultForm, setDefaultForm] = useState({});
+    let [loading, setLoading] = useState(false);
     
     useEffect(() => {
         axios.get("/api/stores/" + match.params.store_id)
             .then(response => {
-                console.log(response.data);
+                response.data.closed = response.data.closed.split(",");
                 
                 setDefaultForm(response.data);
             })
     }, []);
     
     const onThen = (response) => {
+        setLoading(false);
+        
         history.goBack();
     };
 
@@ -25,8 +28,8 @@ const Edit = ({match, history}) => {
             <Header title={"음식점 수정"} history={history}/>
         
             <div className="box type01" id={"create--store"}>
-                <Form method="patch" url={`/api/stores/${match.params.store_id}`}  onThen={onThen} defaultForm={defaultForm}>
-                    <input type="img" name={"img"} className={"create--store--thumbnail"}/>
+                <Form method="patch" url={`/api/stores/${match.params.store_id}`}  onThen={onThen} onCatch={() => {setLoading(false)}} defaultForm={defaultForm}>
+                    <input type="avatar" name={"img"} className={"create--store--thumbnail"}/>
                 
                     <input type="text" name={"title"} placeholder={"상호명"} title={"상호명"}/>
                 
@@ -53,7 +56,7 @@ const Edit = ({match, history}) => {
                     <input type="checkbox" name={"closed"} label="일" value="일"/>
                 
                     <div className="pop__buttons">
-                        <button className={"button--middle width--100 bg--primary"}>수정</button>
+                        <button className={`button--middle width--100 bg--primary ${loading ? "loading type01" : null}`} onClick={() => setLoading(true)}>수정</button>
                     </div>
                 </Form>
             </div>

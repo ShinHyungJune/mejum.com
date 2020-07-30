@@ -4,13 +4,21 @@ import Pop from "../../components/common/Pop";
 import Header from "../../components/common/Header";
 
 const Create = ({history, match}) => {
-
+    let [loading, setLoading] = useState(false);
+    
     let defaultForm = {
-        "group_id" : match.params.group_id
+        "group_id" : match.params.group_id,
     };
 
     const onThen = (response) => {
+        setLoading(false);
+        
         history.goBack();
+    };
+    
+    const onCatch = (error) => {
+        console.log(error);
+        setLoading(false);
     };
 
     return (
@@ -18,7 +26,7 @@ const Create = ({history, match}) => {
             <Header title={"음식점 등록"} history={history}/>
             
             <div className="box type01" id={"create--store"}>
-                <Form method="post" url="/api/stores" onThen={onThen} defaultForm={defaultForm}>
+                <Form method="post" url="/api/stores" onThen={onThen} onCatch={onCatch} defaultForm={defaultForm}>
                     <input type="img" name={"img"} className={"create--store--thumbnail"}/>
 
                     <input type="text" name={"title"} placeholder={"상호명"} title={"상호명"}/>
@@ -46,7 +54,7 @@ const Create = ({history, match}) => {
                     <input type="checkbox" name={"closed"} label="일" value="일"/>
 
                     <div className="pop__buttons">
-                        <button className={"button--middle width--100 bg--primary"}>생성</button>
+                        <button className={`button--middle width--100 bg--primary ${loading ? "loading type01" : null}`} onClick={() => setLoading(true)}>생성</button>
                     </div>
                 </Form>
             </div>

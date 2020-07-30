@@ -14,6 +14,9 @@ const InputAvatar = ({form, setForm, el, mergeOnChange}) => {
             
             setUrl(form[el.props.name].url);
             
+            if(form[el.props.name].url)
+                extendImg(form[el.props.name].url);
+            
             setForm({
                 ...form,
                 [el.props.name] : "" // 이미지를 null로 넘겨줘야 백엔드에서 그냥 수정을 안하고 넘김
@@ -38,23 +41,27 @@ const InputAvatar = ({form, setForm, el, mergeOnChange}) => {
         reader.onload = e => {
             setUrl(e.target.result);
 
-            let img = new Image();
-
-            img.src = e.target.result;
-
-            img.onload = () => {
-
-                if(img.width > img.height)
-                    $(`${el.props.className ? "." + el.props.className : ".input--avatar"} .ratioBox img`).css("width", "auto").css("height", "100%");
-
-                if(img.width <= img.height)
-                    $(`${el.props.className ? "." + el.props.className : ".input--avatar"} .ratioBox img`).css("width", "100%").css("height", "auto");
-            };
+            extendImg(e.target.result);
 
             setForm({
                 ...form,
                 [eventTargetName]: file
             });
+        };
+    };
+    
+    const extendImg = (url) => {
+        let img = new Image();
+    
+        img.src = url;
+    
+        img.onload = () => {
+        
+            if(img.width > img.height)
+                $(`${el.props.className ? "." + el.props.className : ".input--avatar"} .ratioBox img`).css("width", "auto").css("height", "100%");
+        
+            if(img.width <= img.height)
+                $(`${el.props.className ? "." + el.props.className : ".input--avatar"} .ratioBox img`).css("width", "100%").css("height", "auto");
         };
     };
     

@@ -7,6 +7,7 @@ import EditMenu from '../Menus/Edit';
 import Menu from '../Menus/Menu';
 
 const Show = ({history, match}) => {
+    let [loading, setLoading] = useState(false);
     let [store, setStore] = useState(null);
     let [selectedMenu, setSelectedMenu] = useState(null);
     let [isWidthLong, setIsWidthLong] = useState(false);
@@ -17,6 +18,8 @@ const Show = ({history, match}) => {
         axios.get("/api/stores/" + match.params.store_id)
             .then(response => {
     
+                response.data.closed = alignDayOfWeeks(response.data.closed);
+                
                 setStore(response.data);
 
                 setDefaultForm({
@@ -38,7 +41,39 @@ const Show = ({history, match}) => {
             })
     }, []);
     
+    const alignDayOfWeeks = (dayOfWeeks) => {
+        if(!dayOfWeeks)
+            return null;
+        
+        let aligned = [];
+        
+        if(dayOfWeeks.includes("월"))
+            aligned.push("월");
+    
+        if(dayOfWeeks.includes("화"))
+            aligned.push("화");
+    
+        if(dayOfWeeks.includes("수"))
+            aligned.push("수");
+    
+        if(dayOfWeeks.includes("목"))
+            aligned.push("목");
+    
+        if(dayOfWeeks.includes("금"))
+            aligned.push("금");
+    
+        if(dayOfWeeks.includes("토"))
+            aligned.push("토");
+    
+        if(dayOfWeeks.includes("일"))
+            aligned.push("일");
+        
+        return aligned;
+    };
+    
     const onMenuCreated = (response) => {
+        setLoading(false);
+        
         setStore({
             ...store,
             menus: [...store.menus, response.data]
@@ -48,6 +83,8 @@ const Show = ({history, match}) => {
     };
     
     const onMenuUpdated = (response) => {
+        setLoading(false);
+        
         setStore({
             ...store,
             menus: store.menus.map(menu => {
@@ -79,7 +116,6 @@ const Show = ({history, match}) => {
 
         axios.get(`/api/getGeoCode?address=${data.address}`)
             .then(response => {
-                console.log(response);
                 if(response.data.addresses[0]){
                     geoCode = {
                         x: response.data.addresses[0].x,
@@ -116,10 +152,10 @@ const Show = ({history, match}) => {
                 <div id="store">
                     <div className="box type01">
                         {/* 메뉴 생성 팝업 */}
-                        <CreateMenu store={store} onThen={onMenuCreated} defaultForm={defaultForm}/>
+                        <CreateMenu store={store} onThen={onMenuCreated} defaultForm={defaultForm} loading={loading} setLoading={setLoading}/>
     
                         {/* 메뉴 수정 팝업 */}
-                        {selectedMenu ? <EditMenu store={store} onThen={onMenuUpdated} onDeleted={onMenuDeleted} defaultForm={selectedMenu}/> : null}
+                        {selectedMenu ? <EditMenu store={store} onThen={onMenuUpdated} onDeleted={onMenuDeleted} defaultForm={selectedMenu} loading={loading} setLoading={setLoading}/> : null}
                         
                         {/* 썸네일 */}
                         <div className="store__top">
@@ -144,7 +180,7 @@ const Show = ({history, match}) => {
                         {/* 유틸 버튼 */}
                         <div className="store__buttons--wrap">
                             <div className="store__buttons">
-                                <a href={`tel:${store.phone}`} className="store__button">
+                                <a href={`tel:${store.contact}`} className="store__button">
                                     <img src="/img/phone--black.png" alt=""/>
                                     전화
                                 </a>
