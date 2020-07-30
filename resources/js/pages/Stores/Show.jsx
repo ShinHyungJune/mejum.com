@@ -115,7 +115,7 @@ const Show = ({history, match}) => {
 
     return (
         <Fragment>
-            <Header title={store ? store.title : ""} />
+            <Header title={store ? store.title : ""} history={history}/>
             
             {store ?
                 <div id="store">
@@ -177,6 +177,11 @@ const Show = ({history, match}) => {
                                 <div className="info type01">
                                     <p className="info--title">휴무일</p>
                                     <p className="info--body">{!store.closed || store.closed === "null" ? "연중무휴" : store.closed}</p>
+                                </div>
+    
+                                <div className="info type01">
+                                    <p className="info--title">주소지</p>
+                                    <p className="info--body">{store.address}</p>
                                 </div>
                             </div>
 

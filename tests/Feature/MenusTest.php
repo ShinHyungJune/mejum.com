@@ -107,9 +107,13 @@ class MenusTest extends TestCase
             "store_id" => $this->store->id
         ]);
 
+
         $menu->title = $updateTitle;
 
-        $updatedMenu = $this->patch("/api/menus/".$menu->id, $menu->toArray())->decodeResponseJson("data");
+        $updatedMenu = $this->patch("/api/menus/".$menu->id, [
+            "title" => $updateTitle,
+            "price" => $menu->price
+        ])->decodeResponseJson("data");
 
         $this->assertEquals($updatedMenu["title"], $updateTitle);
     }

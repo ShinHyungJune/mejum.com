@@ -68,7 +68,7 @@ class VotesTest extends TestCase
     }
 
     /** @test */
-    function 음식점의_메뉴는_투표옵션으로_자동생성된다()
+    /*function 음식점의_메뉴는_투표옵션으로_자동생성된다()
     {
         $menus = [
             [
@@ -104,10 +104,10 @@ class VotesTest extends TestCase
         }
 
         $this->assertTrue($hasAllMenu);
-    }
+    }*/
 
 
-    function 음식점의_메뉴_외_옵션을_추가할_수_있다()
+    function 투표_옵션을_생성할_수_있다()
     {
         $otherChoice = ["title" => "추가옵션"];
 

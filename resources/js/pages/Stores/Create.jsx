@@ -15,7 +15,7 @@ const Create = ({history, match}) => {
 
     return (
         <Fragment>
-            <Header title={"음식점 등록"}/>
+            <Header title={"음식점 등록"} history={history}/>
             
             <div className="box type01" id={"create--store"}>
                 <Form method="post" url="/api/stores" onThen={onThen} defaultForm={defaultForm}>

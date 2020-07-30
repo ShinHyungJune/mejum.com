@@ -65,7 +65,7 @@ class MenuController extends ApiController
     {
         $request->validate([
             "title" => "required|string|max:500",
-            "body" => "required|string|max:500",
+            "body" => "nullable|string|max:500",
             "price" => "required|integer|min:0",
             "img" => "nullable|image|max:61440",
         ]);

@@ -72960,11 +72960,19 @@ var Header = function Header(_ref) {
       title = _ref$title === void 0 ? "" : _ref$title,
       _ref$children = _ref.children,
       children = _ref$children === void 0 ? null : _ref$children,
-      logout = _ref.logout;
+      logout = _ref.logout,
+      history = _ref.history;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
     className: "header bg--primary clearfix"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "header-title"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/forkedArrow--left--white.png",
+    alt: "",
+    className: "header__btn",
+    onClick: function onClick() {
+      return history.goBack();
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "header__title"
   }, title), children);
 };
 
@@ -74616,7 +74624,8 @@ var Groups = function Groups(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    title: "\uADF8\uB8F9 \uBAA9\uB85D"
+    title: "\uADF8\uB8F9 \uBAA9\uB85D",
+    history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Create__WEBPACK_IMPORTED_MODULE_1__["default"], {
     onThen: onCreated
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Edit__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -74628,8 +74637,7 @@ var Groups = function Groups(_ref) {
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "groups"
   }, items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "empty",
-    type01: true
+    className: "empty type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
     alt: "",
@@ -74899,7 +74907,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Show = function Show(_ref) {
-  var match = _ref.match;
+  var match = _ref.match,
+      history = _ref.history;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -74949,7 +74958,8 @@ var Show = function Show(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    title: group ? group.title : ""
+    title: group ? group.title : "",
+    history: history
   }), group ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75374,9 +75384,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var More = function More() {
+var More = function More(_ref) {
+  var history = _ref.history;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    title: "\uB354\uBCF4\uAE30"
+    title: "\uB354\uBCF4\uAE30",
+    history: history
   }));
 };
 
@@ -75397,17 +75409,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/common/Form */ "./resources/js/components/common/Form.jsx");
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
-
 
 
 
 
 var Mypage = function Mypage(_ref) {
-  _objectDestructuringEmpty(_ref);
-
+  var history = _ref.history;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    title: "\uB0B4 \uC815\uBCF4"
+    title: "\uB0B4 \uC815\uBCF4",
+    history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: function onClick() {
       return window.logout();
@@ -76028,7 +76038,8 @@ var Create = function Create(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    title: "음식점 등록"
+    title: "음식점 등록",
+    history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "box type01",
     id: "create--store"
@@ -76168,7 +76179,8 @@ var Edit = function Edit(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    title: "음식점 수정"
+    title: "음식점 수정",
+    history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "box type01",
     id: "create--store"
@@ -76414,7 +76426,8 @@ var Show = function Show(_ref) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    title: store ? store.title : ""
+    title: store ? store.title : "",
+    history: history
   }), store ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "store"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76497,7 +76510,13 @@ var Show = function Show(_ref) {
     className: "info--title"
   }, "\uD734\uBB34\uC77C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "info--body"
-  }, !store.closed || store.closed === "null" ? "연중무휴" : store.closed))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, !store.closed || store.closed === "null" ? "연중무휴" : store.closed)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "info type01"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "info--title"
+  }, "\uC8FC\uC18C\uC9C0"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "info--body"
+  }, store.address))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "map",
     style: {
       height: "200px"
@@ -76708,7 +76727,8 @@ var Stores = function Stores(_ref) {
     });
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    title: "\uC74C\uC2DD\uC810 \uBAA9\uB85D"
+    title: "\uC74C\uC2DD\uC810 \uBAA9\uB85D",
+    history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "stores"
   }, group ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {

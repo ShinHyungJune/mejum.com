@@ -55,7 +55,7 @@ class StoresTest extends TestCase
             "contact" => "test",
             "address" => "test",
             "park" => false,
-            "closed" => ["월", "화"],
+            "closed" => "월,화",
             "secret" => true,
         ];
 
@@ -65,7 +65,7 @@ class StoresTest extends TestCase
             "contact" => "test",
             "address" => "test",
             "park" => false,
-            "closed" => ["월", "화"],
+            "closed" => "월,화",
             "secret" => true,
         ];
 

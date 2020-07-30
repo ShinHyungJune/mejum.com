@@ -38,7 +38,7 @@ class VoteController extends ApiController
         $request->validate([
             "store_id" => "required|integer",
             "finished_at" => "required|string|max:500",
-            "choices" => "nullable|array|max:100",
+            "choices" => "nullable|array|min:1|max:100",
             "choices.*.menu_id" => "nullable|integer",
             "choices.*.title" => "required|string|max:500",
         ]);
@@ -57,13 +57,13 @@ class VoteController extends ApiController
 
         $vote->users()->attach($store->group->users()->pluck("id"));
 
-        // 메뉴 추가
+        /*// 메뉴 추가
         foreach($store->menus as $menu){
             $vote->choices()->create([
                 "title" => $menu->title." - ".$menu->price,
                 "menu_id" => $menu->id
             ]);
-        }
+        }*/
 
         if($request->choices){
             foreach($request->choices as $choice){

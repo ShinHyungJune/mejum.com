@@ -46,7 +46,7 @@ const Stores = ({history, match, activeGroup}) => {
 
     return (
         <Fragment>
-            <Header title="음식점 목록" />
+            <Header title="음식점 목록" history={history}/>
             
             <div className="stores">
                 {group ? <p className="groups__title"><span className="point">“{group.title}”</span>의 식당</p> : null}

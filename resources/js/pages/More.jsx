@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import Header from '../components/common/Header';
 
-const More = () => {
+const More = ({history}) => {
     return (
         <div>
-            <Header title="더보기" />
+            <Header title="더보기" history={history}/>
 
         </div>
     );

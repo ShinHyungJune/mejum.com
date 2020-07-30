@@ -3,7 +3,7 @@ import Header from '../../components/common/Header';
 import Member from "./Member";
 
 
-const Show = ({match}) => {
+const Show = ({match, history}) => {
     let [group, setGroup] = useState(null);
     let [master, setMaster] = useState(null);
     let authUser = window.store.getState().commonStates.user;
@@ -46,7 +46,7 @@ const Show = ({match}) => {
 
     return (
         <Fragment>
-            <Header title={group ? group.title : ""}></Header>
+            <Header title={group ? group.title : ""} history={history} />
             {group ?
                 <div id="group">
                     <div className="infos type01">

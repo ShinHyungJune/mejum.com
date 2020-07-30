@@ -22,7 +22,7 @@ const Edit = ({match, history}) => {
 
     return (
         <Fragment>
-            <Header title={"음식점 수정"}/>
+            <Header title={"음식점 수정"} history={history}/>
         
             <div className="box type01" id={"create--store"}>
                 <Form method="patch" url={`/api/stores/${match.params.store_id}`}  onThen={onThen} defaultForm={defaultForm}>

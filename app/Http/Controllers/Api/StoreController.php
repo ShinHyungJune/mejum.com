@@ -84,7 +84,7 @@ class StoreController extends ApiController
             "contact" => "required|string|max:500",
             "address" => "required|string|max:1000",
             "park" => "required",
-            "closed" => "required|string|max:500",
+            "closed" => "nullable|string|max:500",
             "secret" => "nullable",
             /*"menus" => "required|array|max:100",
             "menus.*.title" => "required|string|max:500",

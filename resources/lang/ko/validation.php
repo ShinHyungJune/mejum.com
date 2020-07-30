@@ -167,6 +167,7 @@ return [
         "menus.*.body" => "메뉴 내용",
         "menus.*.title" => "메뉴명",
         "menus.*.price" => "메뉴 가격",
+        "choices" => "선택지"
     ],
 
 ];
