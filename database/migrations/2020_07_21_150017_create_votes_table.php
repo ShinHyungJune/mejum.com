@@ -18,7 +18,7 @@ class CreateVotesTable extends Migration
             $table->unsignedBigInteger("store_id");
             $table->foreign("store_id")->references("id")->on("stores")->onDelete("cascade");
             $table->string("title");
-            $table->dateTime("finished_at");
+            $table->dateTime("finished_at")->nullable();
             $table->timestamps();
         });
     }

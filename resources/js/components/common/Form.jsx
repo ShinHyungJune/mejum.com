@@ -30,7 +30,17 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
         let formData = new FormData();
 
-        Object.entries(form).map(data => formData.append(data[0], data[1]));
+        // Object.entries(form).map(data => formData.append(data[0], data[1]));
+        
+        Object.entries(form).map(data => {
+            if(Array.isArray(data[1]))
+                return data[1].forEach(value => {
+                    formData.append(`${data[0]}[]`, value);
+                });
+        
+            return formData.append(data[0], data[1]);
+        });
+        
         // getFormData(formData, form);
 
         if(method === "patch" || method === "PATCH" || method === "put" || method === "PUT") {

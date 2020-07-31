@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 const Pop = ({className="", type = "pop", name = null, children, onClose = () => null, buttons = [], includeCancel = false, pop, setPop}) => {
     useEffect(() => {
+        
         /*
         if(pop === name){
             history.pushState({page: "pop"}, document.title, location.pathname + `#${name}`);
@@ -17,6 +18,7 @@ const Pop = ({className="", type = "pop", name = null, children, onClose = () =>
         */
 
     }, [pop]);
+    
     const close = () => {
         onClose();
 
@@ -29,7 +31,7 @@ const Pop = ({className="", type = "pop", name = null, children, onClose = () =>
         return (
         <Fragment>
             <div className="pop__wrap">
-                <div className={`pop ${type === "page" ? "type-page" : "type-pop"} ${className}`}>
+                <div className={`pop ${type === "page" ? "type--page" : "type--pop"} ${className}`}>
                     <div className="pop__header">
                         <p className="pop__header__title">
                             {name}
@@ -40,11 +42,11 @@ const Pop = ({className="", type = "pop", name = null, children, onClose = () =>
                         </div>*/}
                     </div>
 
-                    <div className="pop-contents">
+                    <div className="pop__contents">
                         {children}
                     </div>
 
-                    <div className="pop-btns">
+                    <div className="pop__btns">
                         {buttons.map((button, index) =>(
                             <Fragment key={index}>
                                 {button}

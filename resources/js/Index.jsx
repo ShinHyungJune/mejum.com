@@ -20,6 +20,8 @@ import StoreIndex from './pages/Stores/Stores';
 import StoreCreate from './pages/Stores/Create';
 import StoreEdit from './pages/Stores/Edit';
 import StoreShow from './pages/Stores/Show';
+import VoteCreate from './pages/Votes/Create';
+import VoteShow from './pages/Votes/Show';
 import {Redirect} from "react-router-dom";
 import More from './pages/More';
 
@@ -47,10 +49,12 @@ const Index = ({history}) => {
                             <AuthRoute exact path="/groups/:id" component={GroupShow}/>
                             <AuthRoute exact path="/groups/invite/:id" component={Join}/>
                             <AuthRoute exact path="/stores" component={StoreIndex}/>
-                            <AuthRoute exact path="/stores/:store_id/edit" component={StoreEdit}/>
-                            <AuthRoute exact path="/stores/:group_id/create" component={StoreCreate}/>
+                            <AuthRoute exact path="/stores/edit/:store_id" component={StoreEdit}/>
+                            <AuthRoute exact path="/stores/create/:group_id" component={StoreCreate}/>
                             <AuthRoute exact path="/stores/:group_id/:store_id" component={StoreShow}/>
                             <AuthRoute exact path="/stores/:group_id" component={StoreIndex}/>
+                            <AuthRoute exact path="/votes/create/:store_id" component={VoteCreate}/>
+                            <AuthRoute exact path="/votes/:id" component={VoteShow}/>
                             <AuthRoute exact path="/more" component={More}/>
                             <AuthRoute exact path="/mypage" component={Mypage} />
 

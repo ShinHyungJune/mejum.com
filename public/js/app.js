@@ -72265,8 +72265,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/Stores/Create */ "./resources/js/pages/Stores/Create.jsx");
 /* harmony import */ var _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/Stores/Edit */ "./resources/js/pages/Stores/Edit.jsx");
 /* harmony import */ var _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/Stores/Show */ "./resources/js/pages/Stores/Show.jsx");
-/* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.jsx");
-/* harmony import */ var _components_common_Flash__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/common/Flash */ "./resources/js/components/common/Flash.jsx");
+/* harmony import */ var _pages_Votes_Create__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/Votes/Create */ "./resources/js/pages/Votes/Create.jsx");
+/* harmony import */ var _pages_Votes_Show__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./pages/Votes/Show */ "./resources/js/pages/Votes/Show.jsx");
+/* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.jsx");
+/* harmony import */ var _components_common_Flash__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/common/Flash */ "./resources/js/components/common/Flash.jsx");
+
+
 
 
 
@@ -72300,7 +72304,7 @@ var Index = function Index(_ref) {
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
     store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_22__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_24__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "contents"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
     exact: true,
@@ -72324,11 +72328,11 @@ var Index = function Index(_ref) {
     component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
-    path: "/stores/:store_id/edit",
+    path: "/stores/edit/:store_id",
     component: _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_19__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
-    path: "/stores/:group_id/create",
+    path: "/stores/create/:group_id",
     component: _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_18__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
@@ -72340,8 +72344,16 @@ var Index = function Index(_ref) {
     component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
+    path: "/votes/create/:store_id",
+    component: _pages_Votes_Create__WEBPACK_IMPORTED_MODULE_21__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    exact: true,
+    path: "/votes/:id",
+    component: _pages_Votes_Show__WEBPACK_IMPORTED_MODULE_22__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    exact: true,
     path: "/more",
-    component: _pages_More__WEBPACK_IMPORTED_MODULE_21__["default"]
+    component: _pages_More__WEBPACK_IMPORTED_MODULE_23__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/mypage",
@@ -72802,8 +72814,12 @@ var Form = function Form(_ref) {
     e.preventDefault();
     if (loading) return;
     loading = true;
-    var formData = new FormData();
+    var formData = new FormData(); // Object.entries(form).map(data => formData.append(data[0], data[1]));
+
     Object.entries(form).map(function (data) {
+      if (Array.isArray(data[1])) return data[1].forEach(function (value) {
+        formData.append("".concat(data[0], "[]"), value);
+      });
       return formData.append(data[0], data[1]);
     }); // getFormData(formData, form);
 
@@ -73137,15 +73153,15 @@ var Pop = function Pop(_ref) {
   if (pop === name) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "pop ".concat(type === "page" ? "type-page" : "type-pop", " ").concat(className)
+    className: "pop ".concat(type === "page" ? "type--page" : "type--pop", " ").concat(className)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__header"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "pop__header__title"
   }, name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "pop-contents"
+    className: "pop__contents"
   }, children), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "pop-btns"
+    className: "pop__btns"
   }, buttons.map(function (button, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
       key: index
@@ -73947,7 +73963,7 @@ var InputTags = function InputTags(_ref) {
       setForm = _ref.setForm,
       el = _ref.el,
       mergeOnChange = _ref.mergeOnChange;
-  var max = el.props.max ? el.props.max : 10;
+  var max = el.props.max ? el.props.max : 100;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
       _useState2 = _slicedToArray(_useState, 2),
@@ -73959,7 +73975,6 @@ var InputTags = function InputTags(_ref) {
 
   var addTag = function addTag(event) {
     var forced = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    console.log(form);
     event.preventDefault();
 
     if (event.key === "Enter" && word !== "" || forced && word !== "") {
@@ -73977,6 +73992,7 @@ var InputTags = function InputTags(_ref) {
       if (max <= form[el.props.name].length) return store.dispatch(Object(_actions_commonActions__WEBPACK_IMPORTED_MODULE_1__["setFlash"])("".concat(label, "(\uC740)\uB294 \uCD5C\uB300 ").concat(max, "\uAC1C\uAE4C\uC9C0\uB9CC \uC785\uB825 \uAC00\uB2A5\uD569\uB2C8\uB2E4.")));
       form[el.props.name].push(word);
       setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, el.props.name, form[el.props.name])));
+      console.log(form);
       inputEl.value = "";
       inputEl.focus();
       setWord("");
@@ -76121,7 +76137,6 @@ var Create = function Create(_ref) {
   };
 
   var onCatch = function onCatch(error) {
-    console.log(error);
     setLoading(false);
   };
 
@@ -76388,8 +76403,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Tabs */ "./resources/js/components/common/Tabs.jsx");
 /* harmony import */ var _Menus_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menus/Create */ "./resources/js/pages/Menus/Create.jsx");
 /* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
-/* harmony import */ var _Votes_Create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Votes/Create */ "./resources/js/pages/Votes/Create.jsx");
-/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
+/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -76415,7 +76429,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -76566,9 +76579,7 @@ var Show = function Show(_ref) {
     defaultForm: selectedMenu,
     loading: loading,
     setLoading: setLoading
-  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Votes_Create__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    store: store
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap ".concat(isWidthLong ? "widthLong" : "heightLong")
@@ -76616,11 +76627,9 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/heart--black.png",
     alt: ""
-  }), "\uC88B\uC544\uC694"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "store__button",
-    onClick: function onClick() {
-      return window.setPop("투표지 생성");
-    }
+  }), "\uC88B\uC544\uC694"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+    to: "/votes/create/" + store.id,
+    className: "store__button"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/checkSquare--black.png",
     alt: ""
@@ -76660,7 +76669,7 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
   }, "\uB4F1\uB85D\uB41C \uBA54\uB274\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : null, store.menus.map(function (menu) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_6__["default"], {
       menu: menu,
       key: menu.id,
       onClick: function onClick() {
@@ -76685,7 +76694,7 @@ var Show = function Show(_ref) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--util bg--primary",
     onClick: function onClick() {
-      history.push("/stores/" + store.id + "/edit");
+      history.push("/stores/" + "edit/" + store.id);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/edit--white.png",
@@ -76883,7 +76892,7 @@ var Stores = function Stores(_ref) {
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--util bg--primary",
     onClick: function onClick() {
-      history.push("/stores/".concat(match.params.group_id, "/create"));
+      history.push("/stores/create/".concat(match.params.group_id));
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/plus--white.png",
@@ -76914,25 +76923,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+/* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
 
 var Create = function Create(_ref) {
-  var store = _ref.store;
-  var defaultForm = {
-    store_id: store.id,
-    choices: store.menus.map(function (menu) {
-      return "".concat(menu.title, " - ").concat(menu.price);
-    })
+  var history = _ref.history,
+      match = _ref.match;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      store = _useState2[0],
+      setStore = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      defaultForm = _useState4[0],
+      setDefaultForm = _useState4[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get("/api/stores/" + match.params.store_id).then(function (response) {
+      console.log(response.data);
+      setDefaultForm({
+        store_id: response.data.id,
+        choices: response.data.menus.map(function (menu) {
+          return "".concat(menu.title, " - ").concat(menu.price);
+        })
+      });
+      setStore(response.data);
+    });
+  }, []);
+
+  var onThen = function onThen(response) {
+    history.replace("/votes/" + response.data.id);
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    name: "투표지 생성"
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    title: "".concat(store ? store.title : "", " \uD22C\uD45C\uC9C0 \uC0DD\uC131"),
+    history: history
+  }), store ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box type01",
+    id: "create--store"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "create--vote"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
     method: "post",
     url: "/api/votes",
+    onThen: onThen,
     defaultForm: defaultForm,
     enterSubmitDisabled: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -76942,17 +76993,135 @@ var Create = function Create(_ref) {
     placeholder: "선택지명 입력 후 엔터"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
-    className: "pop__button button--middle bg--primary"
-  }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    onClick: function onClick() {
-      return window.setPop("");
-    },
-    className: "pop__button button--middle bg--lightGray"
-  }, "\uCDE8\uC18C"))));
+    className: "width--100 pop__button button--middle bg--primary"
+  }, "\uC0DD\uC131")))) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Create);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Votes/Show.jsx":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/Votes/Show.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
+/* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+/* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var Show = function Show(_ref) {
+  var history = _ref.history,
+      match = _ref.match,
+      user = _ref.user;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      vote = _useState2[0],
+      setVote = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      defaultForm = _useState4[0],
+      setDefaultForm = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      alreadyVote = _useState6[0],
+      setAlreadyVote = _useState6[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get("/api/votes/" + match.params.id).then(function (response) {
+      setVote(response.data);
+      var result = response.data.choices.data.some(function (choice) {
+        if (choice.users.data.some(function (userData) {
+          return userData.id === user.id;
+        })) return true;
+      });
+      setAlreadyVote(result);
+    });
+  }, []);
+
+  var onThen = function onThen(response) {
+    setVote(response.data);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    title: "".concat(vote ? vote.store.title : "", " \uD22C\uD45C\uC9C0"),
+    history: history
+  }), vote ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box type01",
+    id: "show--vote"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: "vote"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "vote__count"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "vote__count__btn"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/user--thin--black.png",
+    alt: "",
+    className: "icon--person"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "vote__count__active"
+  }, vote.participantCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "hyphen"
+  }, "/"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "vote__count__inactive"
+  }, vote.totalCount), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/arrow--right--gray.png",
+    alt: "",
+    className: "icon--arrow"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    method: "post",
+    url: "/api/choices",
+    onThen: onThen
+  }, vote.choices.data.map(function (choice) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "radio",
+      name: "choice_id",
+      value: choice.id,
+      label: choice.title,
+      "data-count": choice.users.data.length,
+      key: choice.id
+    });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "vote__button bg--primary"
+  }, "\uD22C\uD45C\uD558\uAE30")))) : null);
+};
+
+var mapState = function mapState(state) {
+  return {
+    user: state.commonStates.user
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapState, null)(Show));
 
 /***/ }),
 

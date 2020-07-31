@@ -115,3 +115,22 @@ header .button--icon {display:none; margin-right:32px;}
 .menu__texts {position:relative; top:-2px;}
 .menu__title { font-weight:500; }
 .menu__price { font-size:14px; }
+
+.vote__count {margin-bottom:8px; text-align:right;}
+.vote__count .icon--person {margin-right:4px; position:relative; top:2px;}
+.vote__count .icon--arrow {margin-left:8px; position:relative; top:2px;}
+.vote__count span {font-size:12px;}
+
+#vote .input--radio {margin-top:-22px; position:relative;}
+#vote .input--radio input { width: 0; height: 0; cursor: pointer;}
+#vote .input--radio input:after {content:attr(data-count); position:absolute; top:36px; right:16px; font-size:12px; z-index:1;
+    transition: color .3s cubic-bezier(.13,.77,.35,1);
+}
+#vote .input--radio input:before {content:""; width:10px; height:10px; position:absolute; top:40px; right:30px; background:url("/img/user--thin--black.png") no-repeat; z-index:1;}
+#vote .input--radio label {display:block; width:100%; padding:8px 16px; margin-left:0; position:relative; color:#555; background-color:#eee; border:1px solid #ccc; border-radius:5px; cursor:pointer;
+    transition: color .3s cubic-bezier(.13,.77,.35,1), background-color .3s cubic-bezier(.13,.77,.35,1), box-shadow .3s cubic-bezier(.13,.77,.35,1);
+}
+#vote .input--radio input:checked + label {padding-right:48px; color:#fff; background-color:#ff9711; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
+#vote .input--radio input:checked:after {color:#fff;}
+#vote .input--radio input:checked:before {background:url("/img/user--thin--white.png") no-repeat;}
+#vote .vote__button {padding:8px 16px; position:fixed; right:20px; bottom:80px; color:#fff; border-radius:5px; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}

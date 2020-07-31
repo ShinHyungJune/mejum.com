@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import Tabs from '../../components/common/Tabs';
 import CreateMenu from '../Menus/Create';
 import EditMenu from '../Menus/Edit';
-import CreateVote from '../Votes/Create';
 import Menu from '../Menus/Menu';
 
 const Show = ({history, match}) => {
@@ -158,9 +157,6 @@ const Show = ({history, match}) => {
                         {/* 메뉴 수정 팝업 */}
                         {selectedMenu ? <EditMenu store={store} onThen={onMenuUpdated} onDeleted={onMenuDeleted} defaultForm={selectedMenu} loading={loading} setLoading={setLoading}/> : null}
                         
-                        {/* 투표지 생성 팝업 */}
-                        {<CreateVote store={store} />}
-                        
                         {/* 썸네일 */}
                         <div className="store__top">
                             <div className={`ratioBox-wrap ${isWidthLong ? "widthLong" : "heightLong"}`}>
@@ -194,10 +190,10 @@ const Show = ({history, match}) => {
                                     좋아요
                                 </button>
                                 
-                                <button className="store__button" onClick={() => window.setPop("투표지 생성")}>
+                                <Link to={"/votes/create/" + store.id} className="store__button">
                                     <img src="/img/checkSquare--black.png" alt=""/>
                                     투표생성
-                                </button>
+                                </Link>
                             </div>
                         </div>
     
@@ -245,7 +241,7 @@ const Show = ({history, match}) => {
                                 <img src="/img/trash--white.png" alt=""/>
                             </button>
 
-                            <button className="button--util bg--primary" onClick={() => {history.push("/stores/" + store.id + "/edit")}}>
+                            <button className="button--util bg--primary" onClick={() => {history.push("/stores/" + "edit/" + store.id)}}>
                                 <img src="/img/edit--white.png" alt=""/>
                             </button>
         

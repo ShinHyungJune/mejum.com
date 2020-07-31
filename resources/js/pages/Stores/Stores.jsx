@@ -62,7 +62,7 @@ const Stores = ({history, match, activeGroup}) => {
                 }
      
     
-                <button className="button--util bg--primary" onClick={() => {history.push(`/stores/${match.params.group_id}/create`)}}>
+                <button className="button--util bg--primary" onClick={() => {history.push(`/stores/create/${match.params.group_id}`)}}>
                     <img src="/img/plus--white.png" alt=""/>
                 </button>
             </div>

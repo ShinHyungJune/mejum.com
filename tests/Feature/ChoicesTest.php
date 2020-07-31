@@ -80,10 +80,18 @@ class ChoicesTest extends TestCase
         ]);
 
         $this->post("/api/choices", ["choice_id" => [$choice->id, $anotherChoice->id]])->assertStatus(302);
+
+        $this->post("/api/choices", ["choice_id" => $choice->id]);
+
+        $this->post("/api/choices", ["choice_id" => $anotherChoice->id]);
+
+        $this->post("/api/choices", ["choice_id" => $choice->id]);
+
+        $this->assertEquals(1, auth()->user()->choices()->count());
     }
 
     /** @test */
-    function 기간이_지난_투표지는_수정_또는_참여할_수_없다()
+    /* function 기간이_지난_투표지는_수정_또는_참여할_수_없다()
     {
         $this->vote = factory(Vote::class)->create([
             "finished_at" => Carbon::now()->subDay(),
@@ -95,7 +103,7 @@ class ChoicesTest extends TestCase
         ]);
 
         $this->post("/api/choices", ["choice_id" => $choice->id])->assertStatus(403);
-    }
+    } */
 
     /** @test */
     function 투표지의_참여자를_구분할_수_있다()

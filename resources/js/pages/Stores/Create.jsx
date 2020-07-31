@@ -17,7 +17,6 @@ const Create = ({history, match}) => {
     };
     
     const onCatch = (error) => {
-        console.log(error);
         setLoading(false);
     };
 

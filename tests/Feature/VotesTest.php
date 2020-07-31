@@ -51,7 +51,7 @@ class VotesTest extends TestCase
 
         $this->voteForm = [
             "store_id" => $this->store->id,
-            "finished_at" => Carbon::now()->format("Y-m-d H:i:s")
+            "choices" => ["선택지1", "선택지2"]
         ];
     }
 
@@ -109,7 +109,7 @@ class VotesTest extends TestCase
 
     function 투표_옵션을_생성할_수_있다()
     {
-        $otherChoice = ["title" => "추가옵션"];
+        $otherChoice = "추가옵션";
 
         $this->voteForm["choices"] = [$otherChoice];
 
@@ -118,7 +118,7 @@ class VotesTest extends TestCase
         $hasMenu = false;
 
         foreach($vote["choices"]["data"] as $choice){
-            if(strpos($choice["title"], $otherChoice["title"]) !== false)
+            if(strpos($choice["title"], $otherChoice) !== false)
                 $hasMenu = true;
         }
 

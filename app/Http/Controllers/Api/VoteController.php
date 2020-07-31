@@ -35,13 +35,12 @@ class VoteController extends ApiController
 
     public function store(Request $request)
     {
-        dd($request->all());
         $request->validate([
             "store_id" => "required|integer",
-            "finished_at" => "required|string|max:500",
+            "finished_at" => "nullable|string|max:500",
             "choices" => "nullable|array|min:1|max:100",
-            "choices.*.menu_id" => "nullable|integer",
-            "choices.*.title" => "required|string|max:500",
+            /* "choices.*.menu_id" => "nullable|integer",
+            "choices.*.title" => "required|string|max:500",*/
         ]);
 
         $store = Store::find($request->store_id);
@@ -68,7 +67,9 @@ class VoteController extends ApiController
 
         if($request->choices){
             foreach($request->choices as $choice){
-                $vote->choices()->create($choice);
+                $vote->choices()->create([
+                    "title" => $choice
+                ]);
             }
         }
 

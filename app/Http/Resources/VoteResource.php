@@ -14,9 +14,19 @@ class VoteResource extends JsonResource
      */
     public function toArray($request)
     {
+        $participantCount = 0;
+
+        foreach($this->choices as $choice){
+            $participantCount += $choice->users()->count();
+        }
+
         return [
+            "id" => $this->id,
+            "store" => StoreResource::make($this->store),
             "title" => $this->title,
             "choices" => new ChoiceCollection($this->choices),
+            "totalCount" => $this->store->group->users()->count(),
+            "participantCount" => $participantCount,
             "finished_at" => $this->finished_at,
             "created_at" => $this->created_at
         ];

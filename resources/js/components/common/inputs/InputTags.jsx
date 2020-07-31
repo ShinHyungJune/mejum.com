@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {setFlash} from "../../../actions/commonActions";
 
 const InputTags = ({form, setForm, el, mergeOnChange}) => {
-    let max = el.props.max ? el.props.max : 10;
+    let max = el.props.max ? el.props.max : 100;
     
     let [word, setWord] = useState("");
     
@@ -11,7 +11,6 @@ const InputTags = ({form, setForm, el, mergeOnChange}) => {
     let inputEl = document.querySelector(`input[name=${el.props.name}]`);
     
     const addTag = (event, forced = false) => {
-        console.log(form);
         event.preventDefault();
         
         if((event.key === "Enter" && word !== "") || forced && word !== ""){
@@ -35,6 +34,8 @@ const InputTags = ({form, setForm, el, mergeOnChange}) => {
                 ...form,
                 [el.props.name]: form[el.props.name]
             });
+            
+            console.log(form);
             
            inputEl.value = "";
            
