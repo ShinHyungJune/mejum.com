@@ -29,7 +29,7 @@ const Invite = ({onThen, group = null}) => {
             container: '#kakao' + group.id,
             objectType: 'feed',
             content: {
-                title: "메뉴선정서비스로부터 초대장이 도착하였습니다.",
+                title: "매일점심으로부터 초대장이 도착하였습니다.",
                 description: `${store.getState().commonStates.user.name}님께서 [${group.title}] 그룹으로 초대하였습니다.`,
                 imageUrl:
                     "https://in-diary.s3.amazonaws.com/141/euvuFmjoOJnTQB7R.png",

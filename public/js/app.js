@@ -73070,17 +73070,17 @@ var Navs = function Navs(_ref) {
     activeIcon: "/img/store--primary.png",
     inactiveIcon: "/img/store--gray.png"
   }, {
-    title: "내 정보",
-    to: "/mypage",
-    activeLinks: ["/mypage"],
-    activeIcon: "/img/smile--primary.png",
-    inactiveIcon: "/img/smile--gray.png"
-  }, {
     title: "투표지",
     to: "/votes",
     activeLinks: ["/votes"],
     activeIcon: "/img/vote--primary.png",
     inactiveIcon: "/img/vote--gray.png"
+  }, {
+    title: "내 정보",
+    to: "/mypage",
+    activeLinks: ["/mypage"],
+    activeIcon: "/img/smile--primary.png",
+    inactiveIcon: "/img/smile--gray.png"
   }, {
     title: "더보기",
     to: "/more",
@@ -74801,7 +74801,7 @@ var Invite = function Invite(_ref) {
       container: '#kakao' + group.id,
       objectType: 'feed',
       content: {
-        title: "메뉴선정서비스로부터 초대장이 도착하였습니다.",
+        title: "매일점심으로부터 초대장이 도착하였습니다.",
         description: "".concat(_store__WEBPACK_IMPORTED_MODULE_3__["default"].getState().commonStates.user.name, "\uB2D8\uAED8\uC11C [").concat(group.title, "] \uADF8\uB8F9\uC73C\uB85C \uCD08\uB300\uD558\uC600\uC2B5\uB2C8\uB2E4."),
         imageUrl: "https://in-diary.s3.amazonaws.com/141/euvuFmjoOJnTQB7R.png",
         link: {
@@ -76310,7 +76310,6 @@ var Edit = function Edit(_ref) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/stores/" + match.params.store_id).then(function (response) {
-      response.data.closed = response.data.closed.split(",");
       setDefaultForm(response.data);
     });
   }, []);
@@ -76499,6 +76498,7 @@ var Show = function Show(_ref) {
   var map;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/stores/" + match.params.store_id).then(function (response) {
+      console.log(response.data.closed);
       response.data.closed = alignDayOfWeeks(response.data.closed);
       setStore(response.data);
       setDefaultForm({
@@ -76518,13 +76518,14 @@ var Show = function Show(_ref) {
   var alignDayOfWeeks = function alignDayOfWeeks(dayOfWeeks) {
     if (!dayOfWeeks) return null;
     var aligned = [];
-    if (dayOfWeeks.includes("월")) aligned.push("월");
-    if (dayOfWeeks.includes("화")) aligned.push("화");
-    if (dayOfWeeks.includes("수")) aligned.push("수");
-    if (dayOfWeeks.includes("목")) aligned.push("목");
-    if (dayOfWeeks.includes("금")) aligned.push("금");
-    if (dayOfWeeks.includes("토")) aligned.push("토");
-    if (dayOfWeeks.includes("일")) aligned.push("일");
+    if (dayOfWeeks.includes("월")) aligned.push("월,");
+    if (dayOfWeeks.includes("화")) aligned.push("화,");
+    if (dayOfWeeks.includes("수")) aligned.push("수,");
+    if (dayOfWeeks.includes("목")) aligned.push("목,");
+    if (dayOfWeeks.includes("금")) aligned.push("금,");
+    if (dayOfWeeks.includes("토")) aligned.push("토,");
+    if (dayOfWeeks.includes("일")) aligned.push("일,");
+    aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
     return aligned;
   };
 
@@ -77517,14 +77518,12 @@ var Votes = function Votes(_ref) {
     className: "empty__img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
-  }, "\uC0DD\uC131\uB41C \uD22C\uD45C\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "box type01"
-  }, items.data.map(function (item) {
+  }, "\uC0DD\uC131\uB41C \uD22C\uD45C\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items.data.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Vote__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: item.id,
       vote: item
     });
-  }))));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Votes);

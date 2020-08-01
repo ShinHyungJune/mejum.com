@@ -17,9 +17,10 @@ const Show = ({history, match}) => {
     useEffect(() => {
         axios.get("/api/stores/" + match.params.store_id)
             .then(response => {
-    
+                console.log(response.data.closed);
+
                 response.data.closed = alignDayOfWeeks(response.data.closed);
-                
+
                 setStore(response.data);
 
                 setDefaultForm({
@@ -48,26 +49,27 @@ const Show = ({history, match}) => {
         let aligned = [];
         
         if(dayOfWeeks.includes("월"))
-            aligned.push("월");
+            aligned.push("월,");
     
         if(dayOfWeeks.includes("화"))
-            aligned.push("화");
+            aligned.push("화,");
     
         if(dayOfWeeks.includes("수"))
-            aligned.push("수");
+            aligned.push("수,");
     
         if(dayOfWeeks.includes("목"))
-            aligned.push("목");
+            aligned.push("목,");
     
         if(dayOfWeeks.includes("금"))
-            aligned.push("금");
+            aligned.push("금,");
     
         if(dayOfWeeks.includes("토"))
-            aligned.push("토");
+            aligned.push("토,");
     
         if(dayOfWeeks.includes("일"))
-            aligned.push("일");
-        
+            aligned.push("일,");
+
+        aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
         return aligned;
     };
     

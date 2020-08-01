@@ -43,11 +43,13 @@ class StoreController extends ApiController
             "contact" => "required|string|max:500",
             "address" => "required|string|max:1000",
             "park" => "required",
-            "closed" => "nullable|string|max:500",
+            "closed" => "nullable|array|max:500",
             "secret" => "nullable",
         ]);
 
         $group = auth()->user()->groups()->find($request->group_id);
+
+        $request["closed"] = json_encode($request["closed"]);
 
         if(!$group)
             return $this->respondNotFound();
@@ -84,7 +86,7 @@ class StoreController extends ApiController
             "contact" => "required|string|max:500",
             "address" => "required|string|max:1000",
             "park" => "required",
-            "closed" => "nullable|string|max:500",
+            "closed" => "nullable|array|max:500",
             "secret" => "nullable",
             /*"menus" => "required|array|max:100",
             "menus.*.title" => "required|string|max:500",
@@ -105,6 +107,7 @@ class StoreController extends ApiController
 
         /*if(!$user->pivot->master && $store->user_id != auth()->id())
             return $this->respondUnauthenticated();*/
+        $request["closed"] = json_encode($request["closed"]);
 
         $request["park"] = (boolean) $request->park;
 

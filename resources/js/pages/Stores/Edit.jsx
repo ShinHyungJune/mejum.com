@@ -11,8 +11,6 @@ const Edit = ({match, history}) => {
     useEffect(() => {
         axios.get("/api/stores/" + match.params.store_id)
             .then(response => {
-                response.data.closed = response.data.closed.split(",");
-                
                 setDefaultForm(response.data);
             })
     }, []);

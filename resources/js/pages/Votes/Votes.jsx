@@ -36,9 +36,7 @@ const Votes = ({history, match}) => {
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">생성된 투표지가 없습니다.</p>
                         </div>
-                        : <div className="box type01">
-                            {items.data.map(item => <Vote key={item.id} vote={item} />)}
-                        </div>
+                        : items.data.map(item => <Vote key={item.id} vote={item} />)
                 }
             </div>
         </Fragment>
