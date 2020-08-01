@@ -206,7 +206,7 @@ const Register = ({user, setFlash, history, login}) => {
 
                     {
                         mode === "register" ?
-                            <Form method={"post"} url={"/api/auth/signup"} onThen={register} defaultForm={form}>
+                            <Form method={"post"} url={"/api/auth/signup"} onThen={register} onCatch={() => setLoading(false)} defaultForm={form} onSubmit={() => setLoading(true)}>
                                 <input type="avatar" name="avatar" placeholder="휴대폰 번호(-를 제외한 숫자만 입력해주세요.)"/>
 
                                 <input type="text" name="phone" placeholder="휴대폰 번호(-를 제외한 숫자만 입력해주세요.)" disabled/>
@@ -217,7 +217,7 @@ const Register = ({user, setFlash, history, login}) => {
 
                                 <input type="password" name="password_confirmation" placeholder="비밀번호 확인" />
 
-                                <button type={"submit"} className="button--middle button--full bg--primary" onClick={() => setLoading(true)}>
+                                <button type={"submit"} className="button--middle button--full bg--primary">
                                     {loading
                                         ? <p className="animated flash infinite white">진행중</p>
                                         : "회원가입"

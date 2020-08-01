@@ -13,7 +13,7 @@ import InputAvatar from "./inputs/InputAvatar";
 import InputRadio from "./inputs/InputRadio";
 import InputAddress from "./inputs/InputAddress";
 
-const Form = ({children, url = "", method = "", onSubmit = null, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
+const Form = ({children, url = "", method = "", onSubmit = () => {}, onThen = (response) => {}, onCatch = (error) => {}, defaultForm = null, setFlash, enterSubmitDisabled = false}) => {
     let [form, setForm] = useState({
         errors: {}
     });
@@ -22,6 +22,8 @@ const Form = ({children, url = "", method = "", onSubmit = null, onThen = (respo
 
     const submit = (e) => {
         e.preventDefault();
+
+        onSubmit();
 
         if(loading)
             return;

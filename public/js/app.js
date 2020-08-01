@@ -72808,7 +72808,7 @@ var Form = function Form(_ref) {
       _ref$method = _ref.method,
       method = _ref$method === void 0 ? "" : _ref$method,
       _ref$onSubmit = _ref.onSubmit,
-      onSubmit = _ref$onSubmit === void 0 ? null : _ref$onSubmit,
+      onSubmit = _ref$onSubmit === void 0 ? function () {} : _ref$onSubmit,
       _ref$onThen = _ref.onThen,
       onThen = _ref$onThen === void 0 ? function (response) {} : _ref$onThen,
       _ref$onCatch = _ref.onCatch,
@@ -72830,6 +72830,7 @@ var Form = function Form(_ref) {
 
   var submit = function submit(e) {
     e.preventDefault();
+    onSubmit();
     if (loading) return;
     loading = true;
     var formData = new FormData(); // Object.entries(form).map(data => formData.append(data[0], data[1]));
@@ -72951,7 +72952,7 @@ var Form = function Form(_ref) {
   });
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
-        changeForm(event);
+       changeForm(event);
   };*/
 
   return enterSubmitDisabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75748,7 +75749,13 @@ var Register = function Register(_ref) {
     method: "post",
     url: "/api/auth/signup",
     onThen: register,
-    defaultForm: form
+    onCatch: function onCatch() {
+      return setLoading(false);
+    },
+    defaultForm: form,
+    onSubmit: function onSubmit() {
+      return setLoading(true);
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "avatar",
     name: "avatar",
@@ -75772,10 +75779,7 @@ var Register = function Register(_ref) {
     placeholder: "\uBE44\uBC00\uBC88\uD638 \uD655\uC778"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
-    className: "button--middle button--full bg--primary",
-    onClick: function onClick() {
-      return setLoading(true);
-    }
+    className: "button--middle button--full bg--primary"
   }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "animated flash infinite white"
   }, "\uC9C4\uD589\uC911") : "회원가입")) : null)));
