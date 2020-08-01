@@ -2,6 +2,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import Header from "../../components/common/Header";
 import {connect} from "react-redux";
 import Tabs from '../../components/common/Tabs';
+import Member from './Member';
 
 const Statistics = ({history, match}) => {
 	let [vote, setVote] = useState(null);
@@ -25,35 +26,13 @@ const Statistics = ({history, match}) => {
                             <div name="참여">
                                 {vote.choices.data.map(choice =>
                                     choice.users.data.map(participant =>
-                                        <div className="member" key={participant.id}>
-                                            <div className="member--img ratioBox-wrap">
-                                                <div className="ratioBox">
-                                                    <img src={participant.img ? participant.img.url : "/img/replace--avatar.png"} alt=""/>
-                                                </div>
-                                            </div>
-
-                                            <div className="member--texts">
-                                                <p className="member--title">{participant.name}</p>
-                                                <p className="member--body">{choice.title}</p>
-                                            </div>
-
-                                        </div>
+                                        <Member member={participant} choice={choice} key={participant.id} />
                                     )
                                 )}
                             </div>
                             <div name="미참여">
                                 {vote.unparticipants.data.map(unparticipant =>
-                                    <div className="member" key={unparticipant.id}>
-                                        <div className="member--img ratioBox-wrap">
-                                            <div className="ratioBox">
-                                                <img src={unparticipant.img ? unparticipant.img.url : "/img/replace--avatar.png"} alt=""/>
-                                            </div>
-                                        </div>
-
-                                        <div className="member--texts">
-                                            <p className="member--title">{unparticipant.name}</p>
-                                        </div>
-                                    </div>
+                                    <Member member={unparticipant} key={unparticipant.id}/>
                                 )}
                             </div>
                         </Tabs>

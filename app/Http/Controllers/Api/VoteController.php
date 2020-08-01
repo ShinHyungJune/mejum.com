@@ -89,8 +89,11 @@ class VoteController extends ApiController
         if(!$vote)
             return $this->respondNotFound();
 
-        if(!auth()->user()->groups()->find($vote->store->group->id))
+        if(!auth()->user()->groups()->find($vote->store->group->id)) {
             auth()->user()->groups()->attach($vote->store->group->id);
+
+            $vote->users()->attach(auth()->id());
+        }
 
         return $this->respondSuccessfully(VoteResource::make($vote), "성공적으로 가입되었습니다.");
     }

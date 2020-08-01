@@ -125,6 +125,7 @@ class VotesTest extends TestCase
         $this->assertTrue($hasMenu);
     }
 
+
     /** @test */
     function 그릅원은_자기가_속한_그룹들의_투표지_목록을_볼_수_있다()
     {

@@ -126,6 +126,8 @@ const Register = ({user, setFlash, history, login}) => {
                             if(store.getState().commonStates.blockedUrl){
                                 let url = store.getState().commonStates.blockedUrl;
 
+                                setLoading(false);
+
                                 window.setBlockedUrl(null);
 
                                 return history.push(url);
@@ -134,7 +136,9 @@ const Register = ({user, setFlash, history, login}) => {
                             history.push("/");
                         })
                 }).catch(error => {
-                    setFlash(error.response.data.message);
+                setLoading(false);
+
+                setFlash(error.response.data.message);
                 })
         });
     };
@@ -213,7 +217,7 @@ const Register = ({user, setFlash, history, login}) => {
 
                                 <input type="password" name="password_confirmation" placeholder="비밀번호 확인" />
 
-                                <button type={"submit"} className="button--middle button--full bg--primary">
+                                <button type={"submit"} className="button--middle button--full bg--primary" onClick={() => setLoading(true)}>
                                     {loading
                                         ? <p className="animated flash infinite white">진행중</p>
                                         : "회원가입"
