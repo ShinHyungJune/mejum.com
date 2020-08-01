@@ -15,4 +15,5 @@ const Join = ({match, history}) => {
     return null;
 };
 
+
 export default Join;

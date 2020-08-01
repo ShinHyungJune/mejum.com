@@ -75,4 +75,23 @@ class VoteController extends ApiController
 
         return $this->respondCreated(VoteResource::make($vote));
     }
+
+    public function join(Request $request)
+    {
+        $request->validate([
+            "id" => "required"
+        ]);
+
+        $id = decrypt($request->id);
+
+        $vote = Vote::find($id);
+
+        if(!$vote)
+            return $this->respondNotFound();
+
+        if(!auth()->user()->groups()->find($vote->store->group->id))
+            auth()->user()->groups()->attach($vote->store->group->id);
+
+        return $this->respondSuccessfully(VoteResource::make($vote), "성공적으로 가입되었습니다.");
+    }
 }

@@ -24,7 +24,13 @@ const Navs = ({activeGroup}) => {
         activeLinks: ["/mypage"],
         activeIcon: "/img/smile--primary.png",
         inactiveIcon: "/img/smile--gray.png",
-    }, {
+    },{
+        title: "투표지",
+        to: "/votes",
+        activeLinks: ["/votes"],
+        activeIcon: "/img/vote--primary.png",
+        inactiveIcon: "/img/vote--gray.png",
+    },{
         title: "더보기",
         to: "/more",
         activeLinks: ["/more"],

@@ -11,17 +11,24 @@ import Register from './pages/Register';
 import SendResetPassword from './pages/SendResetPassword';
 import ResetPassword from './pages/ResetPassword';
 import Components from './pages/Components';
-import GroupIndex from './pages/Groups/Groups';
-import GroupShow from './pages/Groups/Show';
 import Join from "./pages/Groups/Join";
 import Navs from "./components/common/Navs";
 import Mypage from "./pages/Mypage";
+
+import GroupIndex from './pages/Groups/Groups';
+import GroupShow from './pages/Groups/Show';
+
 import StoreIndex from './pages/Stores/Stores';
 import StoreCreate from './pages/Stores/Create';
 import StoreEdit from './pages/Stores/Edit';
 import StoreShow from './pages/Stores/Show';
+
 import VoteCreate from './pages/Votes/Create';
 import VoteShow from './pages/Votes/Show';
+import VoteStatistics from './pages/Votes/Statistics';
+import VoteJoin from './pages/Votes/Join';
+import VoteIndex from './pages/Votes/Votes';
+
 import {Redirect} from "react-router-dom";
 import More from './pages/More';
 
@@ -53,8 +60,11 @@ const Index = ({history}) => {
                             <AuthRoute exact path="/stores/create/:group_id" component={StoreCreate}/>
                             <AuthRoute exact path="/stores/:group_id/:store_id" component={StoreShow}/>
                             <AuthRoute exact path="/stores/:group_id" component={StoreIndex}/>
+                            <AuthRoute exact path="/votes" component={VoteIndex}/>
+                            <AuthRoute exact path="/votes/invite/:id" component={VoteJoin}/>
                             <AuthRoute exact path="/votes/create/:store_id" component={VoteCreate}/>
                             <AuthRoute exact path="/votes/:id" component={VoteShow}/>
+                            <AuthRoute exact path="/votes/statistics/:id" component={VoteStatistics}/>
                             <AuthRoute exact path="/more" component={More}/>
                             <AuthRoute exact path="/mypage" component={Mypage} />
 

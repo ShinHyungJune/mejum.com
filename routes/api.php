@@ -38,8 +38,11 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::post("/groups/banish", "Api\GroupController@banish");
     Route::post("/groups/appoint", "Api\GroupController@appoint");
     Route::get("/groups/join", "Api\GroupController@join");
+
     Route::resource("/groups", "Api\GroupController");
     Route::resource("/stores", "Api\StoreController");
+
+    Route::get("/votes/join", "Api\VoteController@join");
     Route::resource("/votes", "Api\VoteController");
     Route::resource("/choices", "Api\ChoiceController");
     Route::resource("/menus", "Api\MenuController");

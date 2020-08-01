@@ -14,7 +14,7 @@ class VoteCollection extends ResourceCollection
      * @return array
      */
 
-    public $collects = Vote::class;
+    public $collects = VoteResource::class;
 
     public function toArray($request)
     {

@@ -10,8 +10,11 @@ header .button--icon {display:none; margin-right:32px;}
 
 .scroll--smooth {scroll-behavior: smooth; -webkit-overflow-scrolling: touch;}
 
-.header__btn {margin-right:16px; position:relative; top:2px;}
-.header__title {display:inline-block; min-height:27px; font-size:18px; font-weight:600; color:#fff;}
+.header__btn {margin-right:16px; position:relative; top:-3px;}
+.header__title {display:inline-block; max-width:180px; min-height:27px; position:relative; top:1px; font-size:18px; font-weight:600; color:#fff; white-space: nowrap; text-overflow:ellipsis; overflow:hidden;}
+.header__right {float:right; position:relative; top:4px;}
+.header__right__btn {margin-left:20px;}
+.header__right__btn:first-child {margin-left:0;}
 
 .navs {display:flex; align-items: center; justify-content: center;  width:100%; position:fixed; bottom:0; left:0; background-color:#fff; box-shadow:0px -1px 1px rgba(0,0,0,0.16); z-index:2;}
 .nav {padding-top:5px; padding-bottom:5px; flex:1; text-align:center;}
@@ -54,6 +57,14 @@ header .button--icon {display:none; margin-right:32px;}
 #group {}
 #group .infos.type01 {margin-bottom:16px;}
 #group .members {padding:24px; background-color:rgba(0,0,0,0.4); border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
+
+.member {display:flex; align-items: center; margin-bottom:16px;}
+.member:last-of-type {margin-bottom:0;}
+.member--img {flex-basis:36px; padding-top:36px; border-radius:100%;}
+.member--title {flex:0.7; padding-left:16px; color:#fff;}
+.member--buttons {flex:1; text-align:right;}
+.member--button {margin-left:16px; font-size:12px; color:rgba(255,255,255,0.7);}
+.member--button:first-child {margin-left:0;}
 
 .infos.type01 {padding:24px; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.16); border-radius:5px;}
 
@@ -116,10 +127,13 @@ header .button--icon {display:none; margin-right:32px;}
 .menu__title { font-weight:500; }
 .menu__price { font-size:14px; }
 
-.vote__count {margin-bottom:8px; text-align:right;}
-.vote__count .icon--person {margin-right:4px; position:relative; top:2px;}
-.vote__count .icon--arrow {margin-left:8px; position:relative; top:2px;}
-.vote__count span {font-size:12px;}
+.vote__contact__btn {float:left; position:relative; z-index:1;}
+.vote__contact__btn .icon {margin-right:4px; position:relative; top:1px;}
+.vote__count__btn {position:relative; z-index:1;}
+.vote__top {margin-bottom:8px; text-align:right;}
+.vote__top .icon--person {margin-right:4px; position:relative; top:2px;}
+.vote__top .icon--arrow {margin-left:8px; position:relative; top:3px;}
+.vote__top span {font-size:12px;}
 
 #vote .input--radio {margin-top:-22px; position:relative;}
 #vote .input--radio input { width: 0; height: 0; cursor: pointer;}
@@ -133,4 +147,19 @@ header .button--icon {display:none; margin-right:32px;}
 #vote .input--radio input:checked + label {padding-right:48px; color:#fff; background-color:#ff9711; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
 #vote .input--radio input:checked:after {color:#fff;}
 #vote .input--radio input:checked:before {background:url("/img/user--thin--white.png") no-repeat;}
+
 #vote .vote__button {padding:8px 16px; position:fixed; right:20px; bottom:80px; color:#fff; border-radius:5px; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}
+#statistics--vote .tabs__contents {padding-top:16px;}
+#statistics--vote .member--texts {flex:1; padding-left:16px;}
+#statistics--vote .member--title {padding-left:0; color:#333;}
+#statistics--vote .member--body {font-size:12px; color:#999;}
+
+.vote {display:block; margin-bottom:8px; padding:10px 16px; padding-left:56px; position:relative; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.16); border-radius:5px;}
+.vote .img {position:absolute; left:16px; top:50%; transform:translateY(-50%);}
+.vote__texts {padding-right:40px;}
+.vote__title {font-weight:500;}
+.vote__date {font-size:12px; color:#999;}
+.vote__btn {display:flex; align-items:center; padding:5px; position:absolute; top:50%; right:16px; transform:translateY(-50%);}
+.vote__btn img {}
+.vote__menus {position:absolute; right:15px; top:45px; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.4); border-radius:3px; z-index:1;}
+.vote__menu {display:block; width:100%; padding:10px; font-size:14px; font-weight:500; color:#999; text-align:left;}
