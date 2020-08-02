@@ -76220,9 +76220,14 @@ var Create = function Create(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
-    label: "\uC6D4",
-    value: "\uC6D4",
+    label: "\uC5F0\uC911\uBB34\uD734",
+    value: "\uC5F0\uC911\uBB34\uD734",
     title: "휴무일"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uC6D4",
+    value: "\uC6D4"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
@@ -76372,9 +76377,14 @@ var Edit = function Edit(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
-    label: "\uC6D4",
-    value: "\uC6D4",
+    label: "\uC5F0\uC911\uBB34\uD734",
+    value: "\uC5F0\uC911\uBB34\uD734",
     title: "휴무일"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "closed",
+    label: "\uC6D4",
+    value: "\uC6D4"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
@@ -77801,8 +77811,8 @@ function setup() {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\june\lunch\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\june\lunch\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\june\mejum.com\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\june\mejum.com\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
