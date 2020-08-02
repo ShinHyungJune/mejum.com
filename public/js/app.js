@@ -76529,7 +76529,7 @@ var Show = function Show(_ref) {
     if (dayOfWeeks.includes("금")) aligned.push("금,");
     if (dayOfWeeks.includes("토")) aligned.push("토,");
     if (dayOfWeeks.includes("일")) aligned.push("일,");
-    aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
+    if (aligned[aligned.length - 1]) aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
     return aligned;
   };
 

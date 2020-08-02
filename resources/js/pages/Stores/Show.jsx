@@ -69,7 +69,9 @@ const Show = ({history, match}) => {
         if(dayOfWeeks.includes("일"))
             aligned.push("일,");
 
-        aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
+        if(aligned[aligned.length - 1])
+            aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
+
         return aligned;
     };
     
