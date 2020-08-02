@@ -76220,14 +76220,9 @@ var Create = function Create(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
-    label: "\uC5F0\uC911\uBB34\uD734",
-    value: "\uC5F0\uC911\uBB34\uD734",
-    title: "휴무일"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
     label: "\uC6D4",
-    value: "\uC6D4"
+    value: "\uC6D4",
+    title: "휴무일"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
@@ -76377,14 +76372,9 @@ var Edit = function Edit(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",
-    label: "\uC5F0\uC911\uBB34\uD734",
-    value: "\uC5F0\uC911\uBB34\uD734",
-    title: "휴무일"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
     label: "\uC6D4",
-    value: "\uC6D4"
+    value: "\uC6D4",
+    title: "휴무일"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
     name: "closed",

@@ -39,9 +39,7 @@ const Edit = ({match, history}) => {
                 
                     <input type="radio" name={"park"} label="없음" value="0" id={"parkFalse"}/>
 
-                    <input type="checkbox" name={"closed"} label="연중무휴" value="연중무휴" title={"휴무일"}/>
-
-                    <input type="checkbox" name={"closed"} label="월" value="월"/>
+                    <input type="checkbox" name={"closed"} label="월" value="월" title={"휴무일"}/>
                 
                     <input type="checkbox" name={"closed"} label="화" value="화"/>
                 
