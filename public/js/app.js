@@ -72952,7 +72952,7 @@ var Form = function Form(_ref) {
   });
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
-       changeForm(event);
+        changeForm(event);
   };*/
 
   return enterSubmitDisabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
