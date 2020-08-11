@@ -15,11 +15,14 @@ const FindAddress = ({setForm, form, name}) => {
 		
 		axios.get(`/api/search?word=${word}`)
 			.then(response => {
-				setItems(response.data.items.map(item => {
-					item.title = item.title.replace(/<[^>]+>/g, '');
-					
-					return item;
-				}));
+				if(response.data.items)
+					return setItems(response.data.items.map(item => {
+						item.title = item.title.replace(/<[^>]+>/g, '');
+						
+						return item;
+					}));
+				
+				return setItems([]);
 			})
 	};
 	
@@ -27,6 +30,18 @@ const FindAddress = ({setForm, form, name}) => {
 		setForm({
 			...form,
 			[name]: item.roadAddress
+		});
+		
+		window.setPop("");
+	};
+	
+	const register = () => {
+		if(word.length === 0)
+			return window.setFlash("적어도 1글자 이상 입력해주세요.");
+		
+		setForm({
+			...form,
+			[name]: word
 		});
 		
 		window.setPop("");
@@ -45,7 +60,11 @@ const FindAddress = ({setForm, form, name}) => {
 			</div>
 			
 			<div className="addresses scroll--smooth">
-				{items.length === 0 ? <div className="addresses__empty">검색된 음식점이 없습니다.</div> : null}
+				{items.length === 0 ?
+					<div className="addresses__empty">검색된 음식점이 없습니다. <button className="addresses__btn" onClick={register}>입력한 주소로 직접 등록하기</button></div>
+					: null
+				}
+
 				{items.map((item, index) =>
 					<div className="address" key={index} onClick={() => choice(item)}>
 						<p className="address__title">{item.title}</p>

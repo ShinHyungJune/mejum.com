@@ -163,6 +163,7 @@ return [
         "address_detail" => "상세주소",
         "park" => "주차장 여부",
         "closed" => "휴무일",
+        "memo" => "특이사항",
         "menus" => "메뉴",
         "menus.*.body" => "메뉴 내용",
         "menus.*.title" => "메뉴명",

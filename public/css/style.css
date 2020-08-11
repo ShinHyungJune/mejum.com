@@ -92,15 +92,16 @@ header .button--icon {display:none; margin-right:32px;}
 .create--menu--thumbnail .ratioBox-wrap {position:absolute; top:0; left:0;}
 
 .stores .box.type01 {display:flex; flex-wrap:wrap; justify-content: space-between; align-items:center; padding-bottom:0;}
-.store {margin-bottom:20px; flex-basis: 48%;}
+.store {margin-bottom:20px; flex-basis: 48%; overflow:hidden;}
 .store .ratioBox-wrap {border-radius:5px;}
-.store__title {margin-top:5px; font-weight:500;}
+.store__title {margin-top:5px; font-weight:500; white-space: nowrap; overflow:hidden; text-overflow:ellipsis;}
 
 .widthLong .ratioBox img {width:auto !important; height:100% !important;}
 .heightLong .ratioBox img {width:100% !important; height:auto !important;}
 
 .addresses {max-height:200px; overflow-y:auto; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1;}
 .addresses__empty {padding:16px; text-align:center; font-size:14px; color:#999;}
+.addresses__btn {display:block; margin:0 auto; margin-top:8px; font-size:14px; text-decoration:underline; color:#333; text-align:center;}
 .address {padding:16px; border-bottom:1px solid #e1e1e1;}
 .address__address {font-size:14px; color:#999;}
 .address__address:last-child {border-bottom:none;}
@@ -109,7 +110,7 @@ header .button--icon {display:none; margin-right:32px;}
 #store .tabs {margin:0 -20px;}
 #store .infos--wrap {position:relative;}
 #store .infos {margin:16px 0; padding:0; box-shadow:none;}
-#store #map {margin-bottom:16px; z-index:0;}
+#store #map {margin-bottom:16px; z-index:0; background-color:#eee;}
 #store .info.type01 {margin-bottom:8px;}
 #store .store__buttons--wrap {padding:0 16px;}
 #store .store__buttons {display:flex; justify-content:space-around; align-items:center; margin-top:-24px; position:relative; z-index:1; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff;}
@@ -118,7 +119,7 @@ header .button--icon {display:none; margin-right:32px;}
 #store .store__top {position:relative;}
 #store .store__top__texts {min-width:200px; max-width:220px; padding:8px 16px; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background-color:rgba(0,0,0,0.45); text-align:center;}
 #store .store__ranks img {display:inline-block; margin:0 2px;}
-#store .store__top__texts .store__title {margin-bottom:8px; font-size:20px; font-weight:bold; color:#fff;}
+#store .store__top__texts .store__title {margin-bottom:8px; font-size:20px; font-weight:bold; color:#fff; white-space: normal;}
 
 .menus {}
 .menu {padding:16px 18px; padding-left: 89px; position:relative; border-bottom:1px solid #e1e1e1;}
@@ -127,8 +128,8 @@ header .button--icon {display:none; margin-right:32px;}
 .menu__title { font-weight:500; }
 .menu__price { font-size:14px; }
 
-.vote__contact__btn {float:left; position:relative; z-index:1;}
-.vote__contact__btn .icon {margin-right:4px; position:relative; top:1px;}
+.vote__contact__btn {margin-right:10px; float:left; position:relative; z-index:1;}
+.vote__contact__btn .icon {width:11px; margin-right:4px; position:relative; top:1px;}
 .vote__count__btn {position:relative; z-index:1;}
 .vote__top {margin-bottom:8px; text-align:right;}
 .vote__top .icon--person {margin-right:4px; position:relative; top:2px;}
@@ -144,9 +145,7 @@ header .button--icon {display:none; margin-right:32px;}
 #vote .input--radio label {display:block; width:100%; padding:8px 16px; margin-left:0; position:relative; color:#555; background-color:#eee; border:1px solid #ccc; border-radius:5px; cursor:pointer;
     transition: color .3s cubic-bezier(.13,.77,.35,1), background-color .3s cubic-bezier(.13,.77,.35,1), box-shadow .3s cubic-bezier(.13,.77,.35,1);
 }
-#vote .input--radio input:checked + label {padding-right:48px; color:#fff; background-color:#ff9711; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
-#vote .input--radio input:checked:after {color:#fff;}
-#vote .input--radio input:checked:before {background:url("/img/user--thin--white.png") no-repeat;}
+#vote .input--radio input:checked + label {padding-right:48px; background-color:white; border:1px solid #ff9711; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
 
 #vote .vote__button {padding:8px 16px; position:fixed; right:20px; bottom:80px; color:#fff; border-radius:5px; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}
 #statistics--vote .tabs__contents {padding-top:16px;}

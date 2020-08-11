@@ -27,6 +27,7 @@ window.naver = {
     secret: "qy8flzFjTF",
     couldKey: "ue3zysm2ng",
     couldSecret: "RsUwfvXmRh3FZgyvwrLFJW8ToLd4vz7isBbPlwri",
+    findWayDomain: "http://m.map.naver.com/route.nhn"
 };
 
 

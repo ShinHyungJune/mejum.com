@@ -72535,7 +72535,8 @@ window.naver = {
   key: "gEf2Obm290rhS5luowhC",
   secret: "qy8flzFjTF",
   couldKey: "ue3zysm2ng",
-  couldSecret: "RsUwfvXmRh3FZgyvwrLFJW8ToLd4vz7isBbPlwri"
+  couldSecret: "RsUwfvXmRh3FZgyvwrLFJW8ToLd4vz7isBbPlwri",
+  findWayDomain: "http://m.map.naver.com/route.nhn"
 };
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -73338,15 +73339,22 @@ var FindAddress = function FindAddress(_ref) {
   var search = function search(e) {
     e.preventDefault();
     axios.get("/api/search?word=".concat(word)).then(function (response) {
-      setItems(response.data.items.map(function (item) {
+      if (response.data.items) return setItems(response.data.items.map(function (item) {
         item.title = item.title.replace(/<[^>]+>/g, '');
         return item;
       }));
+      return setItems([]);
     });
   };
 
   var choice = function choice(item) {
     setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, item.roadAddress)));
+    window.setPop("");
+  };
+
+  var register = function register() {
+    if (word.length === 0) return window.setFlash("적어도 1글자 이상 입력해주세요.");
+    setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, word)));
     window.setPop("");
   };
 
@@ -73370,7 +73378,10 @@ var FindAddress = function FindAddress(_ref) {
     className: "addresses scroll--smooth"
   }, items.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "addresses__empty"
-  }, "\uAC80\uC0C9\uB41C \uC74C\uC2DD\uC810\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.") : null, items.map(function (item, index) {
+  }, "\uAC80\uC0C9\uB41C \uC74C\uC2DD\uC810\uC774 \uC5C6\uC2B5\uB2C8\uB2E4. ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "addresses__btn",
+    onClick: register
+  }, "\uC785\uB825\uD55C \uC8FC\uC18C\uB85C \uC9C1\uC811 \uB4F1\uB85D\uD558\uAE30")) : null, items.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "address",
       key: index,
@@ -76218,41 +76229,10 @@ var Create = function Create(_ref) {
     value: "0",
     id: "parkFalse"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uC6D4",
-    value: "\uC6D4",
-    title: "휴무일"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uD654",
-    value: "\uD654"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uC218",
-    value: "\uC218"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uBAA9",
-    value: "\uBAA9"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uAE08",
-    value: "\uAE08"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uD1A0",
-    value: "\uD1A0"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uC77C",
-    value: "\uC77C"
+    type: "text",
+    name: "memo",
+    placeholder: "특이사항",
+    title: "특이사항"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -76370,41 +76350,10 @@ var Edit = function Edit(_ref) {
     value: "0",
     id: "parkFalse"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uC6D4",
-    value: "\uC6D4",
-    title: "휴무일"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uD654",
-    value: "\uD654"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uC218",
-    value: "\uC218"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uBAA9",
-    value: "\uBAA9"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uAE08",
-    value: "\uAE08"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uD1A0",
-    value: "\uD1A0"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "closed",
-    label: "\uC77C",
-    value: "\uC77C"
+    type: "text",
+    name: "memo",
+    placeholder: "특이사항",
+    title: "특이사항"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -76502,8 +76451,6 @@ var Show = function Show(_ref) {
   var map;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/stores/" + match.params.store_id).then(function (response) {
-      console.log(response.data.closed);
-      response.data.closed = alignDayOfWeeks(response.data.closed);
       setStore(response.data);
       setDefaultForm({
         store_id: response.data.id
@@ -76681,9 +76628,9 @@ var Show = function Show(_ref) {
     className: "info type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "info--title"
-  }, "\uD734\uBB34\uC77C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, "\uD2B9\uC774\uC0AC\uD56D"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "info--body"
-  }, !store.closed || store.closed === "null" ? "연중무휴" : store.closed)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, store.memo)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "info type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "info--title"
@@ -77221,11 +77168,11 @@ var Show = function Show(_ref) {
       container: '#kakao',
       objectType: 'feed',
       content: {
-        title: "매일점심으로부터 초대장이 도착하였습니다.",
+        title: "매일점심으로부터 투표지가 도착하였습니다.",
         description: "".concat(_store__WEBPACK_IMPORTED_MODULE_6__["default"].getState().commonStates.user.name, "\uB2D8\uAED8\uC11C [").concat(vote.title, "] \uD22C\uD45C\uC9C0\uB97C \uACF5\uC720\uD558\uC600\uC2B5\uB2C8\uB2E4."),
         imageUrl: vote.store.img.url,
         link: {
-          mobileWebUrl: window.location.href,
+          mobileWebUrl: vote.invitation,
           webUrl: vote.invitation
         }
       },

@@ -17,10 +17,6 @@ const Show = ({history, match}) => {
     useEffect(() => {
         axios.get("/api/stores/" + match.params.store_id)
             .then(response => {
-                console.log(response.data.closed);
-
-                response.data.closed = alignDayOfWeeks(response.data.closed);
-
                 setStore(response.data);
 
                 setDefaultForm({
@@ -210,8 +206,8 @@ const Show = ({history, match}) => {
                                 </div>
             
                                 <div className="info type01">
-                                    <p className="info--title">휴무일</p>
-                                    <p className="info--body">{!store.closed || store.closed === "null" ? "연중무휴" : store.closed}</p>
+                                    <p className="info--title">특이사항</p>
+                                    <p className="info--body">{store.memo}</p>
                                 </div>
     
                                 <div className="info type01">

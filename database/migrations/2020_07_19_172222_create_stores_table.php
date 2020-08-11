@@ -23,7 +23,7 @@ class CreateStoresTable extends Migration
             $table->string("contact");
             $table->string("address");
             $table->boolean("park")->default(false);
-            $table->string("closed")->nullable();
+            $table->string("memo")->nullable();
             $table->boolean("secret")->default(true);
             $table->timestamps();
             $table->softDeletes();

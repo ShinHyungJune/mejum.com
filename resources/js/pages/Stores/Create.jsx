@@ -38,19 +38,7 @@ const Create = ({history, match}) => {
     
                     <input type="radio" name={"park"} label="없음" value="0" id={"parkFalse"}/>
     
-                    <input type="checkbox" name={"closed"} label="월" value="월" title={"휴무일"}/>
-
-                    <input type="checkbox" name={"closed"} label="화" value="화"/>
-                    
-                    <input type="checkbox" name={"closed"} label="수" value="수"/>
-                    
-                    <input type="checkbox" name={"closed"} label="목" value="목"/>
-                    
-                    <input type="checkbox" name={"closed"} label="금" value="금"/>
-                    
-                    <input type="checkbox" name={"closed"} label="토" value="토"/>
-                    
-                    <input type="checkbox" name={"closed"} label="일" value="일"/>
+                    <input type="text" name={"memo"} placeholder={"특이사항"} title={"특이사항"}/>
 
                     <div className="pop__buttons">
                         <button className={`button--middle width--100 bg--primary ${loading ? "loading type01" : null}`} onClick={() => setLoading(true)}>생성</button>

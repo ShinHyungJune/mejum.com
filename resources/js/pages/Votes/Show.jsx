@@ -77,11 +77,11 @@ import {Link} from "react-router-dom";
             container: '#kakao',
             objectType: 'feed',
             content: {
-                title: "매일점심으로부터 초대장이 도착하였습니다.",
+                title: "매일점심으로부터 투표지가 도착하였습니다.",
                 description: `${store.getState().commonStates.user.name}님께서 [${vote.title}] 투표지를 공유하였습니다.`,
                 imageUrl: vote.store.img.url,
                 link: {
-                    mobileWebUrl: window.location.href,
+                    mobileWebUrl: vote.invitation,
                     webUrl: vote.invitation,
                 }
             },
@@ -100,7 +100,6 @@ import {Link} from "react-router-dom";
             }
         });
     };
-
 	
 	return (
 		<Fragment>
@@ -126,6 +125,12 @@ import {Link} from "react-router-dom";
 
                                     <span className="vote__count__active">{vote.store.contact}</span>
                                 </a>
+								
+								{/* <button type={"button"} className="vote__contact__btn" onClick={}>
+									<img src="/img/pin--thin--black.png" alt="" className="icon"/>
+									
+									<span className="vote__count__active">길찾기</span>
+								</button> */}
 
 								<Link to={"/votes/statistics/" + vote.id} type={"button"}  className="vote__count__btn">
 									<img src="/img/user--thin--black.png" alt="" className="icon--person"/>
