@@ -77103,17 +77103,25 @@ var Show = function Show(_ref) {
       defaultForm = _useState6[0],
       setDefaultForm = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    x: null,
+    y: null
+  }),
       _useState8 = _slicedToArray(_useState7, 2),
-      currentAddress = _useState8[0],
-      setCurrentAddress = _useState8[1];
+      geoCode = _useState8[0],
+      setGeoCode = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState10 = _slicedToArray(_useState9, 2),
+      currentAddress = _useState10[0],
+      setCurrentAddress = _useState10[1];
 
   var choiced;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/votes/" + match.params.id).then(function (response) {
       setVote(response.data);
       setDefaultChoice(response.data);
-      getCurrentAddress();
+      getGeocode(response.data.store); // getCurrentAddress();
     });
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -77184,28 +77192,48 @@ var Show = function Show(_ref) {
     });
   };
 
-  var getCurrentAddress = function getCurrentAddress() {
-    var land = null;
-    if (navigator.geolocation) return navigator.geolocation.getCurrentPosition(function (pos) {
-      axios.get("/api/getAddress", {
-        params: {
-          x: pos.coords.longitude,
-          y: pos.coords.latitude
-        }
-      }).then(function (response) {
-        console.log(response);
-
-        if (response.data.results) {
-          land = response.data.results[0].land;
-          currentAddress = land.name;
-          if (land.number1) currentAddress += " ".concat(land.number1);
-          if (land.number2) currentAddress += " ".concat(land.number1);
-          setCurrentAddress(currentAddress);
-        }
-      });
+  var getGeocode = function getGeocode(data) {
+    axios.get("/api/getGeoCode?address=".concat(data.address)).then(function (response) {
+      if (response.data.addresses[0]) {
+        setGeoCode({
+          x: response.data.addresses[0].x,
+          y: response.data.addresses[0].y
+        });
+      }
     });
-    return window.setFlash("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
   };
+  /*const getCurrentAddress = (data) => {
+  	let land = null;
+  	
+  	if (navigator.geolocation)
+  		return navigator.geolocation.getCurrentPosition(function (pos) {
+  			axios.get("/api/getAddress", {
+  				params: {
+  					x: pos.coords.longitude,
+  					y: pos.coords.latitude
+  				}
+  			}).then(response => {
+  				console.log(response);
+  				
+  				if(response.data.results) {
+  					land = response.data.results[0].land;
+  					
+  					currentAddress = land.name;
+  					
+  					if(land.number1)
+  						currentAddress += ` ${land.number1}`;
+  					
+  					if(land.number2)
+  						currentAddress += ` ${land.number1}`;
+  					
+  					setCurrentAddress(currentAddress);
+  				}
+  			});
+  		});
+  	
+  	return window.setFlash("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
+  };*/
+
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
     title: "".concat(vote ? vote.store.title : "", " \uD22C\uD45C\uC9C0"),
@@ -77243,7 +77271,7 @@ var Show = function Show(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "vote__count__active"
   }, vote.store.contact)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "https://map.kakao.com?sName=".concat(currentAddress, "&eName=").concat(vote.store.address),
+    href: "https://map.kakao.com/link/to/".concat(vote.title, ",").concat(geoCode.y, ",").concat(geoCode.x),
     target: "__blank",
     title: "새창열림",
     className: "vote__contact__btn"

@@ -13,6 +13,8 @@ const Show = ({history, match, user}) => {
 	
 	let [defaultForm, setDefaultForm] = useState(null);
 	
+	let [geoCode, setGeoCode] = useState({x: null, y: null});
+	
 	let [currentAddress, setCurrentAddress] = useState(null);
 	
 	let choiced;
@@ -24,7 +26,9 @@ const Show = ({history, match, user}) => {
 					
 					setDefaultChoice(response.data);
 					
-					getCurrentAddress();
+					getGeocode(response.data.store);
+				
+					// getCurrentAddress();
 				}
 			);
 	}, []);
@@ -105,7 +109,19 @@ const Show = ({history, match, user}) => {
 		});
 	};
 	
-	const getCurrentAddress = () => {
+	const getGeocode = (data) => {
+		axios.get(`/api/getGeoCode?address=${data.address}`)
+			.then(response => {
+				if(response.data.addresses[0]){
+					setGeoCode({
+						x: response.data.addresses[0].x,
+						y: response.data.addresses[0].y,
+					});
+				}
+			});
+	};
+	
+	/*const getCurrentAddress = (data) => {
 		let land = null;
 		
 		if (navigator.geolocation)
@@ -135,7 +151,7 @@ const Show = ({history, match, user}) => {
 			});
 		
 		return window.setFlash("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
-	};
+	};*/
 	
 	
 	return (
@@ -169,7 +185,7 @@ const Show = ({history, match, user}) => {
 									<span className="vote__count__active">길찾기</span>
 								</a>*/}
 								
-								<a href={`https://map.kakao.com?sName=${currentAddress}&eName=${vote.store.address}`} target={"__blank"} title={"새창열림"} className="vote__contact__btn">
+								<a href={`https://map.kakao.com/link/to/${vote.title},${geoCode.y},${geoCode.x}`} target={"__blank"} title={"새창열림"} className="vote__contact__btn">
 									<img src="/img/pin--thin--black.png" alt="" className="icon"/>
 									
 									<span className="vote__count__active">길찾기</span>
