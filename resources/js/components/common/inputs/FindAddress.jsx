@@ -60,8 +60,10 @@ const FindAddress = ({setForm, form, name}) => {
 			</div>
 			
 			<div className="addresses scroll--smooth">
+				<button className="addresses__btn" onClick={register}>입력한 주소로 직접 등록하기</button>
+				
 				{items.length === 0 ?
-					<div className="addresses__empty">검색된 음식점이 없습니다. <button className="addresses__btn" onClick={register}>입력한 주소로 직접 등록하기</button></div>
+					<div className="addresses__empty">검색된 음식점이 없습니다.</div>
 					: null
 				}
 

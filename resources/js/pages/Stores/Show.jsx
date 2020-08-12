@@ -38,39 +38,6 @@ const Show = ({history, match}) => {
             })
     }, []);
     
-    const alignDayOfWeeks = (dayOfWeeks) => {
-        if(!dayOfWeeks)
-            return null;
-        
-        let aligned = [];
-        
-        if(dayOfWeeks.includes("월"))
-            aligned.push("월,");
-    
-        if(dayOfWeeks.includes("화"))
-            aligned.push("화,");
-    
-        if(dayOfWeeks.includes("수"))
-            aligned.push("수,");
-    
-        if(dayOfWeeks.includes("목"))
-            aligned.push("목,");
-    
-        if(dayOfWeeks.includes("금"))
-            aligned.push("금,");
-    
-        if(dayOfWeeks.includes("토"))
-            aligned.push("토,");
-    
-        if(dayOfWeeks.includes("일"))
-            aligned.push("일,");
-
-        if(aligned[aligned.length - 1])
-            aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
-
-        return aligned;
-    };
-    
     const onMenuCreated = (response) => {
         setLoading(false);
         

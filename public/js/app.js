@@ -73376,12 +73376,12 @@ var FindAddress = function FindAddress(_ref) {
     alt: ""
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "addresses scroll--smooth"
-  }, items.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "addresses__empty"
-  }, "\uAC80\uC0C9\uB41C \uC74C\uC2DD\uC810\uC774 \uC5C6\uC2B5\uB2C8\uB2E4. ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "addresses__btn",
     onClick: register
-  }, "\uC785\uB825\uD55C \uC8FC\uC18C\uB85C \uC9C1\uC811 \uB4F1\uB85D\uD558\uAE30")) : null, items.map(function (item, index) {
+  }, "\uC785\uB825\uD55C \uC8FC\uC18C\uB85C \uC9C1\uC811 \uB4F1\uB85D\uD558\uAE30"), items.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "addresses__empty"
+  }, "\uAC80\uC0C9\uB41C \uC74C\uC2DD\uC810\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.") : null, items.map(function (item, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "address",
       key: index,
@@ -76466,20 +76466,6 @@ var Show = function Show(_ref) {
     });
   }, []);
 
-  var alignDayOfWeeks = function alignDayOfWeeks(dayOfWeeks) {
-    if (!dayOfWeeks) return null;
-    var aligned = [];
-    if (dayOfWeeks.includes("월")) aligned.push("월,");
-    if (dayOfWeeks.includes("화")) aligned.push("화,");
-    if (dayOfWeeks.includes("수")) aligned.push("수,");
-    if (dayOfWeeks.includes("목")) aligned.push("목,");
-    if (dayOfWeeks.includes("금")) aligned.push("금,");
-    if (dayOfWeeks.includes("토")) aligned.push("토,");
-    if (dayOfWeeks.includes("일")) aligned.push("일,");
-    if (aligned[aligned.length - 1]) aligned[aligned.length - 1] = aligned[aligned.length - 1].replace(",", "");
-    return aligned;
-  };
-
   var onMenuCreated = function onMenuCreated(response) {
     setLoading(false);
     setStore(_objectSpread(_objectSpread({}, store), {}, {
@@ -77117,11 +77103,17 @@ var Show = function Show(_ref) {
       defaultForm = _useState6[0],
       setDefaultForm = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      currentAddress = _useState8[0],
+      setCurrentAddress = _useState8[1];
+
   var choiced;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/votes/" + match.params.id).then(function (response) {
       setVote(response.data);
       setDefaultChoice(response.data);
+      getCurrentAddress();
     });
   }, []);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -77192,6 +77184,29 @@ var Show = function Show(_ref) {
     });
   };
 
+  var getCurrentAddress = function getCurrentAddress() {
+    var land = null;
+    if (navigator.geolocation) return navigator.geolocation.getCurrentPosition(function (pos) {
+      axios.get("/api/getAddress", {
+        params: {
+          x: pos.coords.longitude,
+          y: pos.coords.latitude
+        }
+      }).then(function (response) {
+        console.log(response);
+
+        if (response.data.results) {
+          land = response.data.results[0].land;
+          currentAddress = land.name;
+          if (land.number1) currentAddress += " ".concat(land.number1);
+          if (land.number2) currentAddress += " ".concat(land.number1);
+          setCurrentAddress(currentAddress);
+        }
+      });
+    });
+    return window.setFlash("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
     title: "".concat(vote ? vote.store.title : "", " \uD22C\uD45C\uC9C0"),
     history: history
@@ -77227,7 +77242,18 @@ var Show = function Show(_ref) {
     className: "icon"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "vote__count__active"
-  }, vote.store.contact)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+  }, vote.store.contact)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://map.kakao.com?sName=".concat(currentAddress, "&eName=").concat(vote.store.address),
+    target: "__blank",
+    title: "새창열림",
+    className: "vote__contact__btn"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/pin--thin--black.png",
+    alt: "",
+    className: "icon"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "vote__count__active"
+  }, "\uAE38\uCC3E\uAE30")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
     to: "/votes/statistics/" + vote.id,
     type: "button",
     className: "vote__count__btn"

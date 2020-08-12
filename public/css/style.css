@@ -101,7 +101,7 @@ header .button--icon {display:none; margin-right:32px;}
 
 .addresses {max-height:200px; overflow-y:auto; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1;}
 .addresses__empty {padding:16px; text-align:center; font-size:14px; color:#999;}
-.addresses__btn {display:block; margin:0 auto; margin-top:8px; font-size:14px; text-decoration:underline; color:#333; text-align:center;}
+.addresses__btn {display:block; margin:0 auto; margin-top:16px; font-size:14px; text-decoration:underline; color:#333; text-align:center;}
 .address {padding:16px; border-bottom:1px solid #e1e1e1;}
 .address__address {font-size:14px; color:#999;}
 .address__address:last-child {border-bottom:none;}

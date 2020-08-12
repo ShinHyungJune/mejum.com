@@ -37,4 +37,23 @@ class NaverController extends ApiController
 
         return $this->respond($response->json());
     }
+
+    public function getAddress(Request $request)
+    {
+        $request->validate([
+            "x" => "required|string|max:2000",
+            "y" => "required|string|max:2000",
+        ]);
+
+        $response = Http::withHeaders([
+            'X-NCP-APIGW-API-KEY-ID' => config("naver.cloud.key"),
+            'X-NCP-APIGW-API-KEY' => config("naver.cloud.secret")
+        ])->get(config("naver.cloud.domain").'/map-reversegeocode/v2/gc', [
+            "coords" => $request->x.",".$request->y,
+            "output" => "json",
+            "orders" => "roadaddr"
+        ]);
+
+        return $this->respond($response->json());
+    }
 }
