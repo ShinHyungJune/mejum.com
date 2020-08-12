@@ -24,11 +24,18 @@ const Statistics = ({history, match}) => {
 					<div className="box type01" id={"statistics--vote"}>
                         <Tabs>
                             <div name="참여">
-                                {vote.choices.data.map(choice =>
-                                    choice.users.data.map(participant =>
-                                        <Member member={participant} choice={choice} key={participant.id} />
-                                    )
-                                )}
+                                {vote.choices.data.map(choice => {
+                                	if(choice.users.data.length)
+		                                return (
+		                                    <Fragment>
+			                                    <div className="statistics--vote__group">
+				                                    <p className="statistics--vote__group__title">{`${choice.title} (${choice.users.data.length}명)`}</p>
+				
+				                                    {choice.users.data.map(participant => <Member member={participant} choice={choice} key={participant.id} />)}
+			                                    </div>
+			                                </Fragment>
+		                                )
+                                })}
                             </div>
                             <div name="미참여">
                                 {vote.unparticipants.data.map(unparticipant =>

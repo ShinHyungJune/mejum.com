@@ -162,3 +162,7 @@ header .button--icon {display:none; margin-right:32px;}
 .vote__btn img {}
 .vote__menus {position:absolute; right:15px; top:45px; background-color:#fff; box-shadow:0px 3px 6px rgba(0,0,0,0.4); border-radius:3px; z-index:1;}
 .vote__menu {display:block; width:100%; padding:10px; font-size:14px; font-weight:500; color:#999; text-align:left;}
+
+.statistics--vote__group {margin-bottom:16px;}
+.statistics--vote__group__title {margin-bottom:8px; font-size:16px; font-weight:500; }
+.statistics--vote__group:last-of-type {margin-bottom:0;}

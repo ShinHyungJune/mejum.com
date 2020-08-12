@@ -77330,13 +77330,17 @@ var Statistics = function Statistics(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uCC38\uC5EC"
   }, vote.choices.data.map(function (choice) {
-    return choice.users.data.map(function (participant) {
+    if (choice.users.data.length) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "statistics--vote__group"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "statistics--vote__group__title"
+    }, "".concat(choice.title, " (").concat(choice.users.data.length, "\uBA85)")), choice.users.data.map(function (participant) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Member__WEBPACK_IMPORTED_MODULE_4__["default"], {
         member: participant,
         choice: choice,
         key: participant.id
       });
-    });
+    })));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uBBF8\uCC38\uC5EC"
   }, vote.unparticipants.data.map(function (unparticipant) {
