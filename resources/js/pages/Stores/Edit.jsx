@@ -27,7 +27,7 @@ const Edit = ({match, history}) => {
         
             <div className="box type01" id={"create--store"}>
                 <Form method="patch" url={`/api/stores/${match.params.store_id}`}  onThen={onThen} onCatch={() => {setLoading(false)}} defaultForm={defaultForm}>
-                    <input type="avatar" name={"img"} className={"create--store--thumbnail"}/>
+                    <input type="cropImage" name={"img"} data-aspect={1/1}/>
                 
                     <input type="text" name={"title"} placeholder={"상호명"} title={"상호명"}/>
                 

@@ -33,6 +33,7 @@ import {Redirect} from "react-router-dom";
 import More from './pages/More';
 
 import Flash from './components/common/Flash';
+import Test from './pages/Test';
 
 
 const Index = ({history}) => {
@@ -51,6 +52,8 @@ const Index = ({history}) => {
                     <div className="contents">
                         <Switch>
                             <Redirect exact path="/" to={"/groups"} />
+                            
+                            <AuthRoute exact path="/test" component={Test}/>
                             
                             <AuthRoute exact path="/groups" component={GroupIndex}/>
                             <AuthRoute exact path="/groups/:id" component={GroupShow}/>

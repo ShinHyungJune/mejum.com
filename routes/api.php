@@ -31,6 +31,8 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
+Route::post("/test", 'Api\TestController@test');
+
 Route::group(["middleware" => "auth:sanctum"], function() {
     Route::get("/search", "Api\NaverController@search");
     Route::get("/getGeoCode", "Api\NaverController@getGeoCode");

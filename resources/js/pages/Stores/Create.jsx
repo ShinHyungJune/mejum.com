@@ -26,7 +26,7 @@ const Create = ({history, match}) => {
             
             <div className="box type01" id={"create--store"}>
                 <Form method="post" url="/api/stores" onThen={onThen} onCatch={onCatch} defaultForm={defaultForm}>
-                    <input type="img" name={"img"} className={"create--store--thumbnail"}/>
+                    <input type="cropImage" name={"img"} data-aspect={1/1}/>
 
                     <input type="text" name={"title"} placeholder={"상호명"} title={"상호명"}/>
         

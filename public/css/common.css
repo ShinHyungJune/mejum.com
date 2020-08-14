@@ -119,6 +119,16 @@ body {}
 .input--tag__button {content:""; width:46px; height:100%; position:absolute; top:0; right:0; background:url("/img/trash--black.png") no-repeat center; border:1px solid #D2D3D8; border-radius:5px;}
 .input--tag .text {display:block; width:100%; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; color:#333; border-radius:5px;}
 
+.input--cropImage__img {display:block; width:100%;}
+.input--cropImage label {display:block; text-align:center;}
+.input--cropImage input {display:none;}
+.input--cropImage.active .input--cropImage__label {display:none;}
+.input--cropImage img {display:inline-block; border-radius:5px;}
+.input--cropImage__btn--cut {padding:8px 16px; position:absolute; bottom:80px; left:50%; transform:translateX(-50%); z-index:1; color:#fff; background-color:#ff9711; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
+
+.img--container {width:640px; height:480px; float:left;}
+.img--preview {width:200px; height:200px; }
+
 .text--h1 {font-size:24px; font-weight:500; color:#2E4266;}
 .text--h2 {font-size:20px; font-weight:500; color:#2E4266;}
 .text--title {color:#2E4266;}

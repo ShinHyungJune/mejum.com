@@ -7,6 +7,7 @@ import InputSelect from './inputs/InputSelect';
 import InputTextarea from './inputs/InputTextarea';
 import InputFile from './inputs/InputFile';
 import InputImage from './inputs/InputImage';
+import InputCropImage from './inputs/InputCropImage';
 import InputCodeEditor from './inputs/InputCodeEditor';
 import InputTags from "./inputs/InputTags";
 import InputAvatar from "./inputs/InputAvatar";
@@ -144,6 +145,9 @@ const Form = ({children, url = "", method = "", onSubmit = () => {}, onThen = (r
                 
                     {/* input img */}
                     {el.props.type === "img" ? <InputImage form={form} setForm={setForm} el={el}/> : null}
+    
+                    {/* input img */}
+                    {el.props.type === "cropImage" ? <InputCropImage form={form} setForm={setForm} el={el}/> : null}
                 
                     {/* input file */}
                     {el.props.type === "file" ? <InputFile form={form} setForm={setForm} el={el}/> : null}

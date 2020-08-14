@@ -90,7 +90,6 @@ header .button--icon {display:none; margin-right:32px;}
 .create--menu--thumbnail label {width:100%; height:100%; position:absolute; top:0; left:0; color:transparent; z-index:1;}
 .create--menu--thumbnail .input-file-img {width:auto; margin:0; padding:0; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); border:none; border-radius:5px;}
 .create--menu--thumbnail .ratioBox-wrap {position:absolute; top:0; left:0;}
-
 .stores .box.type01 {display:flex; flex-wrap:wrap; justify-content: space-between; align-items:center; padding-bottom:0;}
 .store {margin-bottom:20px; flex-basis: 48%; overflow:hidden;}
 .store .ratioBox-wrap {border-radius:5px;}
@@ -166,3 +165,4 @@ header .button--icon {display:none; margin-right:32px;}
 .statistics--vote__group {margin-bottom:16px;}
 .statistics--vote__group__title {margin-bottom:8px; font-size:16px; font-weight:500; }
 .statistics--vote__group:last-of-type {margin-bottom:0;}
+

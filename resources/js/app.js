@@ -29,7 +29,20 @@ window.naver = {
     couldSecret: "RsUwfvXmRh3FZgyvwrLFJW8ToLd4vz7isBbPlwri",
     findWayDomain: "http://m.map.naver.com/route.nhn"
 };
-
+window.dataURLtoFile = (url, fileName) => {
+    
+    var arr = url.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], fileName, {type:mime});
+};
 
 /**
  * First we will load all of this project's JavaScript dependencies which
