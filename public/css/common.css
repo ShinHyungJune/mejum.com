@@ -119,8 +119,9 @@ body {}
 .input--tag__button {content:""; width:46px; height:100%; position:absolute; top:0; right:0; background:url("/img/trash--black.png") no-repeat center; border:1px solid #D2D3D8; border-radius:5px;}
 .input--tag .text {display:block; width:100%; padding:8px 16px; background-color:#fff; border:1px solid #D2D3D8; color:#333; border-radius:5px;}
 
-.input--cropImage__img {display:block; width:100%;}
-.input--cropImage label {display:block; text-align:center;}
+.input--cropImage__img {display:block; width:100%; position:relative; z-index:1;}
+.input--cropImage label {display:block; min-width:300px; min-height:300px; margin:0 auto; position:relative; text-align:center; background-color:#dedede; border-radius:5px;}
+.input--cropImage label:after {content:"이미지 등록"; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:18px; font-weight:500; color:#fff;}
 .input--cropImage input {display:none;}
 .input--cropImage.active .input--cropImage__label {display:none;}
 .input--cropImage img {display:inline-block; border-radius:5px;}
@@ -228,9 +229,10 @@ body {}
 .empty.type02 .empty__text {font-size:18px; font-weight:500;}
 
 /* ratio box */
-.ratioBox-wrap {width:100%; padding-top:100%; position:relative; background-color:#fff; overflow:hidden;}
+.ratioBox-wrap {width:100%; padding-top:100%; position:relative; background-color:#ededed; overflow:hidden;}
+.ratioBox-wrap:after {content:"매일점심"; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:18px; font-weight:500; color:#fff; z-index:0;}
 .ratioBox {position:absolute; top:0; left:0; right:0; bottom:0;}
-.ratioBox img {width:100%; position:absolute; left:50%; top:50%; transform:translateY(-50%) translateX(-50%);}
+.ratioBox img {width:100%; position:absolute; left:50%; top:50%; transform:translateY(-50%) translateX(-50%); z-index:1;}
 
 #login .links {width:100%; margin-bottom:30px; position:absolute; bottom:0; left:0;}
 #login .links .link {font-weight:300; color:#fff;}

@@ -33,10 +33,7 @@ class Store extends Model implements HasMedia
             ];
         }
 
-        return [
-            "name" => null,
-            "url" => "/img/replace--store.jpg"
-        ];
+        return "";
     }
 
     public function group()

@@ -127,8 +127,6 @@ const InputImage = ({form, setForm, el, mergeOnChange}) => {
         <div className={el.props.className ? el.props.className + ` ${url ? "active" : ""}` :`input--${el.props.type ? el.props.type : el.type} ${url ? "active" : ""}`}>
             {/* button */}
             <label className={"btn btn-text bg-primary"} htmlFor={el.props.name}>
-                <img className={"input--cropImage__label"} src="/img/replace--store.jpg" alt=""/>
-    
                 {url && !activated ? <img className="input--cropImage__img" src={url} /> : null}
             </label>
             

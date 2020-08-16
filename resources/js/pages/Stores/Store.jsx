@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
+import {LazyLoadImage} from 'react-lazy-load-image-component';
 
 const Store = ({store, edit}) => {
     let [isWidthLong, setIsWidthLong] = useState(false);
@@ -21,7 +22,13 @@ const Store = ({store, edit}) => {
         <Link to={`/stores/${store.group_id}/${store.id}`} className={`store ${isWidthLong ? "widthLong" : "heightLong"}`}>
             <div className="ratioBox-wrap">
                 <div className="ratioBox">
-                    <img src={store.img.url} alt=""/>
+                    {store.img ?
+                        <LazyLoadImage
+                            effect="blur"
+                            src={store.img.url}
+                            placeholderSrc="/img/replace--store.jpg"
+                        /> : null
+                    }
                 </div>
             </div>
             
