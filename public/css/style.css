@@ -81,9 +81,8 @@ header .button--icon {display:none; margin-right:32px;}
 .create--store--thumbnail .input-file-img {width:auto; margin:0; padding:0; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); border:none; border-radius:5px;}
 .create--store--thumbnail .ratioBox-wrap {position:absolute; top:0; left:0;}
 
-.create--menu {position:relative;}
-.create--menu .input--wrap:nth-of-type(2) {padding-left:102px;}
-.create--menu .input--wrap:nth-of-type(3) {padding-left:102px;}
+.create--menu {}
+
 .create--menu--thumbnail {width:94px; height:94px; position:absolute; left:0; top:0; background:url("/img/replace--store.jpg") no-repeat center; background-size:cover; border-radius:5px; overflow:hidden; border:1px solid rgba(0,0,0,0.1);}
 .create--menu--thumbnail.active {background:none;}
 .create--menu--thumbnail input {display:none;}
@@ -122,6 +121,7 @@ header .button--icon {display:none; margin-right:32px;}
 
 .menus {}
 .menu {padding:16px 18px; padding-left: 89px; position:relative; border-bottom:1px solid #e1e1e1;}
+.menu .ratioBox-wrap:after {font-size:12px;}
 .menu .ratioBox-wrap {width:55px; padding-top:55px; position:absolute; top:50%; left:18px; transform:translateY(-50%); border-radius:5px;}
 .menu__texts {position:relative; top:-2px;}
 .menu__title { font-weight:500; }

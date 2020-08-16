@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/earlyaccess/notosanskr.css");
+
+@charset "utf-8";
+
+html {margin:0;padding:0;}
+body,div,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,address,big,cite,code,del,dfn,em,font,img,ins,q,s,samp,small,strike,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,input,textarea,select,button,
+table,th,td,ul, li {margin:0;padding:0;border:0;font-size:16px; font-family: 'Noto Sans KR', sans-serif;color:#6C595F;font-weight:500;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0; box-sizing: border-box;}
+header, footer, section, article, aside, nav, details, menu, figure, figcaption {display:block;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+
+a:link , a:visited {text-decoration:none;}
+a:hover,a:focus {text-decoration:none;}
+*{-webkit-text-size-adjust:none;}
+
+input,textarea,select,button{font-size:16px;font-family:'Noto Sans KR', sans-serif;}
+img,fieldset {border:0;}
+form,fieldset,input {margin:0;padding:0;}
+em,address,optgroup {font-style:normal;font-weight:500;}
+button {border:none 0;margin:0;padding:0;overflow:visible;cursor:pointer;background:none;outline:none;}
+
+
+ol,ul,li {list-style:none;}
+table {border-spacing:0;border-collapse:collapse;}
+hr {display:none;}
+legend {position:absolute;top:-1000px;left:-1000px;visibility:hidden;}
+caption {height:0;line-height:0;font-size:0px;visibility:hidden;}
+
+.skipNavi {position:absolute;left:0;top:0;z-index:999;width:100%;text-align:center;}
+.skipNavi a {position:absolute;top:-999px;left:-999px;}
+.skipNavi a:focus, .skipNavi a:active, .skipNavi a:hover {display:block;top:0;left:0;padding:7px 10px 5px;background:#000;color:#fff;font-weight:500;font-size:16px;;text-decoration:none;}
+
+input[placeholder] { color:#e1e1e1;}
+::-webkit-input-placeholder { /* WebKit browsers */ color:#e1e1e1;}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ color:#e1e1e1;}
+::-moz-placeholder {/* Mozilla Firefox 19+*/ color:#e1e1e1;}
+:-ms-input-placeholder {/* ie10+*/ color:#e1e1e1;}
+
+input {color:#6C595F;}
+
+select {cursor:pointer}
+table {width:100%;}
+p, a, button {word-break:break-all;}
+
+div, p, span {font-family:Tahoma,Geneva,sans-serif;}
+a {text-decoration:none;}
+td, th {font-size:18px;}
+.copyright {text-align:center;}
+.wrap {display:block; width:100%; margin:0 auto; padding:0 20px;}
+.mail {display:block; width:100%; max-width:800px; margin:30px auto; padding:40px 30px; border:1px solid #ccc; border-top:3px solid #6FBEC2; }
+.mail > .title {margin-bottom:60px; font-size:24px; font-weight:500; text-align:center;}
+.mail > .title .primary {font-weight:bold;}
+
+.mail table {width:100%; border-top: 3px solid #333; border-bottom:1px solid #e1e1e1;}
+.mail tr {border-bottom:1px solid #ccc;}
+.mail tr, th, td {padding:10px 20px;}
+.mail tr:last-child {border-bottom:1px solid #ccc;}
+.mail th {width:30%; background-color:#F6F6F6; border-right: 1px solid #e1e1e1;}
+
+.mail table {margin-bottom:60px;}
+.mail a {}
+
+.box-number {display:block; margin-bottom:60px; padding:20px;  border:1px solid #e1e1e1; font-size:20px; text-align:center;}
+
+.header {display:none;}
+
+
+.button--full {display:block; width:100%;}
+.btn-small {padding:3px 10px; font-size:14px; font-weight:400; background-color:#333; color:#fff;}
+.button--middle {padding:8px 20px; font-size:20px; font-weight:bold; color:#fff; background-color:#333; transition:box-shadow .3s;}
+.button--middle p {font-weight:400; color:#fff;}
+.button--middle:hover { box-shadow:0px 3px 6px rgba(0,0,0,0.16);}
+
+.primary {color:#D78E71}
+.sub01 {color:#9FCBF8}
+.sub02 {color:#6FBEC2}
+.bg-primary {background-color:#D78E71;}
+.bg-sub01 {background-color:#9FCBF8;}
+.bg-sub02 {background-color:#6FBEC2;}
+
+.bold {font-weight:bold;}
+
+.align-center {text-align:center;}
+
+@media screen and (max-width:750px) {
+    .mail > .title {font-size:18px;}
+    .button--middle {font-size:16px;}
+}
+

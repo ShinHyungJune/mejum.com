@@ -8,7 +8,7 @@ const Create = ({onThen, defaultForm, loading, setLoading}) => {
         <Pop name={"메뉴 생성"}>
             <div className="create--menu">
                 <Form method="post" url="/api/menus" onThen={onThen} onCatch={() => setLoading(false)} defaultForm={defaultForm}>
-                    <input type="avatar" name={"img"} className={"create--menu--thumbnail"}/>
+                    <input type="cropImage" name={"img"} data-aspect={1/1}/>
         
                     <input type="text" name={"title"} placeholder={"메뉴명"}/>
         

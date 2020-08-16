@@ -17,7 +17,7 @@ const Edit = ({onThen, defaultForm, onDeleted, loading, setLoading}) => {
         <Pop name={"메뉴 수정"}>
             <div className="create--menu">
                 <Form method="patch" url={`/api/menus/${defaultForm.id}`} onThen={onThen} onCatch={() => setLoading(false)} defaultForm={defaultForm}>
-                    <input type="avatar" name={"img"} className={"create--menu--thumbnail"}/>
+                    <input type="cropImage" name={"img"} data-aspect={1/1}/>
         
                     <input type="text" name={"title"} placeholder={"메뉴명"}/>
         
