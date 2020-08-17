@@ -121,7 +121,6 @@ const Form = ({children, url = "", method = "", onSubmit = () => {}, onThen = (r
     }, [defaultForm]);
     
     let contents = React.Children.map(children, el => {
-        console.log(el);
         return el.type === "input" || el.type === "select" || el.type === "textarea"
             ?
             (

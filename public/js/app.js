@@ -77447,7 +77447,6 @@ var Form = function Form(_ref) {
     if (defaultForm) setForm(_objectSpread(_objectSpread({}, form), defaultForm));
   }, [defaultForm]);
   var contents = react__WEBPACK_IMPORTED_MODULE_0___default.a.Children.map(children, function (el) {
-    console.log(el);
     return el.type === "input" || el.type === "select" || el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "input--wrap"
     }, el.props.title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
