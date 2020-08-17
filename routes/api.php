@@ -49,6 +49,7 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::resource("/votes", "Api\VoteController");
     Route::resource("/choices", "Api\ChoiceController");
     Route::resource("/menus", "Api\MenuController");
+    Route::resource("/reviews", "Api\ReviewController");
 });
 
 Route::post('/passwordReset/send', 'Api\PasswordResetController@sendMail');

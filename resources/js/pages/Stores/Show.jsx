@@ -4,17 +4,24 @@ import {Link} from "react-router-dom";
 import Tabs from '../../components/common/Tabs';
 import CreateMenu from '../Menus/Create';
 import EditMenu from '../Menus/Edit';
+import CreateReview from '../Reviews/Create';
 import Menu from '../Menus/Menu';
 import useSWR from 'swr';
 import {mutate, trigger} from "swr";
+import Reviews from '../Reviews/Reviews';
 
 const Show = ({history, match}) => {
     let [loading, setLoading] = useState(false);                    
     let [selectedMenu, setSelectedMenu] = useState(null);
     let [defaultForm, setDefaultForm] = useState({});
+    let [reviewsParams, setReviewsParams] = useState({
+        page: 1,
+        orderBy: "updated_at",
+        align: "desc"
+    });
     let map;
     let {data: store, mutate: mutateStore} = useSWR("/api/stores/" + match.params.store_id);
-    // state, setState와 비슷
+    let {data: reviews, mutate: mutateReviews} = useSWR(`/api/reviews?store_id=${match.params.store_id}&page=${reviewsParams.page}&orderBy=${reviewsParams.orderBy}&align=${reviewsParams.align}`);
 
     useEffect(() => {
         if(store){
@@ -63,7 +70,15 @@ const Show = ({history, match}) => {
         
         window.setPop("");
     };
-    
+
+    const onReviewCreated = (response) => {
+        setLoading(false);
+
+        mutateReviews({...reviews, data: [...reviews.data, response.data]}, false);
+
+        window.setPop("");
+    };
+
     const settingMap = (data) => {
         let geoCode = {x: null, y: null};
 
@@ -109,7 +124,10 @@ const Show = ({history, match}) => {
     
                         {/* 메뉴 수정 팝업 */}
                         {selectedMenu ? <EditMenu store={store} onThen={onMenuUpdated} onDeleted={onMenuDeleted} defaultForm={selectedMenu} loading={loading} setLoading={setLoading}/> : null}
-                        
+
+                        {/* 리뷰 작성 팝업 */}
+                        <CreateReview store={store} onThen={onReviewCreated} defaultForm={{store_id: store.id}} loading={loading} setLoading={setLoading} />
+
                         {/* 썸네일 */}
                         <div className="store__top">
                             <div className={`ratioBox-wrap`}>
@@ -184,7 +202,7 @@ const Show = ({history, match}) => {
     
                             {/* 리뷰 */}
                             <div name="리뷰">
-                                <div className="empty type02"><p className="empty__text">준비중입니다.</p></div>
+                                <Reviews store={store} reviews={reviews} mutateReviews={mutateReviews} reviewsParams={reviewsParams} setReviewsParams={setReviewsParams}/>
                             </div>
                         </Tabs>
                         

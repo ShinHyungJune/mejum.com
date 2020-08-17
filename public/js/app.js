@@ -77447,11 +77447,16 @@ var Form = function Form(_ref) {
     if (defaultForm) setForm(_objectSpread(_objectSpread({}, form), defaultForm));
   }, [defaultForm]);
   var contents = react__WEBPACK_IMPORTED_MODULE_0___default.a.Children.map(children, function (el) {
+    console.log(el);
     return el.type === "input" || el.type === "select" || el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "input--wrap"
     }, el.props.title ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement('p', {
       className: "input--title"
     }, el.props.title) : null, el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputText__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      form: form,
+      setForm: setForm,
+      el: el
+    }) : null, el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputTextarea__WEBPACK_IMPORTED_MODULE_6__["default"], {
       form: form,
       setForm: setForm,
       el: el
@@ -77484,10 +77489,6 @@ var Form = function Form(_ref) {
       setForm: setForm,
       el: el
     }) : null, el.props.type === "address" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputAddress__WEBPACK_IMPORTED_MODULE_14__["default"], {
-      form: form,
-      setForm: setForm,
-      el: el
-    }) : null, el.type === "textarea" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_inputs_InputTextarea__WEBPACK_IMPORTED_MODULE_6__["default"], {
       form: form,
       setForm: setForm,
       el: el
@@ -80864,6 +80865,186 @@ var mapDispatch = function mapDispatch(dispatch) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/Reviews/Create.jsx":
+/*!***********************************************!*\
+  !*** ./resources/js/pages/Reviews/Create.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
+/* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+
+
+
+
+
+var Create = function Create(_ref) {
+  var onThen = _ref.onThen,
+      defaultForm = _ref.defaultForm,
+      loading = _ref.loading,
+      setLoading = _ref.setLoading;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    name: "리뷰 작성"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "create--review"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    method: "post",
+    url: "/api/reviews",
+    onThen: onThen,
+    onCatch: function onCatch() {
+      return setLoading(false);
+    },
+    defaultForm: defaultForm
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "cropImage",
+    name: "img",
+    "data-aspect": 3 / 2
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    name: "body",
+    placeholder: "리뷰 내용"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: "point",
+    id: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "1"
+  }, "1\uAC1C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "2"
+  }, "2\uAC1C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "3"
+  }, "3\uAC1C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "4"
+  }, "4\uAC1C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "5"
+  }, "5\uAC1C")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "pop__buttons"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button--middle bg--primary ".concat(loading ? "loading type01" : null),
+    onClick: function onClick() {
+      return setLoading(true);
+    }
+  }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return window.setPop("");
+    },
+    className: "button--middle bg--lightGray"
+  }, "\uCDE8\uC18C")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Create);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Reviews/Review.jsx":
+/*!***********************************************!*\
+  !*** ./resources/js/pages/Reviews/Review.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Review = function Review(_ref) {
+  var review = _ref.review;
+  var stars = [];
+
+  for (var i = 0; i < review.point; i++) {
+    stars.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/img/star--active.png",
+      alt: "",
+      key: i
+    }));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "review"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "review__top"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "member--img ratioBox-wrap"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ratioBox"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: review.user.img ? review.user.img.url : "/img/replace--avatar.png",
+    alt: ""
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "review__top__name"
+  }, review.user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "review__top__point"
+  }, stars), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "review__top__date"
+  }, review.updated_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "review__contents"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: review.img.url,
+    alt: "",
+    className: "review__contents__img"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "review__contents__body"
+  }, review.body)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Review);
+
+/***/ }),
+
+/***/ "./resources/js/pages/Reviews/Reviews.jsx":
+/*!************************************************!*\
+  !*** ./resources/js/pages/Reviews/Reviews.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Review__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Review */ "./resources/js/pages/Reviews/Review.jsx");
+
+
+
+var Reviews = function Reviews(_ref) {
+  var store = _ref.store,
+      reviews = _ref.reviews,
+      mutateReviews = _ref.mutateReviews,
+      setReviewsParams = _ref.setReviewsParams,
+      reviewsParams = _ref.reviewsParams;
+  if (reviews) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "reviews"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "reviews__top"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "fragment"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "count"
+  }, "\uB9AC\uBDF0 ", store.reviewsCount, "\uAC1C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn--create",
+    onClick: function onClick() {
+      return window.setPop("리뷰 작성");
+    }
+  }, "\uB9AC\uBDF0\uC791\uC131"))), reviews.data.map(function (review) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Review__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      review: review,
+      key: review.id
+    });
+  }));
+  return null;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Reviews);
+
+/***/ }),
+
 /***/ "./resources/js/pages/SendResetPassword.jsx":
 /*!**************************************************!*\
   !*** ./resources/js/pages/SendResetPassword.jsx ***!
@@ -81257,8 +81438,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Tabs */ "./resources/js/components/common/Tabs.jsx");
 /* harmony import */ var _Menus_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menus/Create */ "./resources/js/pages/Menus/Create.jsx");
 /* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
-/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var _Reviews_Create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Reviews/Create */ "./resources/js/pages/Reviews/Create.jsx");
+/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var _Reviews_Reviews__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Reviews/Reviews */ "./resources/js/pages/Reviews/Reviews.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -81295,6 +81478,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var Show = function Show(_ref) {
   var history = _ref.history,
       match = _ref.match;
@@ -81314,12 +81499,24 @@ var Show = function Show(_ref) {
       defaultForm = _useState6[0],
       setDefaultForm = _useState6[1];
 
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    page: 1,
+    orderBy: "updated_at",
+    align: "desc"
+  }),
+      _useState8 = _slicedToArray(_useState7, 2),
+      reviewsParams = _useState8[0],
+      setReviewsParams = _useState8[1];
+
   var map;
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/stores/" + match.params.store_id),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/stores/" + match.params.store_id),
       store = _useSWR.data,
-      mutateStore = _useSWR.mutate; // state, setState와 비슷
+      mutateStore = _useSWR.mutate;
 
+  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/reviews?store_id=".concat(match.params.store_id, "&page=").concat(reviewsParams.page, "&orderBy=").concat(reviewsParams.orderBy, "&align=").concat(reviewsParams.align)),
+      reviews = _useSWR2.data,
+      mutateReviews = _useSWR2.mutate;
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (store) {
@@ -81358,6 +81555,14 @@ var Show = function Show(_ref) {
       })
     }), false);
     setSelectedMenu(null);
+    window.setPop("");
+  };
+
+  var onReviewCreated = function onReviewCreated(response) {
+    setLoading(false);
+    mutateReviews(_objectSpread(_objectSpread({}, reviews), {}, {
+      data: [].concat(_toConsumableArray(reviews.data), [response.data])
+    }), false);
     window.setPop("");
   };
 
@@ -81411,7 +81616,15 @@ var Show = function Show(_ref) {
     defaultForm: selectedMenu,
     loading: loading,
     setLoading: setLoading
-  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Reviews_Create__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    store: store,
+    onThen: onReviewCreated,
+    defaultForm: {
+      store_id: store.id
+    },
+    loading: loading,
+    setLoading: setLoading
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap"
@@ -81501,7 +81714,7 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
   }, "\uB4F1\uB85D\uB41C \uBA54\uB274\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : null, store.menus.map(function (menu) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_7__["default"], {
       menu: menu,
       key: menu.id,
       onClick: function onClick() {
@@ -81511,11 +81724,13 @@ var Show = function Show(_ref) {
     });
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uB9AC\uBDF0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "empty type02"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "empty__text"
-  }, "\uC900\uBE44\uC911\uC785\uB2C8\uB2E4.")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Reviews_Reviews__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    store: store,
+    reviews: reviews,
+    mutateReviews: mutateReviews,
+    reviewsParams: reviewsParams,
+    setReviewsParams: setReviewsParams
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "button--utils"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--util bg--red",

@@ -37,6 +37,7 @@ class StoreResource extends JsonResource
             "group_id" => $this->group_id,
             "user_id" => $this->user_id,
             "menus" => $this->withMenus ? $this->menus : [],
+            "reviewsCount" => $this->reviews()->count(),
             "created_at" => Carbon::make($this->created_at)->format("Y-m-d H:i:s")
         ];
     }

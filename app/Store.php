@@ -50,4 +50,9 @@ class Store extends Model implements HasMedia
     {
         return $this->hasMany(Vote::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

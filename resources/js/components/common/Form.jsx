@@ -121,15 +121,19 @@ const Form = ({children, url = "", method = "", onSubmit = () => {}, onThen = (r
     }, [defaultForm]);
     
     let contents = React.Children.map(children, el => {
+        console.log(el);
         return el.type === "input" || el.type === "select" || el.type === "textarea"
             ?
             (
-                <div className="input--wrap">
+                <div className={`input--wrap`}>
                     {/* label */}
                     {el.props.title ? React.createElement('p', {className: "input--title"}, el.props.title) : null}
                     
                     {/* input text */}
                     {el.type === "input" && (el.props.type === "text" || el.props.type === "password") ? <InputText form={form} setForm={setForm} el={el}/> : null}
+
+                    {/* textarea */}
+                    {el.type === "textarea" ? <InputTextarea form={form} setForm={setForm} el={el}/> : null}
 
                     {/* input checkbox */}
                     {el.type === "input" && el.props.type === "checkbox" ? <InputCheckbox form={form} setForm={setForm} el={el}/> : null}
@@ -154,9 +158,6 @@ const Form = ({children, url = "", method = "", onSubmit = () => {}, onThen = (r
 
                     {/* input address */}
                     {el.props.type === "address" ? <InputAddress form={form} setForm={setForm} el={el}/> : null}
-
-                    {/* textarea */}
-                    {el.type === "textarea" ? <InputTextarea form={form} setForm={setForm} el={el}/> : null}
                 
                     {/* select */}
                     {el.type === "select" ? <InputSelect form={form} setForm={setForm} el={el}/> : null}
