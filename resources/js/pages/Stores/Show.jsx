@@ -9,7 +9,7 @@ import useSWR from 'swr';
 import {mutate, trigger} from "swr";
 
 const Show = ({history, match}) => {
-    let [loading, setLoading] = useState(false);
+    let [loading, setLoading] = useState(false);                    
     let [selectedMenu, setSelectedMenu] = useState(null);
     let [defaultForm, setDefaultForm] = useState({});
     let map;
