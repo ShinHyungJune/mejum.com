@@ -29,7 +29,7 @@ const FindAddress = ({setForm, form, name}) => {
 	const choice = (item) => {
 		setForm({
 			...form,
-			[name]: item.roadAddress
+			[name]: item.address
 		});
 		
 		window.setPop("");
@@ -70,7 +70,7 @@ const FindAddress = ({setForm, form, name}) => {
 				{items.map((item, index) =>
 					<div className="address" key={index} onClick={() => choice(item)}>
 						<p className="address__title">{item.title}</p>
-						<p className="address__address">{item.roadAddress}</p>
+						<p className="address__address">{item.address}</p>
 					</div>
 				)}
 			</div>

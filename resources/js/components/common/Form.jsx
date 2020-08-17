@@ -24,7 +24,7 @@ const Form = ({children, url = "", method = "", onSubmit = () => {}, onThen = (r
     const submit = (e) => {
         e.preventDefault();
 
-        onSubmit();
+        onSubmit(form);
 
         if(loading)
             return;

@@ -75182,6 +75182,1289 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/swr/esm/cache.js":
+/*!***************************************!*\
+  !*** ./node_modules/swr/esm/cache.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _libs_hash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./libs/hash */ "./node_modules/swr/esm/libs/hash.js");
+
+var Cache = /** @class */ (function () {
+    function Cache(initialData) {
+        if (initialData === void 0) { initialData = {}; }
+        this.__cache = new Map(Object.entries(initialData));
+        this.__listeners = [];
+    }
+    Cache.prototype.get = function (key) {
+        var _key = this.serializeKey(key)[0];
+        return this.__cache.get(_key);
+    };
+    Cache.prototype.set = function (key, value) {
+        var _key = this.serializeKey(key)[0];
+        this.__cache.set(_key, value);
+        this.notify();
+    };
+    Cache.prototype.keys = function () {
+        return Array.from(this.__cache.keys());
+    };
+    Cache.prototype.has = function (key) {
+        var _key = this.serializeKey(key)[0];
+        return this.__cache.has(_key);
+    };
+    Cache.prototype.clear = function () {
+        this.__cache.clear();
+        this.notify();
+    };
+    Cache.prototype.delete = function (key) {
+        var _key = this.serializeKey(key)[0];
+        this.__cache.delete(_key);
+        this.notify();
+    };
+    // TODO: introduce namespace for the cache
+    Cache.prototype.serializeKey = function (key) {
+        var args = null;
+        if (typeof key === 'function') {
+            try {
+                key = key();
+            }
+            catch (err) {
+                // dependencies not ready
+                key = '';
+            }
+        }
+        if (Array.isArray(key)) {
+            // args array
+            args = key;
+            key = Object(_libs_hash__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
+        }
+        else {
+            // convert null to ''
+            key = String(key || '');
+        }
+        var errorKey = key ? 'err@' + key : '';
+        return [key, args, errorKey];
+    };
+    Cache.prototype.subscribe = function (listener) {
+        var _this = this;
+        if (typeof listener !== 'function') {
+            throw new Error('Expected the listener to be a function.');
+        }
+        var isSubscribed = true;
+        this.__listeners.push(listener);
+        return function () {
+            if (!isSubscribed)
+                return;
+            isSubscribed = false;
+            var index = _this.__listeners.indexOf(listener);
+            if (index > -1) {
+                _this.__listeners[index] = _this.__listeners[_this.__listeners.length - 1];
+                _this.__listeners.length--;
+            }
+        };
+    };
+    // Notify Cache subscribers about a change in the cache
+    Cache.prototype.notify = function () {
+        for (var _i = 0, _a = this.__listeners; _i < _a.length; _i++) {
+            var listener = _a[_i];
+            listener();
+        }
+    };
+    return Cache;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Cache);
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/config.js":
+/*!****************************************!*\
+  !*** ./node_modules/swr/esm/config.js ***!
+  \****************************************/
+/*! exports provided: cache, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cache", function() { return cache; });
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fast-deep-equal */ "./node_modules/swr/node_modules/fast-deep-equal/index.js");
+/* harmony import */ var fast_deep_equal__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fast_deep_equal__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _libs_is_document_visible__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs/is-document-visible */ "./node_modules/swr/esm/libs/is-document-visible.js");
+/* harmony import */ var _cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cache */ "./node_modules/swr/esm/cache.js");
+
+
+
+// cache
+var cache = new _cache__WEBPACK_IMPORTED_MODULE_2__["default"]();
+// error retry
+function onErrorRetry(_, __, config, revalidate, opts) {
+    if (!Object(_libs_is_document_visible__WEBPACK_IMPORTED_MODULE_1__["default"])()) {
+        // if it's hidden, stop
+        // it will auto revalidate when focus
+        return;
+    }
+    if (typeof config.errorRetryCount === 'number' &&
+        opts.retryCount > config.errorRetryCount) {
+        return;
+    }
+    // exponential backoff
+    var count = Math.min(opts.retryCount || 0, 8);
+    var timeout = ~~((Math.random() + 0.5) * (1 << count)) * config.errorRetryInterval;
+    setTimeout(revalidate, timeout, opts);
+}
+// client side: need to adjust the config
+// based on the browser status
+// slow connection (<= 70Kbps)
+var slowConnection = typeof window !== 'undefined' &&
+    navigator['connection'] &&
+    ['slow-2g', '2g'].indexOf(navigator['connection'].effectiveType) !== -1;
+// config
+var defaultConfig = {
+    // events
+    onLoadingSlow: function () { },
+    onSuccess: function () { },
+    onError: function () { },
+    onErrorRetry: onErrorRetry,
+    errorRetryInterval: (slowConnection ? 10 : 5) * 1000,
+    focusThrottleInterval: 5 * 1000,
+    dedupingInterval: 2 * 1000,
+    loadingTimeout: (slowConnection ? 5 : 3) * 1000,
+    refreshInterval: 0,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    refreshWhenHidden: false,
+    refreshWhenOffline: false,
+    shouldRetryOnError: true,
+    suspense: false,
+    compare: fast_deep_equal__WEBPACK_IMPORTED_MODULE_0___default.a
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (defaultConfig);
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/index.js":
+/*!***************************************!*\
+  !*** ./node_modules/swr/esm/index.js ***!
+  \***************************************/
+/*! exports provided: trigger, mutate, SWRConfig, useSWRInfinite, cache, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _use_swr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./use-swr */ "./node_modules/swr/esm/use-swr.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "trigger", function() { return _use_swr__WEBPACK_IMPORTED_MODULE_0__["trigger"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mutate", function() { return _use_swr__WEBPACK_IMPORTED_MODULE_0__["mutate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SWRConfig", function() { return _use_swr__WEBPACK_IMPORTED_MODULE_0__["SWRConfig"]; });
+
+/* harmony import */ var _use_swr_infinite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./use-swr-infinite */ "./node_modules/swr/esm/use-swr-infinite.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSWRInfinite", function() { return _use_swr_infinite__WEBPACK_IMPORTED_MODULE_1__["useSWRInfinite"]; });
+
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config */ "./node_modules/swr/esm/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cache", function() { return _config__WEBPACK_IMPORTED_MODULE_2__["cache"]; });
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (_use_swr__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/libs/hash.js":
+/*!*******************************************!*\
+  !*** ./node_modules/swr/esm/libs/hash.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return hash; });
+// use WeakMap to store the object->key mapping
+// so the objects can be garbage collected.
+// WeakMap uses a hashtable under the hood, so the lookup
+// complexity is almost O(1).
+var table = new WeakMap();
+// counter of the key
+var counter = 0;
+// hashes an array of objects and returns a string
+function hash(args) {
+    if (!args.length)
+        return '';
+    var key = 'arg';
+    for (var i = 0; i < args.length; ++i) {
+        var _hash = void 0;
+        if (args[i] === null || typeof args[i] !== 'object') {
+            // need to consider the case that args[i] is a string:
+            // args[i]        _hash
+            // "undefined" -> '"undefined"'
+            // undefined   -> 'undefined'
+            // 123         -> '123'
+            // null        -> 'null'
+            // "null"      -> '"null"'
+            if (typeof args[i] === 'string') {
+                _hash = '"' + args[i] + '"';
+            }
+            else {
+                _hash = String(args[i]);
+            }
+        }
+        else {
+            if (!table.has(args[i])) {
+                _hash = counter;
+                table.set(args[i], counter++);
+            }
+            else {
+                _hash = table.get(args[i]);
+            }
+        }
+        key += '@' + _hash;
+    }
+    return key;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/libs/is-document-visible.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/swr/esm/libs/is-document-visible.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isDocumentVisible; });
+function isDocumentVisible() {
+    if (typeof document !== 'undefined' &&
+        typeof document.visibilityState !== 'undefined') {
+        return document.visibilityState !== 'hidden';
+    }
+    // always assume it's visible
+    return true;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/libs/is-online.js":
+/*!************************************************!*\
+  !*** ./node_modules/swr/esm/libs/is-online.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isOnline; });
+function isOnline() {
+    if (typeof navigator.onLine !== 'undefined') {
+        return navigator.onLine;
+    }
+    // always assume it's online
+    return true;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/libs/throttle.js":
+/*!***********************************************!*\
+  !*** ./node_modules/swr/esm/libs/throttle.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return throttle; });
+function throttle(fn, interval) {
+    var pending = false;
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        if (pending)
+            return;
+        pending = true;
+        fn.apply(void 0, args);
+        setTimeout(function () { return (pending = false); }, interval);
+    };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/swr-config-context.js":
+/*!****************************************************!*\
+  !*** ./node_modules/swr/esm/swr-config-context.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var SWRConfigContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
+SWRConfigContext.displayName = 'SWRConfigContext';
+/* harmony default export */ __webpack_exports__["default"] = (SWRConfigContext);
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/use-swr-infinite.js":
+/*!**************************************************!*\
+  !*** ./node_modules/swr/esm/use-swr-infinite.js ***!
+  \**************************************************/
+/*! exports provided: useSWRInfinite */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSWRInfinite", function() { return useSWRInfinite; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ "./node_modules/swr/esm/config.js");
+/* harmony import */ var _swr_config_context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./swr-config-context */ "./node_modules/swr/esm/swr-config-context.js");
+/* harmony import */ var _use_swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./use-swr */ "./node_modules/swr/esm/use-swr.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+
+
+
+function useSWRInfinite() {
+    var _this = this;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var getKey, fn, config = {};
+    if (args.length >= 1) {
+        getKey = args[0];
+    }
+    if (args.length > 2) {
+        fn = args[1];
+        config = args[2];
+    }
+    else {
+        if (typeof args[1] === 'function') {
+            fn = args[1];
+        }
+        else if (typeof args[1] === 'object') {
+            config = args[1];
+        }
+    }
+    config = Object.assign({}, _config__WEBPACK_IMPORTED_MODULE_1__["default"], Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_swr_config_context__WEBPACK_IMPORTED_MODULE_2__["default"]), config);
+    var _a = config.initialSize, initialSize = _a === void 0 ? 1 : _a, _b = config.revalidateAll, revalidateAll = _b === void 0 ? false : _b, _c = config.persistSize, persistSize = _c === void 0 ? false : _c, defaultFetcher = config.fetcher, extraConfig = __rest(config, ["initialSize", "revalidateAll", "persistSize", "fetcher"]);
+    if (typeof fn === 'undefined') {
+        // use the global fetcher
+        // we have to convert the type here
+        fn = defaultFetcher;
+    }
+    // get the serialized key of the first page
+    var firstPageKey = null;
+    try {
+        ;
+        firstPageKey = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].serializeKey(getKey(0, null))[0];
+    }
+    catch (err) {
+        // not ready
+    }
+    var rerender = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false)[1];
+    // we use cache to pass extra info (context) to fetcher so it can be globally shared
+    // here we get the key of the fetcher context cache
+    var contextCacheKey = null;
+    if (firstPageKey) {
+        contextCacheKey = 'context@' + firstPageKey;
+    }
+    // page count is cached as well, so when navigating the list can be restored
+    var pageCountCacheKey = null;
+    var cachedPageSize;
+    if (firstPageKey) {
+        pageCountCacheKey = 'size@' + firstPageKey;
+        cachedPageSize = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(pageCountCacheKey);
+    }
+    var pageCountRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(cachedPageSize || initialSize);
+    var didMountRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(false);
+    // every time the key changes, we reset the page size if it's not persisted
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        if (didMountRef.current) {
+            if (!persistSize) {
+                pageCountRef.current = initialSize;
+            }
+        }
+        else {
+            didMountRef.current = true;
+        }
+    }, [firstPageKey]);
+    // actual swr of all pages
+    var swr = Object(_use_swr__WEBPACK_IMPORTED_MODULE_3__["default"])(firstPageKey ? ['many', firstPageKey] : null, function () { return __awaiter(_this, void 0, void 0, function () {
+        var _a, originalData, force, data, previousPageData, i, _b, pageKey, pageArgs, pageData, shouldRevalidatePage;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _a = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(contextCacheKey) || {}, originalData = _a.originalData, force = _a.force;
+                    data = [];
+                    previousPageData = null;
+                    i = 0;
+                    _c.label = 1;
+                case 1:
+                    if (!(i < pageCountRef.current)) return [3 /*break*/, 8];
+                    _b = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].serializeKey(getKey(i, previousPageData)), pageKey = _b[0], pageArgs = _b[1];
+                    if (!pageKey) {
+                        // pageKey is falsy, stop fetching next pages
+                        return [3 /*break*/, 8];
+                    }
+                    pageData = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(pageKey);
+                    shouldRevalidatePage = revalidateAll ||
+                        force ||
+                        (typeof force === 'undefined' && i === 0) ||
+                        (originalData && !config.compare(originalData[i], pageData)) ||
+                        typeof pageData === 'undefined';
+                    if (!shouldRevalidatePage) return [3 /*break*/, 6];
+                    if (!(pageArgs !== null)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, fn.apply(void 0, pageArgs)];
+                case 2:
+                    pageData = _c.sent();
+                    return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, fn(pageKey)];
+                case 4:
+                    pageData = _c.sent();
+                    _c.label = 5;
+                case 5:
+                    _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(pageKey, pageData);
+                    _c.label = 6;
+                case 6:
+                    data.push(pageData);
+                    previousPageData = pageData;
+                    _c.label = 7;
+                case 7:
+                    ++i;
+                    return [3 /*break*/, 1];
+                case 8:
+                    // once we executed the data fetching based on the context, clear the context
+                    _config__WEBPACK_IMPORTED_MODULE_1__["cache"].delete(contextCacheKey);
+                    // return the data
+                    return [2 /*return*/, data];
+            }
+        });
+    }); }, extraConfig);
+    // extend the SWR API
+    var mutate = swr.mutate;
+    swr.size = pageCountRef.current;
+    swr.mutate = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (data, shouldRevalidate) {
+        if (shouldRevalidate === void 0) { shouldRevalidate = true; }
+        if (shouldRevalidate && typeof data !== 'undefined') {
+            // we only revalidate the pages that are changed
+            var originalData = swr.data;
+            _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(contextCacheKey, { originalData: originalData, force: false });
+        }
+        else if (shouldRevalidate) {
+            // calling `mutate()`, we revalidate all pages
+            _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(contextCacheKey, { force: true });
+        }
+        return mutate(data, shouldRevalidate);
+    }, [mutate, swr.data, contextCacheKey]);
+    swr.setSize = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (arg) {
+        if (typeof arg === 'function') {
+            pageCountRef.current = arg(pageCountRef.current);
+        }
+        else if (typeof arg === 'number') {
+            pageCountRef.current = arg;
+        }
+        _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(pageCountCacheKey, pageCountRef.current);
+        rerender(function (v) { return !v; });
+        return swr.mutate(function (v) { return v; });
+    }, [swr.mutate, pageCountCacheKey]);
+    return swr;
+}
+
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/esm/use-swr.js":
+/*!*****************************************!*\
+  !*** ./node_modules/swr/esm/use-swr.js ***!
+  \*****************************************/
+/*! exports provided: trigger, mutate, SWRConfig, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trigger", function() { return trigger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mutate", function() { return mutate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SWRConfig", function() { return SWRConfig; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ "./node_modules/swr/esm/config.js");
+/* harmony import */ var _libs_is_document_visible__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./libs/is-document-visible */ "./node_modules/swr/esm/libs/is-document-visible.js");
+/* harmony import */ var _libs_is_online__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./libs/is-online */ "./node_modules/swr/esm/libs/is-online.js");
+/* harmony import */ var _libs_throttle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./libs/throttle */ "./node_modules/swr/esm/libs/throttle.js");
+/* harmony import */ var _swr_config_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./swr-config-context */ "./node_modules/swr/esm/swr-config-context.js");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
+
+
+
+var IS_SERVER = typeof window === 'undefined';
+// polyfill for requestIdleCallback
+var rIC = IS_SERVER
+    ? null
+    : window['requestIdleCallback'] || (function (f) { return setTimeout(f, 1); });
+// React currently throws a warning when using useLayoutEffect on the server.
+// To get around it, we can conditionally useEffect on the server (no-op) and
+// useLayoutEffect in the browser.
+var useIsomorphicLayoutEffect = IS_SERVER ? react__WEBPACK_IMPORTED_MODULE_0__["useEffect"] : react__WEBPACK_IMPORTED_MODULE_0__["useLayoutEffect"];
+// global state managers
+var CONCURRENT_PROMISES = {};
+var CONCURRENT_PROMISES_TS = {};
+var FOCUS_REVALIDATORS = {};
+var RECONNECT_REVALIDATORS = {};
+var CACHE_REVALIDATORS = {};
+var MUTATION_TS = {};
+var MUTATION_END_TS = {};
+// setup DOM events listeners for `focus` and `reconnect` actions
+if (!IS_SERVER && window.addEventListener) {
+    var revalidate_1 = function (revalidators) {
+        if (!Object(_libs_is_document_visible__WEBPACK_IMPORTED_MODULE_2__["default"])() || !Object(_libs_is_online__WEBPACK_IMPORTED_MODULE_3__["default"])())
+            return;
+        for (var key in revalidators) {
+            if (revalidators[key][0])
+                revalidators[key][0]();
+        }
+    };
+    // focus revalidate
+    window.addEventListener('visibilitychange', function () { return revalidate_1(FOCUS_REVALIDATORS); }, false);
+    window.addEventListener('focus', function () { return revalidate_1(FOCUS_REVALIDATORS); }, false);
+    // reconnect revalidate
+    window.addEventListener('online', function () { return revalidate_1(RECONNECT_REVALIDATORS); }, false);
+}
+var trigger = function (_key, shouldRevalidate) {
+    if (shouldRevalidate === void 0) { shouldRevalidate = true; }
+    // we are ignoring the second argument which correspond to the arguments
+    // the fetcher will receive when key is an array
+    var _a = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].serializeKey(_key), key = _a[0], keyErr = _a[2];
+    if (!key)
+        return Promise.resolve();
+    var updaters = CACHE_REVALIDATORS[key];
+    if (key && updaters) {
+        var currentData = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key);
+        var currentError = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(keyErr);
+        var promises = [];
+        for (var i = 0; i < updaters.length; ++i) {
+            promises.push(updaters[i](shouldRevalidate, currentData, currentError, i > 0));
+        }
+        // return new updated value
+        return Promise.all(promises).then(function () { return _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key); });
+    }
+    return Promise.resolve(_config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key));
+};
+var broadcastState = function (key, data, error) {
+    var updaters = CACHE_REVALIDATORS[key];
+    if (key && updaters) {
+        for (var i = 0; i < updaters.length; ++i) {
+            updaters[i](false, data, error);
+        }
+    }
+};
+var mutate = function (_key, _data, shouldRevalidate) {
+    if (shouldRevalidate === void 0) { shouldRevalidate = true; }
+    return __awaiter(void 0, void 0, void 0, function () {
+        var _a, key, keyErr, beforeMutationTs, beforeConcurrentPromisesTs, data, error, err_1, err_2, updaters, promises, i;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].serializeKey(_key), key = _a[0], keyErr = _a[2];
+                    if (!key)
+                        return [2 /*return*/];
+                    // if there is no new data, call revalidate against the key
+                    if (typeof _data === 'undefined')
+                        return [2 /*return*/, trigger(_key, shouldRevalidate)
+                            // update timestamps
+                        ];
+                    // update timestamps
+                    MUTATION_TS[key] = Date.now() - 1;
+                    MUTATION_END_TS[key] = 0;
+                    beforeMutationTs = MUTATION_TS[key];
+                    beforeConcurrentPromisesTs = CONCURRENT_PROMISES_TS[key];
+                    if (!(_data && typeof _data === 'function')) return [3 /*break*/, 5];
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, _data(_config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key))];
+                case 2:
+                    data = _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_1 = _b.sent();
+                    error = err_1;
+                    return [3 /*break*/, 4];
+                case 4: return [3 /*break*/, 11];
+                case 5:
+                    if (!(_data && typeof _data.then === 'function')) return [3 /*break*/, 10];
+                    _b.label = 6;
+                case 6:
+                    _b.trys.push([6, 8, , 9]);
+                    return [4 /*yield*/, _data];
+                case 7:
+                    data = _b.sent();
+                    return [3 /*break*/, 9];
+                case 8:
+                    err_2 = _b.sent();
+                    error = err_2;
+                    return [3 /*break*/, 9];
+                case 9: return [3 /*break*/, 11];
+                case 10:
+                    data = _data;
+                    _b.label = 11;
+                case 11:
+                    // check if other mutations have occurred since we've started awaiting, if so then do not persist this change
+                    if (beforeMutationTs !== MUTATION_TS[key] ||
+                        beforeConcurrentPromisesTs !== CONCURRENT_PROMISES_TS[key]) {
+                        if (error)
+                            throw error;
+                        return [2 /*return*/, data];
+                    }
+                    if (typeof data !== 'undefined') {
+                        // update cached data, avoid notifying from the cache
+                        _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(key, data);
+                    }
+                    _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(keyErr, error);
+                    // reset the timestamp to mark the mutation has ended
+                    MUTATION_END_TS[key] = Date.now() - 1;
+                    updaters = CACHE_REVALIDATORS[key];
+                    if (updaters) {
+                        promises = [];
+                        for (i = 0; i < updaters.length; ++i) {
+                            promises.push(updaters[i](!!shouldRevalidate, data, error, i > 0));
+                        }
+                        // return new updated value
+                        return [2 /*return*/, Promise.all(promises).then(function () {
+                                if (error)
+                                    throw error;
+                                return _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key);
+                            })];
+                    }
+                    // throw error or return data to be used by caller of mutate
+                    if (error)
+                        throw error;
+                    return [2 /*return*/, data];
+            }
+        });
+    });
+};
+function useSWR() {
+    var _this = this;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    var _key, fn, config = {};
+    if (args.length >= 1) {
+        _key = args[0];
+    }
+    if (args.length > 2) {
+        fn = args[1];
+        config = args[2];
+    }
+    else {
+        if (typeof args[1] === 'function') {
+            fn = args[1];
+        }
+        else if (typeof args[1] === 'object') {
+            config = args[1];
+        }
+    }
+    // we assume `key` as the identifier of the request
+    // `key` can change but `fn` shouldn't
+    // (because `revalidate` only depends on `key`)
+    // `keyErr` is the cache key for error objects
+    var _a = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].serializeKey(_key), key = _a[0], fnArgs = _a[1], keyErr = _a[2];
+    config = Object.assign({}, _config__WEBPACK_IMPORTED_MODULE_1__["default"], Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(_swr_config_context__WEBPACK_IMPORTED_MODULE_5__["default"]), config);
+    if (typeof fn === 'undefined') {
+        // use the global fetcher
+        fn = config.fetcher;
+    }
+    var initialData = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key) || config.initialData;
+    var initialError = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(keyErr);
+    // if a state is accessed (data, error or isValidating),
+    // we add the state to dependencies so if the state is
+    // updated in the future, we can trigger a rerender
+    var stateDependencies = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])({
+        data: false,
+        error: false,
+        isValidating: false
+    });
+    var stateRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])({
+        data: initialData,
+        error: initialError,
+        isValidating: false
+    });
+    var rerender = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null)[1];
+    var dispatch = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (payload) {
+        var shouldUpdateState = false;
+        for (var k in payload) {
+            stateRef.current[k] = payload[k];
+            if (stateDependencies.current[k]) {
+                shouldUpdateState = true;
+            }
+        }
+        if (shouldUpdateState || config.suspense) {
+            if (unmountedRef.current)
+                return;
+            rerender({});
+        }
+    }, []);
+    // error ref inside revalidate (is last request errored?)
+    var unmountedRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(false);
+    var keyRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(key);
+    // do unmount check for callbacks
+    var eventsRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])({
+        emit: function (event) {
+            var params = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                params[_i - 1] = arguments[_i];
+            }
+            if (unmountedRef.current)
+                return;
+            config[event].apply(config, params);
+        }
+    });
+    var boundMutate = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (data, shouldRevalidate) {
+        return mutate(key, data, shouldRevalidate);
+    }, [key]);
+    var addRevalidator = function (revalidators, callback) {
+        if (!callback)
+            return;
+        if (!revalidators[key]) {
+            revalidators[key] = [callback];
+        }
+        else {
+            revalidators[key].push(callback);
+        }
+    };
+    var removeRevalidator = function (revlidators, callback) {
+        if (revlidators[key]) {
+            var revalidators = revlidators[key];
+            var index = revalidators.indexOf(callback);
+            if (index >= 0) {
+                // 10x faster than splice
+                // https://jsperf.com/array-remove-by-index
+                revalidators[index] = revalidators[revalidators.length - 1];
+                revalidators.pop();
+            }
+        }
+    };
+    // start a revalidation
+    var revalidate = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (revalidateOpts) {
+        if (revalidateOpts === void 0) { revalidateOpts = {}; }
+        return __awaiter(_this, void 0, void 0, function () {
+            var loading, shouldDeduping, newData, startAt, shouldIgnoreRequest, newState, err_3, retryCount;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!key || !fn)
+                            return [2 /*return*/, false];
+                        if (unmountedRef.current)
+                            return [2 /*return*/, false];
+                        revalidateOpts = Object.assign({ dedupe: false }, revalidateOpts);
+                        loading = true;
+                        shouldDeduping = typeof CONCURRENT_PROMISES[key] !== 'undefined' && revalidateOpts.dedupe;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 6, , 7]);
+                        dispatch({
+                            isValidating: true
+                        });
+                        newData = void 0;
+                        startAt = void 0;
+                        if (!shouldDeduping) return [3 /*break*/, 3];
+                        // there's already an ongoing request,
+                        // this one needs to be deduplicated.
+                        startAt = CONCURRENT_PROMISES_TS[key];
+                        return [4 /*yield*/, CONCURRENT_PROMISES[key]];
+                    case 2:
+                        newData = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 3:
+                        // if no cache being rendered currently (it shows a blank page),
+                        // we trigger the loading slow event.
+                        if (config.loadingTimeout && !_config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key)) {
+                            setTimeout(function () {
+                                if (loading)
+                                    eventsRef.current.emit('onLoadingSlow', key, config);
+                            }, config.loadingTimeout);
+                        }
+                        if (fnArgs !== null) {
+                            CONCURRENT_PROMISES[key] = fn.apply(void 0, fnArgs);
+                        }
+                        else {
+                            CONCURRENT_PROMISES[key] = fn(key);
+                        }
+                        CONCURRENT_PROMISES_TS[key] = startAt = Date.now();
+                        return [4 /*yield*/, CONCURRENT_PROMISES[key]];
+                    case 4:
+                        newData = _a.sent();
+                        setTimeout(function () {
+                            delete CONCURRENT_PROMISES[key];
+                            delete CONCURRENT_PROMISES_TS[key];
+                        }, config.dedupingInterval);
+                        // trigger the success event,
+                        // only do this for the original request.
+                        eventsRef.current.emit('onSuccess', newData, key, config);
+                        _a.label = 5;
+                    case 5:
+                        shouldIgnoreRequest = 
+                        // if there're other ongoing request(s), started after the current one,
+                        // we need to ignore the current one to avoid possible race conditions:
+                        //   req1------------------>res1        (current one)
+                        //        req2---------------->res2
+                        // the request that fired later will always be kept.
+                        CONCURRENT_PROMISES_TS[key] > startAt ||
+                            // if there're other mutations(s), overlapped with the current revalidation:
+                            // case 1:
+                            //   req------------------>res
+                            //       mutate------>end
+                            // case 2:
+                            //         req------------>res
+                            //   mutate------>end
+                            // case 3:
+                            //   req------------------>res
+                            //       mutate-------...---------->
+                            // we have to ignore the revalidation result (res) because it's no longer fresh.
+                            // meanwhile, a new revalidation should be triggered when the mutation ends.
+                            (MUTATION_TS[key] &&
+                                // case 1
+                                (startAt <= MUTATION_TS[key] ||
+                                    // case 2
+                                    startAt <= MUTATION_END_TS[key] ||
+                                    // case 3
+                                    MUTATION_END_TS[key] === 0));
+                        if (shouldIgnoreRequest) {
+                            dispatch({ isValidating: false });
+                            return [2 /*return*/, false];
+                        }
+                        _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(key, newData);
+                        _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(keyErr, undefined);
+                        newState = {
+                            isValidating: false
+                        };
+                        if (typeof stateRef.current.error !== 'undefined') {
+                            // we don't have an error
+                            newState.error = undefined;
+                        }
+                        if (!config.compare(stateRef.current.data, newData)) {
+                            // deep compare to avoid extra re-render
+                            // data changed
+                            newState.data = newData;
+                        }
+                        // merge the new state
+                        dispatch(newState);
+                        if (!shouldDeduping) {
+                            // also update other hooks
+                            broadcastState(key, newData, undefined);
+                        }
+                        return [3 /*break*/, 7];
+                    case 6:
+                        err_3 = _a.sent();
+                        delete CONCURRENT_PROMISES[key];
+                        delete CONCURRENT_PROMISES_TS[key];
+                        _config__WEBPACK_IMPORTED_MODULE_1__["cache"].set(keyErr, err_3);
+                        // get a new error
+                        // don't use deep equal for errors
+                        if (stateRef.current.error !== err_3) {
+                            // we keep the stale data
+                            dispatch({
+                                isValidating: false,
+                                error: err_3
+                            });
+                            if (!shouldDeduping) {
+                                // also broadcast to update other hooks
+                                broadcastState(key, undefined, err_3);
+                            }
+                        }
+                        // events and retry
+                        eventsRef.current.emit('onError', err_3, key, config);
+                        if (config.shouldRetryOnError) {
+                            retryCount = (revalidateOpts.retryCount || 0) + 1;
+                            eventsRef.current.emit('onErrorRetry', err_3, key, config, revalidate, Object.assign({ dedupe: true }, revalidateOpts, { retryCount: retryCount }));
+                        }
+                        return [3 /*break*/, 7];
+                    case 7:
+                        loading = false;
+                        return [2 /*return*/, true];
+                }
+            });
+        });
+    }, [key]);
+    // mounted (client side rendering)
+    useIsomorphicLayoutEffect(function () {
+        if (!key)
+            return undefined;
+        // after `key` updates, we need to mark it as mounted
+        unmountedRef.current = false;
+        // after the component is mounted (hydrated),
+        // we need to update the data from the cache
+        // and trigger a revalidation
+        var currentHookData = stateRef.current.data;
+        var latestKeyedData = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key) || config.initialData;
+        // update the state if the key changed (not the inital render) or cache updated
+        if (keyRef.current !== key ||
+            !config.compare(currentHookData, latestKeyedData)) {
+            dispatch({ data: latestKeyedData });
+            keyRef.current = key;
+        }
+        // revalidate with deduping
+        var softRevalidate = function () { return revalidate({ dedupe: true }); };
+        // trigger a revalidation
+        if (config.revalidateOnMount ||
+            (!config.initialData && config.revalidateOnMount === undefined)) {
+            if (typeof latestKeyedData !== 'undefined') {
+                // delay revalidate if there's cache
+                // to not block the rendering
+                rIC(softRevalidate);
+            }
+            else {
+                softRevalidate();
+            }
+        }
+        // whenever the window gets focused, revalidate
+        var onFocus;
+        if (config.revalidateOnFocus) {
+            // throttle: avoid being called twice from both listeners
+            // and tabs being switched quickly
+            onFocus = Object(_libs_throttle__WEBPACK_IMPORTED_MODULE_4__["default"])(softRevalidate, config.focusThrottleInterval);
+        }
+        // when reconnect, revalidate
+        var onReconnect;
+        if (config.revalidateOnReconnect) {
+            onReconnect = softRevalidate;
+        }
+        // register global cache update listener
+        var onUpdate = function (shouldRevalidate, updatedData, updatedError, dedupe) {
+            if (shouldRevalidate === void 0) { shouldRevalidate = true; }
+            if (dedupe === void 0) { dedupe = true; }
+            // update hook state
+            var newState = {};
+            var needUpdate = false;
+            if (typeof updatedData !== 'undefined' &&
+                !config.compare(stateRef.current.data, updatedData)) {
+                newState.data = updatedData;
+                needUpdate = true;
+            }
+            // always update error
+            // because it can be `undefined`
+            if (stateRef.current.error !== updatedError) {
+                newState.error = updatedError;
+                needUpdate = true;
+            }
+            if (needUpdate) {
+                dispatch(newState);
+            }
+            if (shouldRevalidate) {
+                if (dedupe) {
+                    return softRevalidate();
+                }
+                else {
+                    return revalidate();
+                }
+            }
+            return false;
+        };
+        addRevalidator(FOCUS_REVALIDATORS, onFocus);
+        addRevalidator(RECONNECT_REVALIDATORS, onReconnect);
+        addRevalidator(CACHE_REVALIDATORS, onUpdate);
+        return function () {
+            // cleanup
+            dispatch = function () { return null; };
+            // mark it as unmounted
+            unmountedRef.current = true;
+            removeRevalidator(FOCUS_REVALIDATORS, onFocus);
+            removeRevalidator(RECONNECT_REVALIDATORS, onReconnect);
+            removeRevalidator(CACHE_REVALIDATORS, onUpdate);
+        };
+    }, [key, revalidate]);
+    // set up polling
+    useIsomorphicLayoutEffect(function () {
+        var timer = null;
+        var tick = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(!stateRef.current.error &&
+                            (config.refreshWhenHidden || Object(_libs_is_document_visible__WEBPACK_IMPORTED_MODULE_2__["default"])()) &&
+                            (config.refreshWhenOffline || Object(_libs_is_online__WEBPACK_IMPORTED_MODULE_3__["default"])()))) return [3 /*break*/, 2];
+                        // only revalidate when the page is visible
+                        // if API request errored, we stop polling in this round
+                        // and let the error retry function handle it
+                        return [4 /*yield*/, revalidate({ dedupe: true })];
+                    case 1:
+                        // only revalidate when the page is visible
+                        // if API request errored, we stop polling in this round
+                        // and let the error retry function handle it
+                        _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        if (config.refreshInterval) {
+                            timer = setTimeout(tick, config.refreshInterval);
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        if (config.refreshInterval) {
+            timer = setTimeout(tick, config.refreshInterval);
+        }
+        return function () {
+            if (timer)
+                clearTimeout(timer);
+        };
+    }, [
+        config.refreshInterval,
+        config.refreshWhenHidden,
+        config.refreshWhenOffline,
+        revalidate
+    ]);
+    // suspense
+    if (config.suspense) {
+        // in suspense mode, we can't return empty state
+        // (it should be suspended)
+        // try to get data and error from cache
+        var latestData = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(key) || initialData;
+        var latestError = _config__WEBPACK_IMPORTED_MODULE_1__["cache"].get(keyErr) || initialError;
+        if (typeof latestData === 'undefined' &&
+            typeof latestError === 'undefined') {
+            // need to start the request if it hasn't
+            if (!CONCURRENT_PROMISES[key]) {
+                // trigger revalidate immediately
+                // to get the promise
+                revalidate();
+            }
+            if (CONCURRENT_PROMISES[key] &&
+                typeof CONCURRENT_PROMISES[key].then === 'function') {
+                // if it is a promise
+                throw CONCURRENT_PROMISES[key];
+            }
+            // it's a value, return it directly (override)
+            latestData = CONCURRENT_PROMISES[key];
+        }
+        if (typeof latestData === 'undefined' && latestError) {
+            // in suspense mode, throw error if there's no content
+            throw latestError;
+        }
+        // return the latest data / error from cache
+        // in case `key` has changed
+        return {
+            error: latestError,
+            data: latestData,
+            revalidate: revalidate,
+            mutate: boundMutate,
+            isValidating: stateRef.current.isValidating
+        };
+    }
+    // define returned state
+    // can be memorized since the state is a ref
+    return Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () {
+        var state = { revalidate: revalidate, mutate: boundMutate };
+        Object.defineProperties(state, {
+            error: {
+                // `key` might be changed in the upcoming hook re-render,
+                // but the previous state will stay
+                // so we need to match the latest key and data (fallback to `initialData`)
+                get: function () {
+                    stateDependencies.current.error = true;
+                    return keyRef.current === key ? stateRef.current.error : initialError;
+                },
+                enumerable: true
+            },
+            data: {
+                get: function () {
+                    stateDependencies.current.data = true;
+                    return keyRef.current === key ? stateRef.current.data : initialData;
+                },
+                enumerable: true
+            },
+            isValidating: {
+                get: function () {
+                    stateDependencies.current.isValidating = true;
+                    return stateRef.current.isValidating;
+                },
+                enumerable: true
+            }
+        });
+        return state;
+    }, [revalidate]);
+}
+var SWRConfig = _swr_config_context__WEBPACK_IMPORTED_MODULE_5__["default"].Provider;
+
+/* harmony default export */ __webpack_exports__["default"] = (useSWR);
+
+
+/***/ }),
+
+/***/ "./node_modules/swr/node_modules/fast-deep-equal/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/swr/node_modules/fast-deep-equal/index.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isArray = Array.isArray;
+var keyList = Object.keys;
+var hasProp = Object.prototype.hasOwnProperty;
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  if (a && b && typeof a == 'object' && typeof b == 'object') {
+    var arrA = isArray(a)
+      , arrB = isArray(b)
+      , i
+      , length
+      , key;
+
+    if (arrA && arrB) {
+      length = a.length;
+      if (length != b.length) return false;
+      for (i = length; i-- !== 0;)
+        if (!equal(a[i], b[i])) return false;
+      return true;
+    }
+
+    if (arrA != arrB) return false;
+
+    var dateA = a instanceof Date
+      , dateB = b instanceof Date;
+    if (dateA != dateB) return false;
+    if (dateA && dateB) return a.getTime() == b.getTime();
+
+    var regexpA = a instanceof RegExp
+      , regexpB = b instanceof RegExp;
+    if (regexpA != regexpB) return false;
+    if (regexpA && regexpB) return a.toString() == b.toString();
+
+    var keys = keyList(a);
+    length = keys.length;
+
+    if (length !== keyList(b).length)
+      return false;
+
+    for (i = length; i-- !== 0;)
+      if (!hasProp.call(b, keys[i])) return false;
+
+    for (i = length; i-- !== 0;) {
+      key = keys[i];
+      if (!equal(a[key], b[key])) return false;
+    }
+
+    return true;
+  }
+
+  return a!==a && b!==b;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/symbol-observable/es/index.js":
 /*!****************************************************!*\
   !*** ./node_modules/symbol-observable/es/index.js ***!
@@ -75469,29 +76752,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/common/AuthRoute */ "./resources/js/components/common/AuthRoute.jsx");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
-/* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/common/Header */ "./resources/js/components/common/Header.jsx");
-/* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/Login */ "./resources/js/pages/Login.jsx");
-/* harmony import */ var _pages_Register__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Register */ "./resources/js/pages/Register.jsx");
-/* harmony import */ var _pages_SendResetPassword__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/SendResetPassword */ "./resources/js/pages/SendResetPassword.jsx");
-/* harmony import */ var _pages_ResetPassword__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/ResetPassword */ "./resources/js/pages/ResetPassword.jsx");
-/* harmony import */ var _pages_Components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/Components */ "./resources/js/pages/Components.jsx");
-/* harmony import */ var _pages_Groups_Join__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Groups/Join */ "./resources/js/pages/Groups/Join.jsx");
-/* harmony import */ var _components_common_Navs__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/common/Navs */ "./resources/js/components/common/Navs.jsx");
-/* harmony import */ var _pages_Mypage__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/Mypage */ "./resources/js/pages/Mypage.jsx");
-/* harmony import */ var _pages_Groups_Groups__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/Groups/Groups */ "./resources/js/pages/Groups/Groups.jsx");
-/* harmony import */ var _pages_Groups_Show__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Groups/Show */ "./resources/js/pages/Groups/Show.jsx");
-/* harmony import */ var _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/Stores/Stores */ "./resources/js/pages/Stores/Stores.jsx");
-/* harmony import */ var _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/Stores/Create */ "./resources/js/pages/Stores/Create.jsx");
-/* harmony import */ var _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/Stores/Edit */ "./resources/js/pages/Stores/Edit.jsx");
-/* harmony import */ var _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/Stores/Show */ "./resources/js/pages/Stores/Show.jsx");
-/* harmony import */ var _pages_Votes_Create__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/Votes/Create */ "./resources/js/pages/Votes/Create.jsx");
-/* harmony import */ var _pages_Votes_Show__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./pages/Votes/Show */ "./resources/js/pages/Votes/Show.jsx");
-/* harmony import */ var _pages_Votes_Statistics__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./pages/Votes/Statistics */ "./resources/js/pages/Votes/Statistics.jsx");
-/* harmony import */ var _pages_Votes_Join__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./pages/Votes/Join */ "./resources/js/pages/Votes/Join.jsx");
-/* harmony import */ var _pages_Votes_Votes__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./pages/Votes/Votes */ "./resources/js/pages/Votes/Votes.jsx");
-/* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.jsx");
-/* harmony import */ var _components_common_Flash__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/common/Flash */ "./resources/js/components/common/Flash.jsx");
-/* harmony import */ var _pages_Test__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./pages/Test */ "./resources/js/pages/Test.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/common/Header */ "./resources/js/components/common/Header.jsx");
+/* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Login */ "./resources/js/pages/Login.jsx");
+/* harmony import */ var _pages_Register__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Register */ "./resources/js/pages/Register.jsx");
+/* harmony import */ var _pages_SendResetPassword__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/SendResetPassword */ "./resources/js/pages/SendResetPassword.jsx");
+/* harmony import */ var _pages_ResetPassword__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/ResetPassword */ "./resources/js/pages/ResetPassword.jsx");
+/* harmony import */ var _pages_Components__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/Components */ "./resources/js/pages/Components.jsx");
+/* harmony import */ var _pages_Groups_Join__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/Groups/Join */ "./resources/js/pages/Groups/Join.jsx");
+/* harmony import */ var _components_common_Navs__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/common/Navs */ "./resources/js/components/common/Navs.jsx");
+/* harmony import */ var _pages_Mypage__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./pages/Mypage */ "./resources/js/pages/Mypage.jsx");
+/* harmony import */ var _pages_Groups_Groups__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./pages/Groups/Groups */ "./resources/js/pages/Groups/Groups.jsx");
+/* harmony import */ var _pages_Groups_Show__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./pages/Groups/Show */ "./resources/js/pages/Groups/Show.jsx");
+/* harmony import */ var _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./pages/Stores/Stores */ "./resources/js/pages/Stores/Stores.jsx");
+/* harmony import */ var _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./pages/Stores/Create */ "./resources/js/pages/Stores/Create.jsx");
+/* harmony import */ var _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./pages/Stores/Edit */ "./resources/js/pages/Stores/Edit.jsx");
+/* harmony import */ var _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./pages/Stores/Show */ "./resources/js/pages/Stores/Show.jsx");
+/* harmony import */ var _pages_Votes_Create__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./pages/Votes/Create */ "./resources/js/pages/Votes/Create.jsx");
+/* harmony import */ var _pages_Votes_Show__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./pages/Votes/Show */ "./resources/js/pages/Votes/Show.jsx");
+/* harmony import */ var _pages_Votes_Statistics__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./pages/Votes/Statistics */ "./resources/js/pages/Votes/Statistics.jsx");
+/* harmony import */ var _pages_Votes_Join__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./pages/Votes/Join */ "./resources/js/pages/Votes/Join.jsx");
+/* harmony import */ var _pages_Votes_Votes__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./pages/Votes/Votes */ "./resources/js/pages/Votes/Votes.jsx");
+/* harmony import */ var _pages_More__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./pages/More */ "./resources/js/pages/More.jsx");
+/* harmony import */ var _components_common_Flash__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/common/Flash */ "./resources/js/components/common/Flash.jsx");
+/* harmony import */ var _pages_Test__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./pages/Test */ "./resources/js/pages/Test.jsx");
+
+
 
 
 
@@ -75529,10 +76815,31 @@ var Index = function Index(_ref) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     window.Kakao.init(key);
   }, []);
+
+  if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getState().commonStates.user) {
+    Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/groups?page=1", fetcher);
+    Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/votes?page=1", fetcher);
+  }
+
+  var fetcher = function fetcher(url) {
+    return axios(url).then(function (response) {
+      return response.data;
+    });
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
     store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_27__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_28__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "contents"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(swr__WEBPACK_IMPORTED_MODULE_6__["SWRConfig"], {
+    value: {
+      fetcher: function fetcher(url) {
+        return axios(url).then(function (response) {
+          return response.data;
+        });
+      } // 이렇게 해두면 useSWR에 url만 써줘도 response.data값이 return됨.
+
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
     exact: true,
     path: "/",
@@ -75540,88 +76847,88 @@ var Index = function Index(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/test",
-    component: _pages_Test__WEBPACK_IMPORTED_MODULE_28__["default"]
+    component: _pages_Test__WEBPACK_IMPORTED_MODULE_29__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/groups",
-    component: _pages_Groups_Groups__WEBPACK_IMPORTED_MODULE_15__["default"]
+    component: _pages_Groups_Groups__WEBPACK_IMPORTED_MODULE_16__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/groups/:id",
-    component: _pages_Groups_Show__WEBPACK_IMPORTED_MODULE_16__["default"]
+    component: _pages_Groups_Show__WEBPACK_IMPORTED_MODULE_17__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/groups/invite/:id",
-    component: _pages_Groups_Join__WEBPACK_IMPORTED_MODULE_12__["default"]
+    component: _pages_Groups_Join__WEBPACK_IMPORTED_MODULE_13__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores",
-    component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__["default"]
+    component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_18__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores/edit/:store_id",
-    component: _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_19__["default"]
+    component: _pages_Stores_Edit__WEBPACK_IMPORTED_MODULE_20__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores/create/:group_id",
-    component: _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_18__["default"]
+    component: _pages_Stores_Create__WEBPACK_IMPORTED_MODULE_19__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores/:group_id/:store_id",
-    component: _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_20__["default"]
+    component: _pages_Stores_Show__WEBPACK_IMPORTED_MODULE_21__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/stores/:group_id",
-    component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_17__["default"]
+    component: _pages_Stores_Stores__WEBPACK_IMPORTED_MODULE_18__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/votes",
-    component: _pages_Votes_Votes__WEBPACK_IMPORTED_MODULE_25__["default"]
+    component: _pages_Votes_Votes__WEBPACK_IMPORTED_MODULE_26__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/votes/invite/:id",
-    component: _pages_Votes_Join__WEBPACK_IMPORTED_MODULE_24__["default"]
+    component: _pages_Votes_Join__WEBPACK_IMPORTED_MODULE_25__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/votes/create/:store_id",
-    component: _pages_Votes_Create__WEBPACK_IMPORTED_MODULE_21__["default"]
+    component: _pages_Votes_Create__WEBPACK_IMPORTED_MODULE_22__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/votes/:id",
-    component: _pages_Votes_Show__WEBPACK_IMPORTED_MODULE_22__["default"]
+    component: _pages_Votes_Show__WEBPACK_IMPORTED_MODULE_23__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/votes/statistics/:id",
-    component: _pages_Votes_Statistics__WEBPACK_IMPORTED_MODULE_23__["default"]
+    component: _pages_Votes_Statistics__WEBPACK_IMPORTED_MODULE_24__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/more",
-    component: _pages_More__WEBPACK_IMPORTED_MODULE_26__["default"]
+    component: _pages_More__WEBPACK_IMPORTED_MODULE_27__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__["default"], {
     exact: true,
     path: "/mypage",
-    component: _pages_Mypage__WEBPACK_IMPORTED_MODULE_14__["default"]
+    component: _pages_Mypage__WEBPACK_IMPORTED_MODULE_15__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/login",
-    component: _pages_Login__WEBPACK_IMPORTED_MODULE_7__["default"]
+    component: _pages_Login__WEBPACK_IMPORTED_MODULE_8__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/register",
-    component: _pages_Register__WEBPACK_IMPORTED_MODULE_8__["default"]
+    component: _pages_Register__WEBPACK_IMPORTED_MODULE_9__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/sendResetPasswordMail",
-    component: _pages_SendResetPassword__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _pages_SendResetPassword__WEBPACK_IMPORTED_MODULE_10__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/passwordReset",
-    component: _pages_ResetPassword__WEBPACK_IMPORTED_MODULE_10__["default"]
+    component: _pages_ResetPassword__WEBPACK_IMPORTED_MODULE_11__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/components",
-    component: _pages_Components__WEBPACK_IMPORTED_MODULE_11__["default"]
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Navs__WEBPACK_IMPORTED_MODULE_13__["default"], null))));
+    component: _pages_Components__WEBPACK_IMPORTED_MODULE_12__["default"]
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Navs__WEBPACK_IMPORTED_MODULE_14__["default"], null))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
@@ -76075,7 +77382,7 @@ var Form = function Form(_ref) {
 
   var submit = function submit(e) {
     e.preventDefault();
-    onSubmit();
+    onSubmit(form);
     if (loading) return;
     loading = true;
     var formData = new FormData(); // Object.entries(form).map(data => formData.append(data[0], data[1]));
@@ -76201,7 +77508,7 @@ var Form = function Form(_ref) {
   });
   /*const mergeOnChange = (el, event) => {
       el.props.onChange(event);
-        changeForm(event);
+       changeForm(event);
   };*/
 
   return enterSubmitDisabled ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -76310,15 +77617,9 @@ var Navs = function Navs(_ref) {
   var navs = [{
     title: "그룹",
     to: "/groups",
-    activeLinks: ["/groups"],
+    activeLinks: ["/groups", "/stores"],
     activeIcon: "/img/users--primary.png",
     inactiveIcon: "/img/users--gray.png"
-  }, {
-    title: "음식점",
-    to: "/stores".concat(activeGroup ? "/".concat(activeGroup.id) : ""),
-    activeLinks: ["/stores"],
-    activeIcon: "/img/store--primary.png",
-    inactiveIcon: "/img/store--gray.png"
   }, {
     title: "투표지",
     to: "/votes",
@@ -76338,6 +77639,14 @@ var Navs = function Navs(_ref) {
     activeIcon: "/img/dots--primary.png",
     inactiveIcon: "/img/dots--gray.png"
   }];
+  /* {
+      title: "음식점",
+          to: `/stores${activeGroup ? `/${activeGroup.id}` : ""}`,
+      activeLinks: ["/stores"],
+      activeIcon: "/img/store--primary.png",
+      inactiveIcon: "/img/store--gray.png",
+  } */
+
   return hiddenUrls.includes(Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])().pathname) ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "navs"
   }, navs.map(function (nav, index) {
@@ -76596,7 +77905,7 @@ var FindAddress = function FindAddress(_ref) {
   };
 
   var choice = function choice(item) {
-    setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, item.roadAddress)));
+    setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, name, item.address)));
     window.setPop("");
   };
 
@@ -76640,7 +77949,7 @@ var FindAddress = function FindAddress(_ref) {
       className: "address__title"
     }, item.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "address__address"
-    }, item.roadAddress));
+    }, item.address));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "pop__buttons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -76977,7 +78286,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_easy_crop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-easy-crop */ "./node_modules/react-easy-crop/index.module.js");
+/* harmony import */ var react_easy_crop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-easy-crop */ "./node_modules/react-easy-crop/index.module.js");
 /* harmony import */ var _cropImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cropImage */ "./resources/js/components/common/inputs/cropImage.js");
 
 
@@ -77183,7 +78492,7 @@ var InputImage = function InputImage(_ref) {
     type: "file",
     accept: "image/*",
     id: el.props.name
-  }), form[el.props.name] || fakeFile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, activated && url ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_easy_crop__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }), form[el.props.name] || fakeFile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, activated && url ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_easy_crop__WEBPACK_IMPORTED_MODULE_2__["default"], {
     image: url,
     crop: crop,
     zoom: zoom,
@@ -78210,6 +79519,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Invite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Invite */ "./resources/js/pages/Groups/Invite.jsx");
 /* harmony import */ var _Group__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Group */ "./resources/js/pages/Groups/Group.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -78243,54 +79553,47 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Groups = function Groups(_ref) {
   var history = _ref.history;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    data: [],
-    meta: {}
-  }),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
-      items = _useState2[0],
-      setItems = _useState2[1];
+      inviteGroup = _useState2[0],
+      setInviteGroup = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      inviteGroup = _useState4[0],
-      setInviteGroup = _useState4[1];
+      defaultForm = _useState4[0],
+      setDefaultForm = _useState4[1];
 
   var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState6 = _slicedToArray(_useState5, 2),
-      defaultForm = _useState6[0],
-      setDefaultForm = _useState6[1];
+      menuOpenedGroup = _useState6[0],
+      setMenuOpenedGroup = _useState6[1];
 
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState8 = _slicedToArray(_useState7, 2),
-      menuOpenedGroup = _useState8[0],
-      setMenuOpenedGroup = _useState8[1];
-
-  var params = {
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     page: 1
-  };
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    axios.get("/api/groups", {
-      params: params
-    }).then(function (response) {
-      setItems(response.data);
-    })["catch"](function (error) {
-      window.setFlash(error.message);
-    });
-  }, []);
+  }),
+      _useState8 = _slicedToArray(_useState7, 2),
+      params = _useState8[0],
+      setParams = _useState8[1];
+
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/groups?page=".concat(params.page)),
+      items = _useSWR.data,
+      mutateItems = _useSWR.mutate;
+
+  Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/votes?page=1");
 
   var onCreated = function onCreated(response) {
-    setItems(_objectSpread(_objectSpread({}, items), {}, {
+    mutateItems(_objectSpread(_objectSpread({}, items), {}, {
       data: [response.data].concat(_toConsumableArray(items.data))
     }));
     window.setPop("");
   };
 
   var onUpdated = function onUpdated(response) {
-    setItems(_objectSpread(_objectSpread({}, items), {}, {
+    mutateItems(_objectSpread(_objectSpread({}, items), {}, {
       data: items.data.map(function (item) {
         if (item.id === response.data.id) return response.data;
         return item;
@@ -78317,7 +79620,7 @@ var Groups = function Groups(_ref) {
     group: inviteGroup
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "groups"
-  }, items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, items && items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "empty type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
@@ -78325,11 +79628,11 @@ var Groups = function Groups(_ref) {
     className: "empty__img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
-  }, "\uC18C\uC18D\uB41C \uADF8\uB8F9\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items.data.map(function (item) {
+  }, "\uC18C\uC18D\uB41C \uADF8\uB8F9\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items && items.data.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Group__WEBPACK_IMPORTED_MODULE_4__["default"], {
       group: item,
       groups: items,
-      setGroups: setItems,
+      setGroups: mutateItems,
       key: item.id,
       menuOpenedGroup: menuOpenedGroup,
       setMenuOpenedGroup: setMenuOpenedGroup,
@@ -78880,6 +80183,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+
 
 
 
@@ -79953,6 +81258,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Menus_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menus/Create */ "./resources/js/pages/Menus/Create.jsx");
 /* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
 /* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -79987,6 +81293,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var Show = function Show(_ref) {
   var history = _ref.history,
       match = _ref.match;
@@ -79998,68 +81306,57 @@ var Show = function Show(_ref) {
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      store = _useState4[0],
-      setStore = _useState4[1];
+      selectedMenu = _useState4[0],
+      setSelectedMenu = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
       _useState6 = _slicedToArray(_useState5, 2),
-      selectedMenu = _useState6[0],
-      setSelectedMenu = _useState6[1];
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState8 = _slicedToArray(_useState7, 2),
-      isWidthLong = _useState8[0],
-      setIsWidthLong = _useState8[1];
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
-      _useState10 = _slicedToArray(_useState9, 2),
-      defaultForm = _useState10[0],
-      setDefaultForm = _useState10[1];
+      defaultForm = _useState6[0],
+      setDefaultForm = _useState6[1];
 
   var map;
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    axios.get("/api/stores/" + match.params.store_id).then(function (response) {
-      setStore(response.data);
-      setDefaultForm({
-        store_id: response.data.id
-      });
-      settingMap(response.data);
-      var img = new Image();
-      img.src = response.data.img.url;
 
-      img.onload = function () {
-        if (img.width > img.height) return setIsWidthLong(true);
-        setIsWidthLong(false);
-      };
-    });
-  }, []);
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/stores/" + match.params.store_id),
+      store = _useSWR.data,
+      mutateStore = _useSWR.mutate; // state, setState와 비슷
+
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (store) {
+      setDefaultForm({
+        store_id: store.id
+      });
+      settingMap(store);
+    }
+  }, [store]);
 
   var onMenuCreated = function onMenuCreated(response) {
     setLoading(false);
-    setStore(_objectSpread(_objectSpread({}, store), {}, {
+    mutateStore(_objectSpread(_objectSpread({}, store), {}, {
       menus: [].concat(_toConsumableArray(store.menus), [response.data])
-    }));
+    }), false); // false 옵션을 주면 revalidate 할 필요 없이 바로 데이터 수정
+
     window.setPop("");
   };
 
   var onMenuUpdated = function onMenuUpdated(response) {
     setLoading(false);
-    setStore(_objectSpread(_objectSpread({}, store), {}, {
+    mutateStore(_objectSpread(_objectSpread({}, store), {}, {
       menus: store.menus.map(function (menu) {
         if (menu.id === response.data.id) return response.data;
         return menu;
       })
-    }));
+    }), false);
     setSelectedMenu(null);
     window.setPop("");
   };
 
   var onMenuDeleted = function onMenuDeleted(menu) {
-    setStore(_objectSpread(_objectSpread({}, store), {}, {
+    mutateStore(_objectSpread(_objectSpread({}, store), {}, {
       menus: store.menus.filter(function (menuData) {
         return menuData.id !== menu.id;
       })
-    }));
+    }), false);
     setSelectedMenu(null);
     window.setPop("");
   };
@@ -80117,7 +81414,7 @@ var Show = function Show(_ref) {
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "ratioBox-wrap ".concat(isWidthLong ? "widthLong" : "heightLong")
+    className: "ratioBox-wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -80261,19 +81558,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-lazy-load-image-component */ "./node_modules/react-lazy-load-image-component/build/index.js");
-/* harmony import */ var react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_3__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/* harmony import */ var react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-lazy-load-image-component */ "./node_modules/react-lazy-load-image-component/build/index.js");
+/* harmony import */ var react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
@@ -80282,29 +81569,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Store = function Store(_ref) {
   var store = _ref.store,
       edit = _ref.edit;
-
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isWidthLong = _useState2[0],
-      setIsWidthLong = _useState2[1];
-
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var img = new Image();
-    img.src = store.img.url;
-
-    img.onload = function () {
-      if (img.width > img.height) return setIsWidthLong(true);
-      setIsWidthLong(false);
-    };
-  }, []);
+  Object(swr__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/stores/" + store.id);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/stores/".concat(store.group_id, "/").concat(store.id),
-    className: "store ".concat(isWidthLong ? "widthLong" : "heightLong")
+    className: "store"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox"
-  }, store.img ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_3__["LazyLoadImage"], {
+  }, store.img ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2__["LazyLoadImage"], {
     effect: "blur",
     src: store.img.url,
     placeholderSrc: "/img/replace--store.jpg"
@@ -80333,6 +81606,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Store */ "./resources/js/pages/Stores/Store.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -80352,58 +81626,37 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Stores = function Stores(_ref) {
   var history = _ref.history,
       match = _ref.match,
       activeGroup = _ref.activeGroup;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      group = _useState2[0],
-      setGroup = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    data: [],
-    meta: {}
-  }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      items = _useState4[0],
-      setItems = _useState4[1];
-
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState6 = _slicedToArray(_useState5, 2),
-      defaultForm = _useState6[0],
-      setDefaultForm = _useState6[1];
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     page: 1,
     group_id: match.params.group_id
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      params = _useState8[0],
-      setParams = _useState8[1];
+      _useState2 = _slicedToArray(_useState, 2),
+      params = _useState2[0],
+      setParams = _useState2[1];
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (!match.params.group_id) {
-      window.setFlash("참여된 그룹이 없습니다. 그룹에 먼저 참여해주세요.");
-      return history.push("/groups");
-    }
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      defaultForm = _useState4[0],
+      setDefaultForm = _useState4[1];
 
-    axios.get("/api/groups/" + match.params.group_id, {
-      params: params
-    }).then(function (response) {
-      setGroup(response.data);
-    })["catch"](function (error) {
-      window.setFlash(error.message);
-    });
-    axios.get("/api/stores", {
-      params: params
-    }).then(function (response) {
-      setItems(response.data);
-    })["catch"](function (error) {
-      window.setFlash(error.message);
-    });
-  }, []);
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/stores?page=".concat(params.page, "&group_id=").concat(params.group_id)),
+      items = _useSWR.data,
+      mutateItems = _useSWR.mutate;
+
+  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])(["/api/groups/" + match.params.group_id]),
+      group = _useSWR2.data;
+
+  if (!match.params.group_id) {
+    window.setFlash("참여된 그룹이 없습니다. 그룹에 먼저 참여해주세요.");
+    return history.push("/groups");
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_4__["default"], {
     title: "\uC74C\uC2DD\uC810 \uBAA9\uB85D",
     history: history
@@ -80413,7 +81666,7 @@ var Stores = function Stores(_ref) {
     className: "groups__title"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "point"
-  }, "\u201C", group.title, "\u201D"), "\uC758 \uC2DD\uB2F9") : null, items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "\u201C", group.title, "\u201D"), "\uC758 \uC2DD\uB2F9") : null, items ? items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "empty type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
@@ -80428,7 +81681,9 @@ var Stores = function Stores(_ref) {
       key: item.id,
       store: item
     });
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "loading type02 animated flash infinite"
+  }, "\uBD88\uB7EC\uC624\uB294\uC911"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "button--util bg--primary",
     onClick: function onClick() {
       history.push("/stores/create/".concat(match.params.group_id));
@@ -80493,6 +81748,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -80510,32 +81766,30 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Create = function Create(_ref) {
   var history = _ref.history,
       match = _ref.match;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState2 = _slicedToArray(_useState, 2),
-      store = _useState2[0],
-      setStore = _useState2[1];
+      defaultForm = _useState2[0],
+      setDefaultForm = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      defaultForm = _useState4[0],
-      setDefaultForm = _useState4[1];
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_4__["default"])("/api/stores/".concat(match.params.store_id)),
+      store = _useSWR.data,
+      mutateStore = _useSWR.mutate;
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    axios.get("/api/stores/" + match.params.store_id).then(function (response) {
-      console.log(response.data);
+    if (store) {
       setDefaultForm({
-        store_id: response.data.id,
-        choices: response.data.menus.map(function (menu) {
+        store_id: store.id,
+        choices: store.menus.map(function (menu) {
           return "".concat(menu.title, " - ").concat(menu.price);
         })
       });
-      setStore(response.data);
-    });
-  }, []);
+    }
+  }, [store]);
 
   var onThen = function onThen(response) {
     history.replace("/votes/" + response.data.id);
@@ -80665,6 +81919,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../store */ "./resources/js/store.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -80685,50 +81940,41 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Show = function Show(_ref) {
   var history = _ref.history,
       match = _ref.match,
       user = _ref.user;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
       _useState2 = _slicedToArray(_useState, 2),
-      vote = _useState2[0],
-      setVote = _useState2[1];
+      isFirst = _useState2[0],
+      setIsFirst = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(true),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      isFirst = _useState4[0],
-      setIsFirst = _useState4[1];
+      defaultForm = _useState4[0],
+      setDefaultForm = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState6 = _slicedToArray(_useState5, 2),
-      defaultForm = _useState6[0],
-      setDefaultForm = _useState6[1];
-
-  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     x: null,
     y: null
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      geoCode = _useState8[0],
-      setGeoCode = _useState8[1];
-
-  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState10 = _slicedToArray(_useState9, 2),
-      currentAddress = _useState10[0],
-      setCurrentAddress = _useState10[1];
+      _useState6 = _slicedToArray(_useState5, 2),
+      geoCode = _useState6[0],
+      setGeoCode = _useState6[1];
 
   var choiced;
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    axios.get("/api/votes/" + match.params.id).then(function (response) {
-      setVote(response.data);
-      setDefaultChoice(response.data);
-      getGeocode(response.data.store); // getCurrentAddress();
-    });
-  }, []);
+
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/votes/".concat(match.params.id)),
+      vote = _useSWR.data,
+      mutateVote = _useSWR.mutate;
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (vote && isFirst) {
       initKakaoButton();
+      setDefaultChoice(vote);
+      getGeocode(vote.store);
       setIsFirst(false);
     }
   }, [vote]);
@@ -80745,7 +81991,7 @@ var Show = function Show(_ref) {
   };
 
   var onThen = function onThen(response) {
-    setVote(response.data);
+    mutateVote(response.data);
     setDefaultChoice(response.data);
   };
 
@@ -80804,38 +82050,6 @@ var Show = function Show(_ref) {
       }
     });
   };
-  /*const getCurrentAddress = (data) => {
-  	let land = null;
-  	
-  	if (navigator.geolocation)
-  		return navigator.geolocation.getCurrentPosition(function (pos) {
-  			axios.get("/api/getAddress", {
-  				params: {
-  					x: pos.coords.longitude,
-  					y: pos.coords.latitude
-  				}
-  			}).then(response => {
-  				console.log(response);
-  				
-  				if(response.data.results) {
-  					land = response.data.results[0].land;
-  					
-  					currentAddress = land.name;
-  					
-  					if(land.number1)
-  						currentAddress += ` ${land.number1}`;
-  					
-  					if(land.number2)
-  						currentAddress += ` ${land.number1}`;
-  					
-  					setCurrentAddress(currentAddress);
-  				}
-  			});
-  		});
-  	
-  	return window.setFlash("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
-  };*/
-
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
     title: "".concat(vote ? vote.store.title : "", " \uD22C\uD45C\uC9C0"),
@@ -80945,17 +82159,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Tabs */ "./resources/js/components/common/Tabs.jsx");
 /* harmony import */ var _Member__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Member */ "./resources/js/pages/Votes/Member.jsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
@@ -80967,16 +82171,10 @@ var Statistics = function Statistics(_ref) {
   var history = _ref.history,
       match = _ref.match;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      vote = _useState2[0],
-      setVote = _useState2[1];
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_5__["default"])("/api/votes/".concat(match.params.id)),
+      vote = _useSWR.data,
+      mutateVote = _useSWR.mutate;
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    axios.get("/api/votes/" + match.params.id).then(function (response) {
-      setVote(response.data);
-    });
-  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
     title: "".concat(vote ? vote.store.title : "", " \uD22C\uD45C\uD604\uD669"),
     history: history
@@ -80985,8 +82183,10 @@ var Statistics = function Statistics(_ref) {
     id: "statistics--vote"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uCC38\uC5EC"
-  }, vote.choices.data.map(function (choice) {
-    if (choice.users.data.length) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, vote && vote.choices.data.map(function (choice) {
+    if (choice.users.data.length) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+      key: choice.id
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "statistics--vote__group"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
       className: "statistics--vote__group__title"
@@ -80999,7 +82199,7 @@ var Statistics = function Statistics(_ref) {
     })));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uBBF8\uCC38\uC5EC"
-  }, vote.unparticipants.data.map(function (unparticipant) {
+  }, vote && vote.unparticipants.data.map(function (unparticipant) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Member__WEBPACK_IMPORTED_MODULE_4__["default"], {
       member: unparticipant,
       key: unparticipant.id
@@ -81029,11 +82229,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+
 
 
 
 var Vote = function Vote(_ref) {
   var vote = _ref.vote;
+  Object(swr__WEBPACK_IMPORTED_MODULE_2__["default"])("/api/votes/".concat(vote.id));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/votes/".concat(vote.id),
     className: "vote"
@@ -81067,6 +82270,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var _Vote__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Vote */ "./resources/js/pages/Votes/Vote.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -81083,45 +82287,27 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Votes = function Votes(_ref) {
-  var history = _ref.history,
-      match = _ref.match;
+  var history = _ref.history;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    data: [],
-    meta: {}
-  }),
-      _useState2 = _slicedToArray(_useState, 2),
-      items = _useState2[0],
-      setItems = _useState2[1];
-
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      defaultForm = _useState4[0],
-      setDefaultForm = _useState4[1];
-
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     page: 1
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      params = _useState6[0],
-      setParams = _useState6[1];
+      _useState2 = _slicedToArray(_useState, 2),
+      params = _useState2[0],
+      setParams = _useState2[1];
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    axios.get("/api/votes", {
-      params: params
-    }).then(function (response) {
-      setItems(response.data);
-    })["catch"](function (error) {
-      window.setFlash(error.message);
-    });
-  }, []);
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/votes?page=".concat(params.page)),
+      items = _useSWR.data,
+      mutateItems = _useSWR.mutate;
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
     title: "\uD22C\uD45C\uC9C0 \uBAA9\uB85D",
     history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "votes"
-  }, items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, items && items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "empty type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
@@ -81129,7 +82315,7 @@ var Votes = function Votes(_ref) {
     className: "empty__img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
-  }, "\uC0DD\uC131\uB41C \uD22C\uD45C\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items.data.map(function (item) {
+  }, "\uC0DD\uC131\uB41C \uD22C\uD45C\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items && items.data.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Vote__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: item.id,
       vote: item

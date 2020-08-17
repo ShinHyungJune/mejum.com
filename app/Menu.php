@@ -32,7 +32,7 @@ class Menu extends Model implements HasMedia
             ];
         }
 
-        return null;
+        return "";
     }
 
     public function store()

@@ -5,39 +5,29 @@ import Header from "../../components/common/Header";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import store from "../../store";
+import useSWR from 'swr';
 
 const Show = ({history, match, user}) => {
-	let [vote, setVote] = useState(null);
-	
+
 	let [isFirst, setIsFirst] = useState(true);
 	
 	let [defaultForm, setDefaultForm] = useState(null);
 	
 	let [geoCode, setGeoCode] = useState({x: null, y: null});
-	
-	let [currentAddress, setCurrentAddress] = useState(null);
-	
+
 	let choiced;
-	
-	useEffect(() => {
-		axios.get("/api/votes/" + match.params.id)
-			.then(response => {
-					setVote(response.data);
-					
-					setDefaultChoice(response.data);
-					
-					getGeocode(response.data.store);
-				
-					// getCurrentAddress();
-				}
-			);
-	}, []);
+
+	let {data: vote, mutate: mutateVote} = useSWR(`/api/votes/${match.params.id}`);
 	
 	useEffect(() => {
 		if (vote && isFirst) {
 			initKakaoButton();
-			
-			setIsFirst(false);
+
+            setDefaultChoice(vote);
+
+            getGeocode(vote.store);
+
+            setIsFirst(false);
 		}
 	}, [vote]);
 	
@@ -60,7 +50,7 @@ const Show = ({history, match, user}) => {
 	};
 	
 	const onThen = (response) => {
-		setVote(response.data);
+		mutateVote(response.data);
 		
 		setDefaultChoice(response.data);
 	};
@@ -120,39 +110,6 @@ const Show = ({history, match, user}) => {
 				}
 			});
 	};
-	
-	/*const getCurrentAddress = (data) => {
-		let land = null;
-		
-		if (navigator.geolocation)
-			return navigator.geolocation.getCurrentPosition(function (pos) {
-				axios.get("/api/getAddress", {
-					params: {
-						x: pos.coords.longitude,
-						y: pos.coords.latitude
-					}
-				}).then(response => {
-					console.log(response);
-					
-					if(response.data.results) {
-						land = response.data.results[0].land;
-						
-						currentAddress = land.name;
-						
-						if(land.number1)
-							currentAddress += ` ${land.number1}`;
-						
-						if(land.number2)
-							currentAddress += ` ${land.number1}`;
-						
-						setCurrentAddress(currentAddress);
-					}
-				});
-			});
-		
-		return window.setFlash("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
-	};*/
-	
 	
 	return (
 		<Fragment>

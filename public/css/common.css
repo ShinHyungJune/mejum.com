@@ -258,6 +258,8 @@ body {}
     animation:rotate .5s forwards linear infinite;
 }
 
+.loading.type02 {content:"불러오는중"; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); font-size:24px; font-weight:500; color:#fff;}
+
 @keyframes rotate {
     0% {
         transform:translate(-50%, -50%) rotate(0deg);

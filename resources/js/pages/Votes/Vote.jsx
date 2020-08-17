@@ -1,7 +1,10 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
+import useSWR from 'swr';
 
 const Vote = ({vote}) => {
+
+    useSWR(`/api/votes/${vote.id}`);
 
     return (
         <Link to={`/votes/${vote.id}`} className={"vote"}>

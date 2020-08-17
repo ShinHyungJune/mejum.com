@@ -4,34 +4,27 @@ import Edit from './Edit';
 import Invite from './Invite';
 import Group from './Group';
 import Header from '../../components/common/Header';
+import useSWR from 'swr';
 
 const Groups = ({history}) => {
-    let [items, setItems] = useState({
-        data: [],
-        meta: {}
-    });
+
     let [inviteGroup, setInviteGroup] = useState(null);
 
     let [defaultForm, setDefaultForm] = useState(null);
 
     let [menuOpenedGroup, setMenuOpenedGroup] = useState(null);
 
-    let params = {
+    let [params, setParams] = useState({
         page: 1
-    };
+    });
 
-    useEffect(() => {
-        axios.get("/api/groups", {
-            params: params
-        }).then(response => {
-            setItems(response.data);
-        }).catch(error => {
-            window.setFlash(error.message);
-        });
-    }, []);
+
+    let {data:items, mutate : mutateItems} = useSWR(`/api/groups?page=${params.page}`);
+
+    useSWR("/api/votes?page=1");
 
     const onCreated = (response) => {
-          setItems({
+        mutateItems({
               ...items,
               data: [
                   response.data,
@@ -43,7 +36,7 @@ const Groups = ({history}) => {
     };
 
     const onUpdated = (response) => {
-        setItems({
+        mutateItems({
             ...items,
             data: items.data.map(item => {
                 if(item.id === response.data.id)
@@ -75,12 +68,12 @@ const Groups = ({history}) => {
 
             <div className="groups">
                 {
-                    items.data.length === 0
+                    items && items.data.length === 0
                         ? <div className="empty type01">
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">소속된 그룹이 없습니다.</p>
                         </div>
-                        : items.data.map(item => <Group group={item} groups={items} setGroups={setItems} key={item.id} menuOpenedGroup={menuOpenedGroup} setMenuOpenedGroup={setMenuOpenedGroup} setDefaultForm={setDefaultForm} invite={invite}/>)
+                        : items && items.data.map(item => <Group group={item} groups={items} setGroups={mutateItems} key={item.id} menuOpenedGroup={menuOpenedGroup} setMenuOpenedGroup={setMenuOpenedGroup} setDefaultForm={setDefaultForm} invite={invite}/>)
                 }
 
                 <button className="button--util bg--primary" onClick={() => {window.setPop("그룹 생성")}}>

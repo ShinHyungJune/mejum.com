@@ -2,25 +2,22 @@ import React, {Fragment, useEffect, useState} from 'react';
 import Form  from '../../components/common/Form';
 import Pop from "../../components/common/Pop";
 import Header from "../../components/common/Header";
+import useSWR from 'swr';
 
 const Create = ({history, match}) => {
-    let [store, setStore] = useState(null);
-    
+
     let [defaultForm, setDefaultForm] = useState(null);
+
+    let {data: store, mutate: mutateStore} = useSWR(`/api/stores/${match.params.store_id}`);
     
     useEffect(() => {
-        axios.get("/api/stores/" + match.params.store_id)
-            .then(response => {
-                console.log(response.data);
-                    setDefaultForm({
-                        store_id: response.data.id,
-                        choices: response.data.menus.map(menu => `${menu.title} - ${menu.price}`)
-                    });
-                    
-                    setStore(response.data)
-                }
-            );
-    }, []);
+        if(store){
+            setDefaultForm({
+                store_id: store.id,
+                choices: store.menus.map(menu => `${menu.title} - ${menu.price}`)
+            });
+        }
+    }, [store]);
     
     const onThen = (response) => {
         history.replace("/votes/" + response.data.id);

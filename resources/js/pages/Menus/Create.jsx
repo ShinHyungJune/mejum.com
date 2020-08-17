@@ -1,9 +1,10 @@
 import React, {} from 'react';
 import Form  from '../../components/common/Form';
 import Pop from "../../components/common/Pop";
+import {mutate, trigger} from "swr";
 
 const Create = ({onThen, defaultForm, loading, setLoading}) => {
-    
+
     return (
         <Pop name={"메뉴 생성"}>
             <div className="create--menu">

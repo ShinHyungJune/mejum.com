@@ -1,29 +1,15 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import Header from '../../components/common/Header';
 import Vote from './Vote';
+import useSWR from 'swr';
 
-const Votes = ({history, match}) => {
-
-    let [items, setItems] = useState({
-        data: [],
-        meta: {}
-    });
-
-    let [defaultForm, setDefaultForm] = useState(null);
+const Votes = ({history}) => {
 
     let [params, setParams] = useState({
         page: 1
     });
 
-    useEffect(() => {
-        axios.get("/api/votes", {
-            params: params
-        }).then(response => {
-            setItems(response.data);
-        }).catch(error => {
-            window.setFlash(error.message);
-        });
-    }, []);
+    let {data: items, mutate: mutateItems} = useSWR(`/api/votes?page=${params.page}`);
 
     return (
         <Fragment>
@@ -31,12 +17,12 @@ const Votes = ({history, match}) => {
             
             <div className="votes">
                 {
-                    items.data.length === 0
+                    items && items.data.length === 0
                         ? <div className="empty type01">
                             <img src="/img/circleNotice.png" alt="" className="empty__img"/>
                             <p className="empty__text">생성된 투표지가 없습니다.</p>
                         </div>
-                        : items.data.map(item => <Vote key={item.id} vote={item} />)
+                        : items && items.data.map(item => <Vote key={item.id} vote={item} />)
                 }
             </div>
         </Fragment>

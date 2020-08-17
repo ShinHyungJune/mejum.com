@@ -5,54 +5,40 @@ import Tabs from '../../components/common/Tabs';
 import CreateMenu from '../Menus/Create';
 import EditMenu from '../Menus/Edit';
 import Menu from '../Menus/Menu';
+import useSWR from 'swr';
+import {mutate, trigger} from "swr";
 
 const Show = ({history, match}) => {
     let [loading, setLoading] = useState(false);
-    let [store, setStore] = useState(null);
     let [selectedMenu, setSelectedMenu] = useState(null);
-    let [isWidthLong, setIsWidthLong] = useState(false);
     let [defaultForm, setDefaultForm] = useState({});
     let map;
-    
+    let {data: store, mutate: mutateStore} = useSWR("/api/stores/" + match.params.store_id);
+    // state, setState와 비슷
+
     useEffect(() => {
-        axios.get("/api/stores/" + match.params.store_id)
-            .then(response => {
-                setStore(response.data);
+        if(store){
+            setDefaultForm({
+                store_id: store.id
+            });
 
-                setDefaultForm({
-                    store_id: response.data.id
-                });
+            settingMap(store);
+        }
+    }, [store]);
 
-                settingMap(response.data);
-                
-                let img = new Image();
-    
-                img.src = response.data.img.url;
-    
-                img.onload = () => {
-                    if(img.width > img.height)
-                        return setIsWidthLong(true);
-        
-                    setIsWidthLong(false);
-                };
-            })
-    }, []);
-    
+
     const onMenuCreated = (response) => {
         setLoading(false);
-        
-        setStore({
-            ...store,
-            menus: [...store.menus, response.data]
-        });
-        
+
+        mutateStore({...store, menus: [...store.menus, response.data]}, false); // false 옵션을 주면 revalidate 할 필요 없이 바로 데이터 수정
+
         window.setPop("");
     };
     
     const onMenuUpdated = (response) => {
         setLoading(false);
         
-        setStore({
+        mutateStore({
             ...store,
             menus: store.menus.map(menu => {
                 if(menu.id === response.data.id)
@@ -60,7 +46,7 @@ const Show = ({history, match}) => {
                 
                 return menu;
             })
-        });
+        }, false);
         
         setSelectedMenu(null);
         
@@ -68,10 +54,10 @@ const Show = ({history, match}) => {
     };
     
     const onMenuDeleted = (menu) => {
-        setStore({
+        mutateStore({
             ...store,
             menus: store.menus.filter(menuData => menuData.id !== menu.id)
-        });
+        }, false);
         
         setSelectedMenu(null);
         
@@ -126,7 +112,7 @@ const Show = ({history, match}) => {
                         
                         {/* 썸네일 */}
                         <div className="store__top">
-                            <div className={`ratioBox-wrap ${isWidthLong ? "widthLong" : "heightLong"}`}>
+                            <div className={`ratioBox-wrap`}>
                                 <div className="ratioBox">
                                     <img src={store.img.url} alt=""/>
                                 </div>

@@ -60,7 +60,8 @@ header .button--icon {display:none; margin-right:32px;}
 
 .member {display:flex; align-items: center; margin-bottom:16px;}
 .member:last-of-type {margin-bottom:0;}
-.member--img {flex-basis:36px; padding-top:36px; border-radius:100%;}
+.member--img {flex-basis:36px; padding-top:36px; border-radius:100%; background-color:transparent;}
+.member--img:after {display:none;}
 .member--title {flex:0.7; padding-left:16px; color:#fff;}
 .member--buttons {flex:1; text-align:right;}
 .member--button {margin-left:16px; font-size:12px; color:rgba(255,255,255,0.7);}

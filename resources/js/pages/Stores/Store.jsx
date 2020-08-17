@@ -1,25 +1,14 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {Link} from "react-router-dom";
 import {LazyLoadImage} from 'react-lazy-load-image-component';
+import useSWR from "swr";
 
 const Store = ({store, edit}) => {
-    let [isWidthLong, setIsWidthLong] = useState(false);
-    
-    useEffect(() => {
-        let img = new Image();
-    
-        img.src = store.img.url;
-    
-        img.onload = () => {
-            if(img.width > img.height)
-                return setIsWidthLong(true);
-    
-            setIsWidthLong(false);
-        };
-    }, []);
-    
+
+    useSWR("/api/stores/" + store.id);
+
     return (
-        <Link to={`/stores/${store.group_id}/${store.id}`} className={`store ${isWidthLong ? "widthLong" : "heightLong"}`}>
+        <Link to={`/stores/${store.group_id}/${store.id}`} className={`store`}>
             <div className="ratioBox-wrap">
                 <div className="ratioBox">
                     {store.img ?

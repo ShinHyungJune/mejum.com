@@ -9,15 +9,9 @@ const Navs = ({activeGroup}) => {
     let navs = [{
         title: "그룹",
         to: "/groups",
-        activeLinks: ["/groups"],
+        activeLinks: ["/groups", "/stores"],
         activeIcon: "/img/users--primary.png",
         inactiveIcon: "/img/users--gray.png",
-    }, {
-        title: "음식점",
-        to: `/stores${activeGroup ? `/${activeGroup.id}` : ""}`,
-        activeLinks: ["/stores"],
-        activeIcon: "/img/store--primary.png",
-        inactiveIcon: "/img/store--gray.png",
     }, {
         title: "투표지",
         to: "/votes",
@@ -37,6 +31,14 @@ const Navs = ({activeGroup}) => {
         activeIcon: "/img/dots--primary.png",
         inactiveIcon: "/img/dots--gray.png",
     }];
+
+    /* {
+        title: "음식점",
+            to: `/stores${activeGroup ? `/${activeGroup.id}` : ""}`,
+        activeLinks: ["/stores"],
+        activeIcon: "/img/store--primary.png",
+        inactiveIcon: "/img/store--gray.png",
+    } */
 
     return (
         hiddenUrls.includes(useLocation().pathname) ? null
