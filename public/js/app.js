@@ -81509,6 +81509,11 @@ var Show = function Show(_ref) {
       reviewsParams = _useState8[0],
       setReviewsParams = _useState8[1];
 
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState10 = _slicedToArray(_useState9, 2),
+      stars = _useState10[0],
+      setStars = _useState10[1];
+
   var map;
 
   var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/stores/" + match.params.store_id),
@@ -81525,8 +81530,33 @@ var Show = function Show(_ref) {
         store_id: store.id
       });
       settingMap(store);
+      settingStars();
     }
   }, [store]);
+
+  var settingStars = function settingStars() {
+    stars = [];
+
+    for (var i = 0; i < store.avg; i++) {
+      stars.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "/img/star--active.png",
+        alt: "",
+        key: 'active' + i
+      }));
+    }
+
+    var activeLength = stars.length;
+
+    for (var _i2 = 0; _i2 < 5 - activeLength; _i2++) {
+      stars.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "/img/star--yellow.png",
+        alt: "",
+        key: 'inactive' + _i2
+      }));
+    }
+
+    setStars(stars);
+  };
 
   var onMenuCreated = function onMenuCreated(response) {
     setLoading(false);
@@ -81643,22 +81673,7 @@ var Show = function Show(_ref) {
     className: "store__title"
   }, store.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__ranks"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/img/star--active.png",
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/img/star--active.png",
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/img/star--active.png",
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/img/star--active.png",
-    alt: ""
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/img/star--yellow.png",
-    alt: ""
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, stars))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__buttons--wrap"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__buttons"

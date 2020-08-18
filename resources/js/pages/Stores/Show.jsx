@@ -19,6 +19,9 @@ const Show = ({history, match}) => {
         orderBy: "updated_at",
         align: "desc"
     });
+    
+    let [stars, setStars] = useState([]);
+    
     let map;
     let {data: store, mutate: mutateStore} = useSWR("/api/stores/" + match.params.store_id);
     let {data: reviews, mutate: mutateReviews} = useSWR(`/api/reviews?store_id=${match.params.store_id}&page=${reviewsParams.page}&orderBy=${reviewsParams.orderBy}&align=${reviewsParams.align}`);
@@ -30,9 +33,26 @@ const Show = ({history, match}) => {
             });
 
             settingMap(store);
+            
+            settingStars();
         }
     }, [store]);
 
+    const settingStars = () => {
+        stars = [];
+        
+        for(let i=0; i<store.avg; i++){
+            stars.push(<img src="/img/star--active.png" alt="" key={'active' + i}/>);
+        }
+    
+        let activeLength = stars.length;
+        
+        for(let i=0; i< 5 - activeLength; i++){
+            stars.push(<img src="/img/star--yellow.png" alt="" key={'inactive' + i}/>);
+        }
+        
+        setStars(stars);
+    };
 
     const onMenuCreated = (response) => {
         setLoading(false);
@@ -76,7 +96,10 @@ const Show = ({history, match}) => {
 
         mutateReviews({...reviews, data: [response.data, ...reviews.data]}, false);
         
-        mutateStore({...store, reviewsCount: store.reviewsCount + 1}, false);
+        mutateStore({
+            ...store,
+            reviewsCount: store.reviewsCount + 1
+            }, false);
 
         window.setPop("");
     };
@@ -141,11 +164,7 @@ const Show = ({history, match}) => {
                             <div className="store__top__texts">
                                 <p className="store__title">{store.title}</p>
                                 <div className="store__ranks">
-                                    <img src="/img/star--active.png" alt=""/>
-                                    <img src="/img/star--active.png" alt=""/>
-                                    <img src="/img/star--active.png" alt=""/>
-                                    <img src="/img/star--active.png" alt=""/>
-                                    <img src="/img/star--yellow.png" alt=""/>
+                                    {stars}
                                 </div>
                             </div>
                         </div>

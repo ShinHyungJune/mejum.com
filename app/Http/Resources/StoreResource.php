@@ -38,6 +38,7 @@ class StoreResource extends JsonResource
             "user_id" => $this->user_id,
             "menus" => $this->withMenus ? $this->menus : [],
             "reviewsCount" => $this->reviews()->count(),
+            "avg" => $this->reviews()->count() == 0 ? 0 : $this->reviews()->pluck("point")->avg(),
             "created_at" => Carbon::make($this->created_at)->format("Y-m-d H:i:s")
         ];
     }
