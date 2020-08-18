@@ -77,7 +77,7 @@ const Show = ({history, match, user}) => {
 			content: {
 				title: "매일점심으로부터 투표지가 도착하였습니다.",
 				description: `${store.getState().commonStates.user.name}님께서 [${vote.title}] 투표지를 공유하였습니다.`,
-				imageUrl: vote.store.img.url,
+				imageUrl: vote.store.img ? vote.store.img.url : "https://in-diary.s3.amazonaws.com/141/euvuFmjoOJnTQB7R.png",
 				link: {
 					mobileWebUrl: vote.invitation,
 					webUrl: vote.invitation,

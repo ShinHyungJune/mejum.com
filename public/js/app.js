@@ -82252,7 +82252,7 @@ var Show = function Show(_ref) {
       content: {
         title: "매일점심으로부터 투표지가 도착하였습니다.",
         description: "".concat(_store__WEBPACK_IMPORTED_MODULE_6__["default"].getState().commonStates.user.name, "\uB2D8\uAED8\uC11C [").concat(vote.title, "] \uD22C\uD45C\uC9C0\uB97C \uACF5\uC720\uD558\uC600\uC2B5\uB2C8\uB2E4."),
-        imageUrl: vote.store.img.url,
+        imageUrl: vote.store.img ? vote.store.img.url : "https://in-diary.s3.amazonaws.com/141/euvuFmjoOJnTQB7R.png",
         link: {
           mobileWebUrl: vote.invitation,
           webUrl: vote.invitation
