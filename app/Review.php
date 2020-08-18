@@ -44,7 +44,7 @@ class Review extends Model implements HasMedia
 
     public function store()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Store::class);
     }
 
 }

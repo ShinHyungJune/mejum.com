@@ -27,7 +27,7 @@ const Review = ({review}) => {
             </div>
 
             <div className="review__contents">
-                <img src={review.img.url} alt="" className="review__contents__img"/>
+                <img src={review.img ? review.img.url : null} alt="" className="review__contents__img"/>
 
                 <p className="review__contents__body">{review.body}</p>
             </div>
