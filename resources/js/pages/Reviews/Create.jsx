@@ -15,11 +15,12 @@ const Create = ({onThen, defaultForm, loading, setLoading}) => {
                     <textarea name={"body"} placeholder={"리뷰 내용"}/>
 
                     <select name="point" id="">
-                        <option value="1">1개</option>
-                        <option value="2">2개</option>
-                        <option value="3">3개</option>
-                        <option value="4">4개</option>
-                        <option value="5">5개</option>
+                        <option value="">별점 선택</option>
+                        <option value="1">1점</option>
+                        <option value="2">2점</option>
+                        <option value="3">3점</option>
+                        <option value="4">4점</option>
+                        <option value="5">5점</option>
                     </select>
 
                     <div className="pop__buttons">

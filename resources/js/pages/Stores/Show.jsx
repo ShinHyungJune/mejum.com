@@ -75,6 +75,8 @@ const Show = ({history, match}) => {
         setLoading(false);
 
         mutateReviews({...reviews, data: [...reviews.data, response.data]}, false);
+        
+        mutateStore({...store, reviewsCount: store.reviewsCount + 1}, false);
 
         window.setPop("");
     };
