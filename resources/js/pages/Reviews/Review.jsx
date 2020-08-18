@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react';
 
-const Review = ({review}) => {
+const Review = ({review, editReview, remove}) => {
 
     let stars = [];
 
@@ -31,6 +31,14 @@ const Review = ({review}) => {
 
                 <p className="review__contents__body">{review.body}</p>
             </div>
+            
+            {window.store.getState().commonStates.user.id === review.user.id ?
+                <div className="review__btns">
+                    <button className="review__btn red" onClick={() => remove(review)}>삭제</button>
+                    <button className="review__btn" onClick={() => editReview(review)}>수정</button>
+                </div> : null
+            }
+ 
         </div>
     );
 };

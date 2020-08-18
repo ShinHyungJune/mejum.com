@@ -32,7 +32,7 @@ class StoreResource extends JsonResource
             "address" => $this->address,
             "address_detail" => $this->address_detail,
             "park" => $this->park,
-            "memo" => $this->memo,
+            "memo" => $this->memo ?? "",
             "secret" => $this->secret,
             "group_id" => $this->group_id,
             "user_id" => $this->user_id,

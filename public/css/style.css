@@ -136,16 +136,20 @@ header .button--icon {display:none; margin-right:32px;}
 .menu__price { font-size:14px; }
 
 .reviews {padding:16px 18px;}
-.reviews__top {margin-bottom:40px;}
+.reviews__top {margin-bottom:32px;}
 .reviews__top .fragment {display:flex; justify-content: space-between; margin-bottom:8px;}
 .reviews__top .fragment:last-child {margin-bottom:0;}
 .reviews__top .count {font-size:20px; font-weight:500;}
 .reviews__top .btn--create {padding:5px 13px; font-size:12px; color:#a0a0a0; border:1px solid #a0a0a0; border-radius:14px;}
-.reviews__top .btn--img {font-weight:500;}
+.reviews__top .btn--img {display:flex; align-items:center; position:relative; font-weight:500;}
+.reviews__top .btn--img:before {content:""; display:inline-block; width:17px; height:17px; margin-right:8px; background:url("/img/circleV--inactive.png") no-repeat;}
+.reviews__top .btn--img.active:before {background:url("/img/circleV--active.png") no-repeat;}
 .reviews__top .btn--filter {font-size:13px;}
 .reviews__top .btns .btn--filter {margin-left:10px; color:#a0a0a0;}
 .reviews__top .btns .btn--filter:first-child {margin-left:0px;}
-.reviews__top .btns .btn--filter.active {color:#333;}
+.reviews__top .btns .btn--filter.active {color:#333; font-weight:600;}
+.review__btns {margin-top:8px; text-align:left;}
+.review__btn {margin-right:8px; font-size:12px; color:#a0a0a0;}
 
 .review {margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid #e1e1e1;}
 .review:last-of-type {padding-bottom:0; margin-bottom:0; border-bottom:none;}

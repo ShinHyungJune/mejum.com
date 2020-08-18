@@ -8,6 +8,7 @@ use App\Http\Resources\ReviewResource;
 use App\Review;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReviewController extends ApiController
 {
@@ -29,7 +30,19 @@ class ReviewController extends ApiController
 
         $align = $request->align ?? "desc";
 
-        $reviews = $store->reviews()->orderBy($orderBy, $align)->paginate(50);
+        $notNull = $request->notNull ?? null;
+
+        $reviews = $store->reviews();
+
+        if($notNull == "img")
+            $reviews = $reviews->whereExists(function ($query){
+                $query->select(DB::raw(1))
+                    ->from("media")
+                    ->whereRaw("reviews.id = media.model_id")
+                    ->where("model_type", "App\Review");
+            });
+
+        $reviews = $reviews->orderBy($orderBy, $align)->paginate(50);
 
         return new ReviewCollection($reviews);
     }
@@ -80,6 +93,7 @@ class ReviewController extends ApiController
             "body" => "required|string|max:5000",
             "point" => "required|integer|min:0|max:5"
         ]);
+
 
         $review = Review::find($id);
 

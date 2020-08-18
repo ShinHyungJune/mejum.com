@@ -34,7 +34,7 @@ class Review extends Model implements HasMedia
             ];
         }
 
-        return null;
+        return "";
     }
 
     public function user()

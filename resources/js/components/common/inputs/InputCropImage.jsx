@@ -17,6 +17,7 @@ const InputImage = ({form, setForm, el, mergeOnChange}) => {
     let [aspect, setAspect] = useState(el.props["data-aspect"] ? el.props["data-aspect"] : 4 / 3);
     let [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     let [croppedImage, setCroppedImage] = useState(null);
+    let [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if(form[el.props.name] && !imgChanged){ // 사용자가 파일 선택 눌러서 이미지 변경했으면, 업데이트라 해도 이미지는 새로 등록되야함.
@@ -66,11 +67,15 @@ const InputImage = ({form, setForm, el, mergeOnChange}) => {
     };
     
     const doCrop = async () => {
+        setLoading(false);
+        
         const croppedImage = await getCroppedImg(
             url,
             croppedAreaPixels,
             0
         );
+        
+        setLoading(true);
         
         let resizeImage =  await resize(croppedImage, 500);
         
@@ -154,7 +159,9 @@ const InputImage = ({form, setForm, el, mergeOnChange}) => {
                                         onZoomChange={onZoomChange}
                                     />
                                     
-                                    <button type={"button"} onClick={doCrop} className={"input--cropImage__btn--cut"}>자르기</button>
+                                    <button type={"button"} onClick={doCrop} className={"input--cropImage__btn--cut"}>
+                                        {loading ? <span className="text animated flash infinite">자르는중...</span> : <span className="text">자르기</span>}
+                                    </button>
                                 </Fragment> : null}
                             
                         </Fragment>

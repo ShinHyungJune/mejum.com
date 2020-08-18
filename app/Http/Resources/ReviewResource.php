@@ -22,7 +22,7 @@ class ReviewResource extends JsonResource
             "point" => $this->point,
             "body" => $this->body,
             "img" => $this->img,
-            "updated_at" => Carbon::make($this->updated_at)->format("Y-m-d"),
+            "updated_at" => Carbon::make($this->updated_at)->format("Y-m-d H:i"),
         ];
     }
 }

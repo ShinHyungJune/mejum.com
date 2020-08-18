@@ -78378,6 +78378,11 @@ var InputImage = function InputImage(_ref) {
       croppedImage = _useState20[0],
       setCroppedImage = _useState20[1];
 
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState22 = _slicedToArray(_useState21, 2),
+      loading = _useState22[0],
+      setLoading = _useState22[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     if (form[el.props.name] && !imgChanged) {
       // 사용자가 파일 선택 눌러서 이미지 변경했으면, 업데이트라 해도 이미지는 새로 등록되야함.
@@ -78417,22 +78422,24 @@ var InputImage = function InputImage(_ref) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              setLoading(false);
+              _context.next = 3;
               return Object(_cropImage__WEBPACK_IMPORTED_MODULE_3__["default"])(url, croppedAreaPixels, 0);
 
-            case 2:
+            case 3:
               croppedImage = _context.sent;
-              _context.next = 5;
+              setLoading(true);
+              _context.next = 7;
               return resize(croppedImage, 500);
 
-            case 5:
+            case 7:
               resizeImage = _context.sent;
               setUrl(resizeImage);
               setForm(_objectSpread(_objectSpread({}, form), {}, _defineProperty({}, el.props.name, window.dataURLtoFile(resizeImage))));
               setZoom(1);
               setActivated(false);
 
-            case 10:
+            case 12:
             case "end":
               return _context.stop();
           }
@@ -78504,7 +78511,11 @@ var InputImage = function InputImage(_ref) {
     type: "button",
     onClick: doCrop,
     className: "input--cropImage__btn--cut"
-  }, "\uC790\uB974\uAE30")) : null) : null);
+  }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "text animated flash infinite"
+  }, "\uC790\uB974\uB294\uC911...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "text"
+  }, "\uC790\uB974\uAE30"))) : null) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (InputImage);
@@ -80942,6 +80953,84 @@ var Create = function Create(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/Reviews/Edit.jsx":
+/*!*********************************************!*\
+  !*** ./resources/js/pages/Reviews/Edit.jsx ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
+/* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+
+
+
+
+
+var Edit = function Edit(_ref) {
+  var defaultForm = _ref.defaultForm,
+      onThen = _ref.onThen,
+      loading = _ref.loading,
+      setLoading = _ref.setLoading;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Pop__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    name: "리뷰 수정"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "create--review"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    method: "patch",
+    url: "/api/reviews/".concat(defaultForm.id),
+    onThen: onThen,
+    onCatch: function onCatch() {
+      return setLoading(false);
+    },
+    defaultForm: defaultForm
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "cropImage",
+    name: "img",
+    "data-aspect": 3 / 2
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    name: "body",
+    placeholder: "리뷰 내용"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    name: "point",
+    id: ""
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "\uBCC4\uC810 \uC120\uD0DD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "1"
+  }, "1\uC810"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "2"
+  }, "2\uC810"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "3"
+  }, "3\uC810"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "4"
+  }, "4\uC810"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "5"
+  }, "5\uC810")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "pop__buttons"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "button--middle bg--primary ".concat(loading ? "loading type01" : null),
+    onClick: function onClick() {
+      return setLoading(true);
+    }
+  }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: function onClick() {
+      return window.setPop("");
+    },
+    className: "button--middle bg--lightGray"
+  }, "\uCDE8\uC18C")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Edit);
+
+/***/ }),
+
 /***/ "./resources/js/pages/Reviews/Review.jsx":
 /*!***********************************************!*\
   !*** ./resources/js/pages/Reviews/Review.jsx ***!
@@ -80956,7 +81045,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Review = function Review(_ref) {
-  var review = _ref.review;
+  var review = _ref.review,
+      editReview = _ref.editReview,
+      remove = _ref.remove;
   var stars = [];
 
   for (var i = 0; i < review.point; i++) {
@@ -80992,7 +81083,19 @@ var Review = function Review(_ref) {
     className: "review__contents__img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "review__contents__body"
-  }, review.body)));
+  }, review.body)), window.store.getState().commonStates.user.id === review.user.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "review__btns"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "review__btn red",
+    onClick: function onClick() {
+      return remove(review);
+    }
+  }, "\uC0AD\uC81C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "review__btn",
+    onClick: function onClick() {
+      return editReview(review);
+    }
+  }, "\uC218\uC815")) : null);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Review);
@@ -81011,16 +81114,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Review__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Review */ "./resources/js/pages/Reviews/Review.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
 var Reviews = function Reviews(_ref) {
   var store = _ref.store,
+      mutateStore = _ref.mutateStore,
       reviews = _ref.reviews,
       mutateReviews = _ref.mutateReviews,
       setReviewsParams = _ref.setReviewsParams,
-      reviewsParams = _ref.reviewsParams;
-  if (reviews) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      reviewsParams = _ref.reviewsParams,
+      editReview = _ref.editReview;
+
+  var remove = function remove(review) {
+    mutateReviews(_objectSpread(_objectSpread({}, reviews), {}, {
+      data: reviews.data.filter(function (reviewData) {
+        return reviewData.id !== review.id;
+      })
+    }), false);
+    mutateStore(_objectSpread(_objectSpread({}, store), {}, {
+      reviewsCount: store.reviewsCount - 1
+    }), false);
+    axios["delete"]("/api/reviews/" + review.id);
+  };
+
+  var toggleImgFilter = function toggleImgFilter() {
+    if (reviewsParams.notNull === "img") return setReviewsParams(_objectSpread(_objectSpread({}, reviewsParams), {}, {
+      notNull: ""
+    }));
+    return setReviewsParams(_objectSpread(_objectSpread({}, reviewsParams), {}, {
+      notNull: "img"
+    }));
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "reviews"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "reviews__top"
@@ -81033,13 +81166,47 @@ var Reviews = function Reviews(_ref) {
     onClick: function onClick() {
       return window.setPop("리뷰 작성");
     }
-  }, "\uB9AC\uBDF0\uC791\uC131"))), reviews.data.map(function (review) {
+  }, "\uB9AC\uBDF0\uC791\uC131")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "fragment"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn--filter btn--img ".concat(reviewsParams.notNull === "img" ? "active" : ""),
+    onClick: toggleImgFilter
+  }, "\uC0AC\uC9C4\uB9AC\uBDF0\uB9CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "btns"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn--filter ".concat(reviewsParams.orderBy === "updated_at" && reviewsParams.align === "desc" ? "active" : ""),
+    onClick: function onClick() {
+      return setReviewsParams(_objectSpread(_objectSpread({}, reviewsParams), {}, {
+        orderBy: "updated_at",
+        align: "desc"
+      }));
+    }
+  }, "\uCD5C\uC2E0\uC21C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn--filter ".concat(reviewsParams.orderBy === "updated_at" && reviewsParams.align === "asc" ? "active" : ""),
+    onClick: function onClick() {
+      return setReviewsParams(_objectSpread(_objectSpread({}, reviewsParams), {}, {
+        orderBy: "updated_at",
+        align: "asc"
+      }));
+    }
+  }, "\uC624\uB798\uB41C\uC21C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn--filter ".concat(reviewsParams.orderBy === "point" && reviewsParams.align === "desc" ? "active" : ""),
+    onClick: function onClick() {
+      return setReviewsParams(_objectSpread(_objectSpread({}, reviewsParams), {}, {
+        orderBy: "point",
+        align: "desc"
+      }));
+    }
+  }, "\uBCC4\uC810\uC21C")))), reviews ? reviews.data.map(function (review) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Review__WEBPACK_IMPORTED_MODULE_1__["default"], {
       review: review,
-      key: review.id
+      key: review.id,
+      remove: remove,
+      editReview: editReview
     });
-  }));
-  return null;
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "loading type03 animated infinite flash"
+  }, "\uBD88\uB7EC\uC624\uB294\uC911"));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Reviews);
@@ -81440,9 +81607,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Menus_Create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menus/Create */ "./resources/js/pages/Menus/Create.jsx");
 /* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
 /* harmony import */ var _Reviews_Create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Reviews/Create */ "./resources/js/pages/Reviews/Create.jsx");
-/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
-/* harmony import */ var _Reviews_Reviews__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Reviews/Reviews */ "./resources/js/pages/Reviews/Reviews.jsx");
+/* harmony import */ var _Reviews_Edit__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Reviews/Edit */ "./resources/js/pages/Reviews/Edit.jsx");
+/* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var _Reviews_Reviews__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Reviews/Reviews */ "./resources/js/pages/Reviews/Reviews.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -81481,6 +81649,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Show = function Show(_ref) {
   var history = _ref.history,
       match = _ref.match;
@@ -81503,7 +81672,8 @@ var Show = function Show(_ref) {
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     page: 1,
     orderBy: "updated_at",
-    align: "desc"
+    align: "desc",
+    notNull: ""
   }),
       _useState8 = _slicedToArray(_useState7, 2),
       reviewsParams = _useState8[0],
@@ -81516,11 +81686,16 @@ var Show = function Show(_ref) {
 
   var map;
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/stores/" + match.params.store_id),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState12 = _slicedToArray(_useState11, 2),
+      updatingReview = _useState12[0],
+      setUpdatingReview = _useState12[1];
+
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_9__["default"])("/api/stores/" + match.params.store_id),
       store = _useSWR.data,
       mutateStore = _useSWR.mutate;
 
-  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/reviews?store_id=".concat(match.params.store_id, "&page=").concat(reviewsParams.page, "&orderBy=").concat(reviewsParams.orderBy, "&align=").concat(reviewsParams.align)),
+  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_9__["default"])("/api/reviews?\n        store_id=".concat(match.params.store_id, "\n        &page=").concat(reviewsParams.page, "\n        &orderBy=").concat(reviewsParams.orderBy, "\n        &align=").concat(reviewsParams.align, "\n        &notNull=").concat(reviewsParams.notNull, "\n        ")),
       reviews = _useSWR2.data,
       mutateReviews = _useSWR2.mutate;
 
@@ -81600,6 +81775,18 @@ var Show = function Show(_ref) {
     window.setPop("");
   };
 
+  var onReviewUpdated = function onReviewUpdated(response) {
+    setLoading(false);
+    mutateReviews(_objectSpread(_objectSpread({}, reviews), {}, {
+      data: reviews.data.map(function (review) {
+        if (review.id === response.data.id) return response.data;
+        return review;
+      })
+    }), false);
+    setUpdatingReview(null);
+    window.setPop("");
+  };
+
   var settingMap = function settingMap(data) {
     var geoCode = {
       x: null,
@@ -81630,6 +81817,11 @@ var Show = function Show(_ref) {
     });
   };
 
+  var editReview = function editReview(review) {
+    setUpdatingReview(review);
+    window.setPop("리뷰 수정");
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
     title: store ? store.title : "",
     history: history
@@ -81658,7 +81850,13 @@ var Show = function Show(_ref) {
     },
     loading: loading,
     setLoading: setLoading
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), updatingReview ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Reviews_Edit__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    store: store,
+    onThen: onReviewUpdated,
+    defaultForm: updatingReview,
+    loading: loading,
+    setLoading: setLoading
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "store__top"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ratioBox-wrap"
@@ -81733,7 +81931,7 @@ var Show = function Show(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
   }, "\uB4F1\uB85D\uB41C \uBA54\uB274\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : null, store.menus.map(function (menu) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menus_Menu__WEBPACK_IMPORTED_MODULE_8__["default"], {
       menu: menu,
       key: menu.id,
       onClick: function onClick() {
@@ -81743,12 +81941,14 @@ var Show = function Show(_ref) {
     });
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     name: "\uB9AC\uBDF0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Reviews_Reviews__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Reviews_Reviews__WEBPACK_IMPORTED_MODULE_10__["default"], {
     store: store,
+    mutateStore: mutateStore,
     reviews: reviews,
     mutateReviews: mutateReviews,
     reviewsParams: reviewsParams,
-    setReviewsParams: setReviewsParams
+    setReviewsParams: setReviewsParams,
+    editReview: editReview
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "button--utils"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -82541,7 +82741,7 @@ var Votes = function Votes(_ref) {
     history: history
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "votes"
-  }, items && items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, items ? items.data.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "empty type01"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "/img/circleNotice.png",
@@ -82549,12 +82749,14 @@ var Votes = function Votes(_ref) {
     className: "empty__img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "empty__text"
-  }, "\uC0DD\uC131\uB41C \uD22C\uD45C\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items && items.data.map(function (item) {
+  }, "\uC0DD\uC131\uB41C \uD22C\uD45C\uC9C0\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")) : items.data.map(function (item) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Vote__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: item.id,
       vote: item
     });
-  })));
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "loading type02 animated flash infinite"
+  }, "\uBD88\uB7EC\uC624\uB294\uC911")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Votes);

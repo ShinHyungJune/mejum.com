@@ -17,13 +17,15 @@ const Votes = ({history}) => {
             
             <div className="votes">
                 {
-                    items && items.data.length === 0
-                        ? <div className="empty type01">
-                            <img src="/img/circleNotice.png" alt="" className="empty__img"/>
-                            <p className="empty__text">생성된 투표지가 없습니다.</p>
-                        </div>
-                        : items && items.data.map(item => <Vote key={item.id} vote={item} />)
+                    items ? (
+                        items.data.length === 0
+                            ? <div className="empty type01">
+                                <img src="/img/circleNotice.png" alt="" className="empty__img"/>
+                                <p className="empty__text">생성된 투표지가 없습니다.</p>
+                            </div> : items.data.map(item => <Vote key={item.id} vote={item} />)
+                        ) : <div className="loading type02 animated flash infinite">불러오는중</div>
                 }
+
             </div>
         </Fragment>
 

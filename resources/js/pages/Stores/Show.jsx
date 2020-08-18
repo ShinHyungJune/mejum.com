@@ -5,6 +5,7 @@ import Tabs from '../../components/common/Tabs';
 import CreateMenu from '../Menus/Create';
 import EditMenu from '../Menus/Edit';
 import CreateReview from '../Reviews/Create';
+import EditReview from '../Reviews/Edit';
 import Menu from '../Menus/Menu';
 import useSWR from 'swr';
 import {mutate, trigger} from "swr";
@@ -17,14 +18,22 @@ const Show = ({history, match}) => {
     let [reviewsParams, setReviewsParams] = useState({
         page: 1,
         orderBy: "updated_at",
-        align: "desc"
+        align: "desc",
+        notNull : ""
     });
     
     let [stars, setStars] = useState([]);
     
     let map;
+    let [updatingReview, setUpdatingReview] = useState(null);
     let {data: store, mutate: mutateStore} = useSWR("/api/stores/" + match.params.store_id);
-    let {data: reviews, mutate: mutateReviews} = useSWR(`/api/reviews?store_id=${match.params.store_id}&page=${reviewsParams.page}&orderBy=${reviewsParams.orderBy}&align=${reviewsParams.align}`);
+    let {data: reviews, mutate: mutateReviews} = useSWR(`/api/reviews?
+        store_id=${match.params.store_id}
+        &page=${reviewsParams.page}
+        &orderBy=${reviewsParams.orderBy}
+        &align=${reviewsParams.align}
+        &notNull=${reviewsParams.notNull}
+        `);
 
     useEffect(() => {
         if(store){
@@ -103,7 +112,22 @@ const Show = ({history, match}) => {
 
         window.setPop("");
     };
-
+    
+    const onReviewUpdated = (response) => {
+        setLoading(false);
+    
+        mutateReviews({...reviews, data: reviews.data.map(review => {
+                if(review.id === response.data.id)
+                    return response.data;
+                
+                return review;
+            })}, false);
+        
+        setUpdatingReview(null);
+        
+        window.setPop("");
+    };
+    
     const settingMap = (data) => {
         let geoCode = {x: null, y: null};
 
@@ -136,6 +160,12 @@ const Show = ({history, match}) => {
                 history.goBack();
             })
     };
+    
+    const editReview = (review) => {
+        setUpdatingReview(review);
+        
+        window.setPop("리뷰 수정");
+    };
 
     return (
         <Fragment>
@@ -152,7 +182,10 @@ const Show = ({history, match}) => {
 
                         {/* 리뷰 작성 팝업 */}
                         <CreateReview store={store} onThen={onReviewCreated} defaultForm={{store_id: store.id}} loading={loading} setLoading={setLoading} />
-
+    
+                        {/* 리뷰 수정 팝업 */}
+                        {updatingReview ? <EditReview store={store} onThen={onReviewUpdated} defaultForm={updatingReview} loading={loading} setLoading={setLoading} /> : null}
+                        
                         {/* 썸네일 */}
                         <div className="store__top">
                             <div className={`ratioBox-wrap`}>
@@ -223,7 +256,7 @@ const Show = ({history, match}) => {
     
                             {/* 리뷰 */}
                             <div name="리뷰">
-                                <Reviews store={store} reviews={reviews} mutateReviews={mutateReviews} reviewsParams={reviewsParams} setReviewsParams={setReviewsParams}/>
+                                <Reviews store={store} mutateStore={mutateStore} reviews={reviews} mutateReviews={mutateReviews} reviewsParams={reviewsParams} setReviewsParams={setReviewsParams} editReview={editReview}/>
                             </div>
                         </Tabs>
                         

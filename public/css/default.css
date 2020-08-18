@@ -34,8 +34,20 @@ input[placeholder] { color:#D2D3D8;}
 ::-moz-placeholder {/* Mozilla Firefox 19+*/ color:#D2D3D8;}
 :-ms-input-placeholder {/* ie10+*/ color:#D2D3D8;}
 
-
-select {cursor:pointer}
+textarea {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+}
+select  {
+    cursor:pointer;
+    border-radius:0; /* 아이폰 사파리 보더 없애기 */
+    -webkit-appearance: none; /* 화살표 없애기 for chrome*/
+    -moz-appearance: none; /* 화살표 없애기 for firefox*/
+    appearance: none;
+}
+select::-ms-expand { display: none; }
 table {width:100%;}
 p, a, button {word-break:break-all;}
 
