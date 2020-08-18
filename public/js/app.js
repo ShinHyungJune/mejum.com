@@ -76752,7 +76752,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_common_AuthRoute__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/common/AuthRoute */ "./resources/js/components/common/AuthRoute.jsx");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./pages/Login */ "./resources/js/pages/Login.jsx");
 /* harmony import */ var _pages_Register__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/Register */ "./resources/js/pages/Register.jsx");
@@ -76817,8 +76817,8 @@ var Index = function Index(_ref) {
   }, []);
 
   if (_store__WEBPACK_IMPORTED_MODULE_5__["default"].getState().commonStates.user) {
-    Object(swr__WEBPACK_IMPORTED_MODULE_30__["default"])("/api/groups?page=1", fetcher);
-    Object(swr__WEBPACK_IMPORTED_MODULE_30__["default"])("/api/votes?page=1", fetcher);
+    Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/groups?page=1", fetcher);
+    Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/votes?page=1", fetcher);
   }
 
   var fetcher = function fetcher(url) {
@@ -76831,7 +76831,7 @@ var Index = function Index(_ref) {
     store: _store__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Flash__WEBPACK_IMPORTED_MODULE_28__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "contents"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(swr__WEBPACK_IMPORTED_MODULE_30__["SWRConfig"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(swr__WEBPACK_IMPORTED_MODULE_6__["SWRConfig"], {
     value: {
       fetcher: function fetcher(url) {
         return axios(url).then(function (response) {
@@ -79519,7 +79519,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Invite__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Invite */ "./resources/js/pages/Groups/Invite.jsx");
 /* harmony import */ var _Group__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Group */ "./resources/js/pages/Groups/Group.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -79579,11 +79579,11 @@ var Groups = function Groups(_ref) {
       params = _useState8[0],
       setParams = _useState8[1];
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/groups?page=".concat(params.page)),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/groups?page=".concat(params.page)),
       items = _useSWR.data,
       mutateItems = _useSWR.mutate;
 
-  Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/votes?page=1");
+  Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/votes?page=1");
 
   var onCreated = function onCreated(response) {
     mutateItems(_objectSpread(_objectSpread({}, items), {}, {
@@ -80183,7 +80183,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
@@ -80877,7 +80877,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
@@ -81441,7 +81441,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Menus_Edit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menus/Edit */ "./resources/js/pages/Menus/Edit.jsx");
 /* harmony import */ var _Reviews_Create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Reviews/Create */ "./resources/js/pages/Reviews/Create.jsx");
 /* harmony import */ var _Menus_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Menus/Menu */ "./resources/js/pages/Menus/Menu.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 /* harmony import */ var _Reviews_Reviews__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Reviews/Reviews */ "./resources/js/pages/Reviews/Reviews.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -81511,11 +81511,11 @@ var Show = function Show(_ref) {
 
   var map;
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_10__["default"])("/api/stores/" + match.params.store_id),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/stores/" + match.params.store_id),
       store = _useSWR.data,
       mutateStore = _useSWR.mutate;
 
-  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_10__["default"])("/api/reviews?store_id=".concat(match.params.store_id, "&page=").concat(reviewsParams.page, "&orderBy=").concat(reviewsParams.orderBy, "&align=").concat(reviewsParams.align)),
+  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/reviews?store_id=".concat(match.params.store_id, "&page=").concat(reviewsParams.page, "&orderBy=").concat(reviewsParams.orderBy, "&align=").concat(reviewsParams.align)),
       reviews = _useSWR2.data,
       mutateReviews = _useSWR2.mutate;
 
@@ -81562,7 +81562,7 @@ var Show = function Show(_ref) {
   var onReviewCreated = function onReviewCreated(response) {
     setLoading(false);
     mutateReviews(_objectSpread(_objectSpread({}, reviews), {}, {
-      data: [].concat(_toConsumableArray(reviews.data), [response.data])
+      data: [response.data].concat(_toConsumableArray(reviews.data))
     }), false);
     mutateStore(_objectSpread(_objectSpread({}, store), {}, {
       reviewsCount: store.reviewsCount + 1
@@ -81779,7 +81779,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-lazy-load-image-component */ "./node_modules/react-lazy-load-image-component/build/index.js");
 /* harmony import */ var react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_lazy_load_image_component__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
@@ -81788,7 +81788,7 @@ __webpack_require__.r(__webpack_exports__);
 var Store = function Store(_ref) {
   var store = _ref.store,
       edit = _ref.edit;
-  Object(swr__WEBPACK_IMPORTED_MODULE_4__["default"])("/api/stores/" + store.id);
+  Object(swr__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/stores/" + store.id);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/stores/".concat(store.group_id, "/").concat(store.id),
     className: "store"
@@ -81825,7 +81825,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Store */ "./resources/js/pages/Stores/Store.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -81864,11 +81864,11 @@ var Stores = function Stores(_ref) {
       defaultForm = _useState4[0],
       setDefaultForm = _useState4[1];
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/stores?page=".concat(params.page, "&group_id=").concat(params.group_id)),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/stores?page=".concat(params.page, "&group_id=").concat(params.group_id)),
       items = _useSWR.data,
       mutateItems = _useSWR.mutate;
 
-  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])(["/api/groups/" + match.params.group_id]),
+  var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])(["/api/groups/" + match.params.group_id]),
       group = _useSWR2.data;
 
   if (!match.params.group_id) {
@@ -81967,7 +81967,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Form */ "./resources/js/components/common/Form.jsx");
 /* harmony import */ var _components_common_Pop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/common/Pop */ "./resources/js/components/common/Pop.jsx");
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -81995,7 +81995,7 @@ var Create = function Create(_ref) {
       defaultForm = _useState2[0],
       setDefaultForm = _useState2[1];
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_5__["default"])("/api/stores/".concat(match.params.store_id)),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_4__["default"])("/api/stores/".concat(match.params.store_id)),
       store = _useSWR.data,
       mutateStore = _useSWR.mutate;
 
@@ -82138,7 +82138,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../store */ "./resources/js/store.js");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -82185,7 +82185,7 @@ var Show = function Show(_ref) {
 
   var choiced;
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_8__["default"])("/api/votes/".concat(match.params.id)),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_7__["default"])("/api/votes/".concat(match.params.id)),
       vote = _useSWR.data,
       mutateVote = _useSWR.mutate;
 
@@ -82378,7 +82378,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_common_Tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/common/Tabs */ "./resources/js/components/common/Tabs.jsx");
 /* harmony import */ var _Member__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Member */ "./resources/js/pages/Votes/Member.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
@@ -82390,7 +82390,7 @@ var Statistics = function Statistics(_ref) {
   var history = _ref.history,
       match = _ref.match;
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/votes/".concat(match.params.id)),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_5__["default"])("/api/votes/".concat(match.params.id)),
       vote = _useSWR.data,
       mutateVote = _useSWR.mutate;
 
@@ -82448,14 +82448,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 
 
 
 
 var Vote = function Vote(_ref) {
   var vote = _ref.vote;
-  Object(swr__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/votes/".concat(vote.id));
+  Object(swr__WEBPACK_IMPORTED_MODULE_2__["default"])("/api/votes/".concat(vote.id));
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/votes/".concat(vote.id),
     className: "vote"
@@ -82489,7 +82489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var _Vote__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Vote */ "./resources/js/pages/Votes/Vote.jsx");
-/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+/* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -82517,7 +82517,7 @@ var Votes = function Votes(_ref) {
       params = _useState2[0],
       setParams = _useState2[1];
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_4__["default"])("/api/votes?page=".concat(params.page)),
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_3__["default"])("/api/votes?page=".concat(params.page)),
       items = _useSWR.data,
       mutateItems = _useSWR.mutate;
 

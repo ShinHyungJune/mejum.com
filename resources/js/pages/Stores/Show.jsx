@@ -74,7 +74,7 @@ const Show = ({history, match}) => {
     const onReviewCreated = (response) => {
         setLoading(false);
 
-        mutateReviews({...reviews, data: [...reviews.data, response.data]}, false);
+        mutateReviews({...reviews, data: [response.data, ...reviews.data]}, false);
         
         mutateStore({...store, reviewsCount: store.reviewsCount + 1}, false);
 
