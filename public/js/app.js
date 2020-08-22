@@ -82041,6 +82041,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/common/Header */ "./resources/js/components/common/Header.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var swr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! swr */ "./node_modules/swr/esm/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -82066,35 +82072,67 @@ var Stores = function Stores(_ref) {
       match = _ref.match,
       activeGroup = _ref.activeGroup;
 
+  if (!match.params.group_id) {
+    window.setFlash("참여된 그룹이 없습니다. 그룹에 먼저 참여해주세요.");
+    return history.push("/groups");
+  }
+
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     page: 1,
-    group_id: match.params.group_id
+    group_id: match.params.group_id,
+    word: ""
   }),
       _useState2 = _slicedToArray(_useState, 2),
       params = _useState2[0],
       setParams = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      defaultForm = _useState4[0],
-      setDefaultForm = _useState4[1];
+      word = _useState4[0],
+      setWord = _useState4[1];
 
-  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/stores?page=".concat(params.page, "&group_id=").concat(params.group_id)),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      defaultForm = _useState6[0],
+      setDefaultForm = _useState6[1];
+
+  var _useSWR = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])("/api/stores?page=".concat(params.page, "&group_id=").concat(params.group_id, "&word=").concat(params.word)),
       items = _useSWR.data,
       mutateItems = _useSWR.mutate;
 
   var _useSWR2 = Object(swr__WEBPACK_IMPORTED_MODULE_6__["default"])(["/api/groups/" + match.params.group_id]),
       group = _useSWR2.data;
 
-  if (!match.params.group_id) {
-    window.setFlash("참여된 그룹이 없습니다. 그룹에 먼저 참여해주세요.");
-    return history.push("/groups");
-  }
+  var changeWord = function changeWord(e) {
+    setWord(e.target.value);
+  };
+
+  var search = function search(e) {
+    e.preventDefault();
+    setParams(_objectSpread(_objectSpread({}, params), {}, {
+      word: word
+    }));
+  };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    title: "\uC74C\uC2DD\uC810 \uBAA9\uB85D",
+    title: "",
     history: history
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    action: "",
+    onSubmit: search
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "input--search type01"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "word",
+    placeholder: "음식점 검색",
+    onChange: changeWord
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/search--primary.png",
+    alt: ""
+  }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "stores"
   }, group ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "groups__title"
@@ -82387,16 +82425,21 @@ var Show = function Show(_ref) {
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
       _useState4 = _slicedToArray(_useState3, 2),
-      defaultForm = _useState4[0],
-      setDefaultForm = _useState4[1];
+      selectedChoice = _useState4[0],
+      setSelectedChoice = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      defaultForm = _useState6[0],
+      setDefaultForm = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     x: null,
     y: null
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      geoCode = _useState6[0],
-      setGeoCode = _useState6[1];
+      _useState8 = _slicedToArray(_useState7, 2),
+      geoCode = _useState8[0],
+      setGeoCode = _useState8[1];
 
   var choiced;
 
@@ -82485,20 +82528,42 @@ var Show = function Show(_ref) {
     });
   };
 
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState10 = _slicedToArray(_useState9, 2),
+      word = _useState10[0],
+      setWord = _useState10[1];
+
+  var changeWord = function changeWord(e) {
+    setWord(e.target.value);
+  };
+
+  var choice = function choice() {
+    axios.post("/api/choices", {
+      choice_id: selectedChoice.id
+    }).then(function (response) {
+      window.setFlash(response.data.message);
+      onThen(response.data);
+    });
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Header__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    title: "".concat(vote ? vote.store.title : "", " \uD22C\uD45C\uC9C0"),
+    title: "",
     history: history
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "input--search type01"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    name: "word",
+    placeholder: "선택지 검색",
+    onChange: changeWord
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/img/search--primary.png",
+    alt: ""
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "header__right"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "header__right__btn",
-    onClick: function onClick() {
-      return copy(vote.invitation);
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/img/clipboard--white.png",
-    alt: ""
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "header__right__btn",
     id: "kakao"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -82549,23 +82614,28 @@ var Show = function Show(_ref) {
     src: "/img/arrow--right--gray.png",
     alt: "",
     className: "icon--arrow"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_common_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    method: "post",
-    url: "/api/choices",
-    onThen: onThen,
-    defaultForm: defaultForm
-  }, vote.choices.data.map(function (choice) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }))), vote.choices.data.map(function (choice) {
+    if (choice.title.includes(word)) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "input--wrap",
+      key: choice.id,
+      onClick: function onClick() {
+        return setSelectedChoice(choice);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "input--radio"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "radio",
       name: "choice_id",
       value: choice.id,
-      label: choice.title,
-      "data-count": choice.users.data.length,
-      key: choice.id
-    });
+      id: choice.id,
+      "data-count": choice.users.data.length
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: choice.id
+    }, choice.title)));
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "vote__button bg--primary"
-  }, "\uD22C\uD45C\uD558\uAE30")))) : null);
+    className: "vote__button bg--primary",
+    onClick: choice
+  }, "\uD22C\uD45C\uD558\uAE30"))) : null);
 };
 
 var mapState = function mapState(state) {

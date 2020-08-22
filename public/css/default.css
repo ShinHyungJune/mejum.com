@@ -12,6 +12,7 @@ a:hover,a:focus {text-decoration:none;}
 *{-webkit-text-size-adjust:none;}
 
 input,textarea,select,button{font-size:16px;font-family:'Noto Sans KR', sans-serif; background-color:transparent;}
+input,textarea,select {color:#333 !Important;}
 img,fieldset {border:0;}
 form,fieldset,input {margin:0;padding:0;}
 em,address,optgroup {font-style:normal;font-weight:400;}

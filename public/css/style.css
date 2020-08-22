@@ -11,6 +11,7 @@ header .button--icon {display:none; margin-right:32px;}
 
 .scroll--smooth {scroll-behavior: smooth; -webkit-overflow-scrolling: touch;}
 
+.header .input--search {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);}
 .header__btn {margin-right:16px; position:relative; top:-3px;}
 .header__title {display:inline-block; max-width:180px; min-height:27px; position:relative; top:1px; font-size:18px; font-weight:600; color:#fff; white-space: nowrap; text-overflow:ellipsis; overflow:hidden;}
 .header__right {float:right; position:relative; top:4px;}

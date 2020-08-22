@@ -7,16 +7,6 @@ import {connect} from "react-redux";
 import useSWR from 'swr';
 
 const Stores = ({history, match, activeGroup}) => {
-    let [params, setParams] = useState({
-        page: 1,
-        group_id: match.params.group_id
-    });
-
-    let [defaultForm, setDefaultForm] = useState(null);
-
-    let {data: items, mutate: mutateItems} = useSWR(`/api/stores?page=${params.page}&group_id=${params.group_id}`);
-
-    let {data: group} = useSWR(["/api/groups/" + match.params.group_id]);
 
     if (!match.params.group_id) {
         window.setFlash("참여된 그룹이 없습니다. 그룹에 먼저 참여해주세요.");
@@ -24,10 +14,47 @@ const Stores = ({history, match, activeGroup}) => {
         return history.push("/groups");
     }
 
+    let [params, setParams] = useState({
+        page: 1,
+        group_id: match.params.group_id,
+        word: ""
+    });
+
+    let [word, setWord] = useState("");
+
+    let [defaultForm, setDefaultForm] = useState(null);
+
+    let {data: items, mutate: mutateItems} = useSWR(`/api/stores?page=${params.page}&group_id=${params.group_id}&word=${params.word}`);
+
+    let {data: group} = useSWR(["/api/groups/" + match.params.group_id]);
+
+    const changeWord = (e) => {
+        setWord(e.target.value);
+    };
+
+    const search = (e) => {
+        e.preventDefault();
+
+        setParams({
+            ...params,
+            word: word
+        })
+    };
 
     return (
         <Fragment>
-            <Header title="음식점 목록" history={history}/>
+            <Header title="" history={history}>
+                <form action="" onSubmit={search}>
+                    <div className="input--search type01">
+                        <input type="text" name={"word"} placeholder={"음식점 검색"} onChange={changeWord}/>
+
+                        <button type={"submit"}>
+                            <img src="/img/search--primary.png" alt=""/>
+                        </button>
+                    </div>
+                </form>
+
+            </Header>
 
             <div className="stores">
                 {group ? <p className="groups__title"><span className="point">“{group.title}”</span>의 식당</p> : null}

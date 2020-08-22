@@ -77,9 +77,9 @@ body {}
 .input--search--white input::-moz-placeholder {/* Mozilla Firefox 19+*/ color:#fff;}
 .input--search--white input:-ms-input-placeholder {/* ie10+*/ color:#fff;}
 .input--search--white:after {content:""; width:20px; height:20px; position:absolute; top:50%; right:16px; transform:translateY(-50%); background:url("../img/search_white.png") no-repeat;}
-.input--search.type01 {min-width:320px; position:relative;}
-.input--search.type01 input {width:100%; padding:8px 24px; background-color:#fff !Important; border:1px solid #ccc; border-radius:100px;}
-
+.input--search.type01 {min-width:180px; position:relative;}
+.input--search.type01 input {width:100%; padding:8px 24px; background-color:#fff !Important; border:1px solid #ccc;}
+.input--search.type01 button {display:flex; align-items:center; position:absolute; top:50%; right:16px; transform:translateY(-50%);}
 .input--search.type01:after {content:""; width:20px; height:20px; position:absolute; top:50%; right:16px; transform:translateY(-50%); background:url("../img/search_gray.png") no-repeat;}
 
 .input--checkbox--wrap {}
@@ -235,7 +235,7 @@ body {}
 .empty.type02 .empty__text {font-size:18px; font-weight:500;}
 
 /* ratio box */
-.ratioBox-wrap {width:100%; padding-top:100%; position:relative; background-color:rgba(255,151,17, 0.5); overflow:hidden;}
+.ratioBox-wrap {width:100%; padding-top:100%; position:relative; background-color:#dedede; overflow:hidden;}
 .ratioBox-wrap:after {width:100%; content:"매일점심"; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:18px; font-weight:500; text-align:center; color:#fff; z-index:0;}
 .ratioBox {position:absolute; top:0; left:0; right:0; bottom:0;}
 .ratioBox img {width:100%; position:absolute; left:50%; top:50%; transform:translateY(-50%) translateX(-50%); z-index:1;}
