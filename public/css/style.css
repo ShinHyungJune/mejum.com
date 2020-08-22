@@ -183,6 +183,7 @@ header .button--icon {display:none; margin-right:32px;}
 
 #vote .vote__button {padding:8px 16px; position:fixed; right:20px; bottom:80px; color:#fff; border-radius:5px; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}
 #statistics--vote .tabs__contents {padding-top:16px;}
+#statistics--vote .btn--count {font-weight:500; text-align:center; border:2px solid #555; border-radius:5px; color:#555;}
 #statistics--vote .member--texts {flex:1; padding-left:16px;}
 #statistics--vote .member--title {padding-left:0; color:#333;}
 #statistics--vote .member--body {font-size:12px; color:#999;}
@@ -198,6 +199,8 @@ header .button--icon {display:none; margin-right:32px;}
 .vote__menu {display:block; width:100%; padding:10px; font-size:14px; font-weight:500; color:#999; text-align:left;}
 
 .statistics--vote__group {margin-bottom:16px;}
-.statistics--vote__group__title {margin-bottom:8px; font-size:16px; font-weight:500; }
+.statistics--vote__group__title {margin-bottom:8px; position:relative; font-size:16px; font-weight:500; }
+.statistics--vote__group__title:after {content:""; width:20px; height:20px; position:absolute; top:50%; transform:translateY(-50%); right:0; background:url("/img/checkbox--gray.png") no-repeat; background-size:100% 100%;}
 .statistics--vote__group:last-of-type {margin-bottom:0;}
-
+.statistics--vote__group.active .statistics--vote__group__title:after {background:url("/img/checkbox--active--black.png") no-repeat; background-size:100% 100%;}
+.statistics--vote__count {padding:8px 16px; position:fixed; right:20px; bottom:80px; color:#fff; border-radius:5px; box-shadow:4px 8px 6px rgba(0,0,0,0.16);}

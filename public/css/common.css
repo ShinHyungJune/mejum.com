@@ -153,7 +153,7 @@ body {}
 
 .pop div:after {display:block; content:""; clear:both;}
 .pop__wrap {width:100%; padding:0 20px; position:fixed; top:47%; left:50%; transform:translate(-50%, -50%); z-index:4;}
-.pop.type--pop {width:100%; padding:16px; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff; }
+.pop.type--pop {width:100%; max-height:470px; padding:16px; border-radius:5px; box-shadow:0px 3px 6px rgba(0,0,0,0.16); background-color:#fff; overflow-y:auto;}
 .pop.type--pop .pop__buttons {display:flex; margin-top:16px;}
 .pop.type--pop .pop__buttons button {flex:1; margin-left:8px;}
 .pop.type--pop .pop__buttons button:first-child {margin-left:0;}
