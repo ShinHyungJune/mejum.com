@@ -68,6 +68,12 @@ class GroupController extends ApiController
 
         auth()->user()->groups()->detach($id);
 
+        foreach($group->stores as $store){
+            foreach($store->votes as $vote){
+                $vote->users()->detach($id);
+            }
+        }
+
         if(auth()->user()->groups()->count() == 0)
             $group->delete();
 
@@ -117,6 +123,12 @@ class GroupController extends ApiController
             return $this->respondNotFound("그룹장은 내보낼 수 없습니다.");
 
         $group->users()->detach($user);
+
+        foreach($group->stores as $store){
+            foreach($store->votes as $vote){
+                $vote->users()->detach($user);
+            }
+        }
 
         return $this->respondSuccessfully(null, "성공적으로 내보냈습니다.");
     }
