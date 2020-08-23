@@ -70,11 +70,11 @@ class GroupController extends ApiController
 
         foreach($group->stores as $store){
             foreach($store->votes as $vote){
-                $vote->users()->detach($id);
+                $vote->users()->detach(auth()->id());
             }
         }
 
-        if(auth()->user()->groups()->count() == 0)
+        if($group->users()->count() == 0)
             $group->delete();
 
         return $this->respondDeleted(null, "그룹에서 탈퇴하였습니다.");

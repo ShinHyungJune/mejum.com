@@ -12,8 +12,8 @@ const Create = ({history, match}) => {
 
     const onThen = (response) => {
         setLoading(false);
-        
-        history.goBack();
+
+        history.push("/stores/" + match.params.group_id);
     };
     
     const onCatch = (error) => {

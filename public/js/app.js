@@ -81397,7 +81397,7 @@ var Create = function Create(_ref) {
 
   var onThen = function onThen(response) {
     setLoading(false);
-    history.goBack();
+    history.push("/stores/" + match.params.group_id);
   };
 
   var onCatch = function onCatch(error) {

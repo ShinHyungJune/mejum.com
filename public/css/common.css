@@ -5,7 +5,7 @@ body {}
 
 .container { margin:0 auto;}
 .container--auth {width:100%; height:100%; position:absolute; top:0; left:0; background:url("/img/base.jpg") no-repeat; background-size:cover;}
-.container--auth .input--text input:disabled {margin-bottom:6px; font-weight:300; text-align:center; color:#fff; background:rgba(0,0,0,0.4); border:none;}
+.container--auth .input--text input:disabled {margin-bottom:6px; font-weight:300; text-align:center; color:#fff !important; background:rgba(0,0,0,0.4); border:none;}
 .container--auth .input--error {margin-bottom:5px; color:#fff;}
 .container--auth .input--wrap {margin-bottom:0;}
 .container--auth .input--wrap input {border-radius:0; border-bottom:none;}
