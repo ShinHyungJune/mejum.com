@@ -29,7 +29,7 @@ class StoreController extends ApiController
                 $query->where("title", "like", "%".$request->word."%");
             })->orWhere("title", "like", "%".$request->word."%");
 
-        $stores = $stores->paginate(50);
+        $stores = $stores->paginate(10);
 
         return new StoreCollection($stores);
     }

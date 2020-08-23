@@ -4,19 +4,13 @@ import {connect} from 'react-redux';
 
 const Pop = ({className="", type = "pop", name = null, children, onClose = () => null, buttons = [], includeCancel = false, pop, setPop}) => {
     useEffect(() => {
-        
-        /*
         if(pop === name){
-            history.pushState({page: "pop"}, document.title, location.pathname + `#${name}`);
+            history.pushState(null, null, location.href);
         }
 
-        window.addEventListener("popstate", e=> {
-            setPop(null);
-
-            onClose();
-        });
-        */
-
+        window.onpopstate = function () {
+            window.setPop("");
+        };
     }, [pop]);
     
     const close = () => {

@@ -15,9 +15,9 @@ class VoteController extends ApiController
 {
     public function index(Request $request)
     {
-        $votes = auth()->user()->votes()->orderBy("created_at", 'desc')->paginate(50);
+        $votes = auth()->user()->votes()->orderBy("created_at", 'desc')->paginate(10);
 
-        return $this->respond(new VoteCollection($votes));
+        return new VoteCollection($votes);
     }
 
     public function show(Request $request, $id)

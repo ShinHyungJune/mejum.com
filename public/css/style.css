@@ -98,7 +98,7 @@ header .button--icon {display:none; margin-right:32px;}
 .create--review .input--select select {width:100%; padding-left:48px;}
 .create--review .input--select:before {content:""; display:inline-block; width:23px; height:23px; position:absolute; left:16px; top:50%; transform:translateY(-50%); color:transparent; background:url("/img/star--active.png") no-repeat; background-size:cover;}
 
-.stores .box.type01 {display:flex; flex-wrap:wrap; justify-content: space-between; align-items:center; padding-bottom:0;}
+.stores .box.type01 {display:flex; flex-wrap:wrap; justify-content: space-between; align-items:center; }
 .store {margin-bottom:20px; flex-basis: 48%; overflow:hidden;}
 .store .ratioBox-wrap {border-radius:5px;}
 .store__title {margin-top:5px; font-weight:500; white-space: nowrap; overflow:hidden; text-overflow:ellipsis;}
@@ -130,7 +130,7 @@ header .button--icon {display:none; margin-right:32px;}
 
 .menus {}
 .menu {padding:16px 18px; padding-left: 89px; position:relative; border-bottom:1px solid #e1e1e1;}
-.menu .ratioBox-wrap:after {font-size:12px;}
+.menu .ratioBox-wrap:after {width:46px; height:23px; font-size:12px;}
 .menu .ratioBox-wrap {width:55px; padding-top:55px; position:absolute; top:50%; left:18px; transform:translateY(-50%); border-radius:5px;}
 .menu__texts {position:relative; top:-2px;}
 .menu__title { font-weight:500; }
