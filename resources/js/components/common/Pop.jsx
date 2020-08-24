@@ -47,7 +47,7 @@ const Pop = ({className="", type = "pop", name = null, children, onClose = () =>
                             </Fragment>
                         ))}
 
-                        {includeCancel ? <button onClick={() => setPop(null)}>취소</button> : null}
+                        {includeCancel ? <button onClick={() => {window.setPop(""); history.back();}}>취소</button> : null}
                     </div>
                 </div>
             </div>

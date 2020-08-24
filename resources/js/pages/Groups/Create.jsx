@@ -11,7 +11,7 @@ const Create = ({onThen}) => {
 
                 <div className="pop__buttons">
                     <button className={"button--middle bg--primary"}>생성</button>
-                    <button type={"button"} onClick={() => window.setPop("")} className={"button--middle bg--lightGray"}>취소</button>
+                    <button type={"button"} onClick={() => {window.setPop(""); history.back();}} className={"button--middle bg--lightGray"}>취소</button>
                 </div>
             </Form>
         </Pop>

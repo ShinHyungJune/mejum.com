@@ -26,7 +26,7 @@ const Edit = ({onThen, defaultForm, onDeleted, loading, setLoading}) => {
                     <div className="pop__buttons">
                         <button type={"button"} className={"button--middle bg--red"} onClick={remove}>삭제</button>
                         <button className={`button--middle bg--primary ${loading ? "loading type01" : null}`} onClick={() => setLoading(true)}>수정</button>
-                        <button type={"button"} onClick={() => window.setPop("")} className={"button--middle bg--lightGray"}>취소</button>
+                        <button type={"button"} onClick={() => {window.setPop(""); history.back();}} className={"button--middle bg--lightGray"}>취소</button>
                     </div>
                 </Form>
             </div>

@@ -77044,6 +77044,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register("/sw.js", {
+    scope: '.'
+  }).then(function (response) {
+    return console.log("service worker registered", response);
+  })["catch"](function (error) {
+    return console.log("service worker not registered", error);
+  });
+}
+
 Object(_utilities_interceptors__WEBPACK_IMPORTED_MODULE_1__["default"])();
 window.store = _store__WEBPACK_IMPORTED_MODULE_0__["default"];
 
@@ -77749,7 +77760,8 @@ var Pop = function Pop(_ref) {
     }, button);
   }), includeCancel ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: function onClick() {
-      return setPop(null);
+      window.setPop("");
+      history.back();
     }
   }, "\uCDE8\uC18C") : null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "black"
@@ -77954,7 +77966,8 @@ var FindAddress = function FindAddress(_ref) {
     type: "button",
     className: "button--middle bg--lightGray",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     }
   }, "\uCDE8\uC18C")));
 };
@@ -79331,7 +79344,8 @@ var Create = function Create(_ref) {
   }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C"))));
@@ -79380,7 +79394,8 @@ var Edit = function Edit(_ref) {
   }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C")))) : null;
@@ -79774,7 +79789,8 @@ var Invite = function Invite(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C"))) : null;
@@ -80237,7 +80253,8 @@ var Create = function Create(_ref) {
   }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C")))));
@@ -80316,7 +80333,8 @@ var Edit = function Edit(_ref) {
   }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C")))));
@@ -80941,7 +80959,8 @@ var Create = function Create(_ref) {
   }, "\uC0DD\uC131"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C")))));
@@ -81019,7 +81038,8 @@ var Edit = function Edit(_ref) {
   }, "\uC218\uC815"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     onClick: function onClick() {
-      return window.setPop("");
+      window.setPop("");
+      history.back();
     },
     className: "button--middle bg--lightGray"
   }, "\uCDE8\uC18C")))));

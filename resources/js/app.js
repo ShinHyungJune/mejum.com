@@ -2,6 +2,12 @@ import store from './store';
 import setUpInterceptor from './utilities/interceptors';
 import {setPop, setFlash, setBlockedUrl, logout} from "./actions/commonActions";
 
+if('serviceWorker' in navigator){
+    navigator.serviceWorker.register("/sw.js", {scope: '.'})
+        .then((response) => console.log("service worker registered", response))
+        .catch((error) => console.log("service worker not registered", error));
+}
+
 setUpInterceptor();
 
 window.store = store;

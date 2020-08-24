@@ -76,7 +76,7 @@ const FindAddress = ({setForm, form, name}) => {
 			</div>
 			
 			<div className="pop__buttons">
-				<button type="button" className="button--middle bg--lightGray" onClick={() => window.setPop("")}>취소
+				<button type="button" className="button--middle bg--lightGray" onClick={() => {window.setPop(""); history.back();}}>취소
 				</button>
 			</div>
 		</Pop>

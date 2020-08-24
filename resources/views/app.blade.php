@@ -7,12 +7,15 @@
         <title>{{config("app.name")}}</title>
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="theme-color" content="#ff9711">
 
         <link rel="stylesheet" href="/css/default.css?{{\Illuminate\Support\Carbon::now()}}">
         <link rel="stylesheet" href="/css/animate.css?{{\Illuminate\Support\Carbon::now()}}">
         <link rel="stylesheet" href="/css/common.css?{{\Illuminate\Support\Carbon::now()}}">
         <link rel="stylesheet" href="/css/style.css?{{\Illuminate\Support\Carbon::now()}}">
         <script src="/js/kakao.js"></script>
+        <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="/img/icon-192x192.png">
     </head>
     <body>
         <div id="app">
