@@ -1,7 +1,7 @@
 {
     "name" : "매일점심",
     "short_name": "매일점심",
-    "display": "standalone",
+    "display": "fullscreen",
     "background_color": "#fff",
     "theme_color": "#ff9711",
     "orientation": "portrait-primary",
