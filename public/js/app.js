@@ -77044,16 +77044,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register("/sw.js", {
-    scope: '.'
-  }).then(function (response) {
-    return console.log("service worker registered", response);
-  })["catch"](function (error) {
-    return console.log("service worker not registered", error);
-  });
-}
+/*if('serviceWorker' in navigator){
+    navigator.serviceWorker.register("/sw.js", {scope: '.'})
+        .then((response) => console.log("service worker registered", response))
+        .catch((error) => console.log("service worker not registered", error));
+}*/
 
 Object(_utilities_interceptors__WEBPACK_IMPORTED_MODULE_1__["default"])();
 window.store = _store__WEBPACK_IMPORTED_MODULE_0__["default"];
