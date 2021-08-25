@@ -52,6 +52,11 @@ Route::group(["middleware" => "auth:sanctum"], function() {
     Route::resource("/reviews", "Api\ReviewController");
 });
 
+Route::post("/seeds/users", 'Api\SeedController@saveUsers');
+Route::post("/seeds/groups", 'Api\SeedController@saveGroups');
+Route::post("/seeds/stores", 'Api\SeedController@saveStores');
+Route::post("/seeds/menus", 'Api\SeedController@saveMenus');
+
 Route::post('/passwordReset/send', 'Api\PasswordResetController@sendMail');
 Route::post('/passwordReset', 'Api\PasswordResetController@reset');
 
